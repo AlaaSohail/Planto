@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="app_name">Planto</string>
+    <string name="facebook_app_id">1567790405072053</string>
+    <string name="fb_login_protocol_scheme">fb1567790405072053</string>
+    <string name="facebook_client_token">65087ac66c837eca0c6ee90712414360</string>
+
+</resources>

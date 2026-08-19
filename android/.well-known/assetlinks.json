@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.alaasohail.plantcare",
+      "sha256_cert_fingerprints": [
+        "0E:1E:0A:F6:9E:A4:C9:34:9E:9F:35:73:75:07:98:F3:AC:C4:61:07:90:7B:6C:C3:AF:3F:72:83:D7:62:27:B0"
+      ]
+    }
+  }
+]

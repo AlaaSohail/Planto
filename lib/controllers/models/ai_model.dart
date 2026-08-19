@@ -1,0 +1,5 @@
+class AiModel {
+
+  String? message;
+
+}

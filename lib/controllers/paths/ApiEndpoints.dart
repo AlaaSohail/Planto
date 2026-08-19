@@ -1,0 +1,87 @@
+class ApiEndpoints {
+  static const String baseUrl = "https://api.alaasohail.com/api";
+
+  static const String weatherUrl = "https://api.open-meteo.com/v1/forecast";
+
+  static const String login = "/auth/login";
+
+  static const String register = "/auth/register";
+
+  static const String forgotPassword = "/auth/forgot-password";
+
+  static const String resetPassword = "/auth/reset-password";
+  static const String verifyResetCode = "/auth/verify-reset-code";
+
+  static const String profile = "/users/profile";
+
+  static const String logout = "/auth/logout";
+
+  static const String facebookLogin = "/auth/facebook";
+
+  static const String googleLogin = "/auth/google";
+
+  static const String plants = "/plants";
+
+  static const String chat="/ai/chat";
+
+  static String deletePlants(plantId) {
+    return "/plants/$plantId";
+  }
+
+  static String getUserData(id) {
+    return "/users/$id";
+  }
+
+  static const String updateLocation = "/users/location";
+  static const String verifyEmail = "/auth/verify-email";
+  static const String resendVerification = "/auth/resend-verification";
+}
+
+class ApiKeys {
+  static const String email = "email";
+  static const String password = "password";
+  static const String name = "name";
+  static const String phone = "phoneNumber";
+  static const String image = "userImage";
+  static const String location = "location";
+  static const String token = "token";
+  static const String authorization = "Authorization";
+  static const String message = "message";
+  static const String resetToken = "resetToken";
+
+  static const String success = "success";
+  static const String data = "data";
+  static const String code = "code";
+  static const String id = "id";
+  static const String confirmPassword = "confirmPassword";
+  static const String oldPassword = "oldPassword";
+  static const String newPassword = "newPassword";
+  static const String country = "country";
+  static const String city = "city";
+  static const String latitude = "latitude";
+  static const String longitude = "longitude";
+  static const String lastLocationUpdate = "last_location_update";
+}
+
+class PlantApiKeys {
+  static const String plantName = "name";
+  static const String species = "species";
+  static const String description = "description";
+  static const String imageUrl = "image_url";
+  static const String imagePlant = "image";
+  static const String plantId = "id";
+}
+
+class WeatherApiKeys {
+  static const String current = "current";
+
+  static const String hourly = "hourly";
+  static const String wind_speed_unit = "wind_speed_unit";
+  static const String temperature_unit = "temperature_unit";
+
+  static const String temperature_2m = "temperature_2m";
+  static const String time = "time";
+  static const String weathercode = "weathercode";
+  static const String relativehumidity_2m = "relativehumidity_2m";
+  static const String windspeed_10m = "windspeed_10m";
+}
