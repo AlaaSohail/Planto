@@ -37,7 +37,7 @@ class AppTextTheme {
       fontSize: 10.sp,
       fontWeight: FontWeight.w300,
       color: Color(0xffA5D65A),
-      fontFamily: "Inter",
+      fontFamily: "Nunito",
     ),
   );
 }

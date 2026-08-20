@@ -14,7 +14,10 @@ class CacheHelper {
 
   //! this method to put data in local database using key
 
-  Future<bool> saveData({required String key, required dynamic value}) async {
+  Future<bool> saveData({
+    required String key,
+    required dynamic value,
+  }) async {
     if (value is bool) {
       return await sharedPreferences.setBool(key, value);
     }
@@ -25,9 +28,15 @@ class CacheHelper {
 
     if (value is int) {
       return await sharedPreferences.setInt(key, value);
-    } else {
+    }
+
+    if (value is double) {
       return await sharedPreferences.setDouble(key, value);
     }
+
+    throw UnsupportedError(
+      'Unsupported cache type: ${value.runtimeType}',
+    );
   }
 
   //! this method to get data already saved in local database

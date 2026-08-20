@@ -51,28 +51,38 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadLocationData() async {
-    final position = await LocationService.getCurrentLocation();
+    try {
+      final position = await LocationService.getCurrentLocation();
 
-    if (!mounted || position == null) {
-      return;
-    }
+      if (!mounted || position == null) {
+        return;
+      }
 
-    // Weather
-    context.read<WeatherCubit>().getWeather(
-      latitude: position.latitude,
-      longitude: position.longitude,
-    );
-
-    // Update user location
-    final shouldUpdate = await LocationService.shouldUpdateLocation();
-
-    if (shouldUpdate && mounted) {
-      context.read<UserCubit>().updateLocation(
+      // Weather
+      await context.read<WeatherCubit>().getWeather(
         latitude: position.latitude,
         longitude: position.longitude,
       );
 
-      await LocationService.saveLocationUpdateTime();
+      if (!mounted) return;
+
+      // Update user location
+      final shouldUpdate =
+      await LocationService.shouldUpdateLocation();
+
+      if (shouldUpdate && mounted) {
+        await context.read<UserCubit>().updateLocation(
+          latitude: position.latitude,
+          longitude: position.longitude,
+        );
+
+        await LocationService.saveLocationUpdateTime();
+      }
+    } catch (e) {
+      debugPrint('❌ Location/Weather error: $e');
+
+      // مهم:
+      // لا نخلي فشل الإنترنت يسقط HomeScreen
     }
   }
 
@@ -135,8 +145,10 @@ class _HomeScreenState extends State<HomeScreen> {
         title: BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
             final isLoading = state is UserLoading;
-            city = state is UserSuccess ? state.user.city : null;
-            country = state is UserSuccess ? state.user.country : null;
+            if (state is UserSuccess) {
+              city = state.user.city ?? "Unknown";
+              country = state.user.country ?? "Unknown";
+            }
 
             return Skeletonizer(
               enabled: isLoading,

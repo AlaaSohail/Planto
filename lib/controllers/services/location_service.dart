@@ -7,26 +7,33 @@ import '../cache/cache_helper.dart';
 
 class LocationService {
   static Future<Position?> getCurrentLocation() async {
-    bool enabled = await Geolocator.isLocationServiceEnabled();
+    try {
+      final enabled = await Geolocator.isLocationServiceEnabled();
 
-    if (!enabled) {
+      if (!enabled) {
+        return null;
+      }
+
+      var permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        return null;
+      }
+
+      return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      ).timeout(
+        const Duration(seconds: 10),
+      );
+    } catch (e) {
+      print('Location error: $e');
       return null;
     }
-
-    LocationPermission permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-    }
-
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      return null;
-    }
-
-    return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
   }
 
   static Future<bool> shouldUpdateLocation() async {

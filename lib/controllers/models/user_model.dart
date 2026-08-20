@@ -30,14 +30,24 @@ class UserModel {
       latitude: jsonData["latitude"] != null
           ? double.parse(jsonData["latitude"].toString())
           : null,
-
       longitude: jsonData["longitude"] != null
           ? double.parse(jsonData["longitude"].toString())
           : null,
-
       country: jsonData["country"],
-
       city: jsonData["city"],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      ApiKeys.name: name,
+      ApiKeys.email: email,
+      ApiKeys.phone: phoneNumber,
+      ApiKeys.image: image,
+      "latitude": latitude,
+      "longitude": longitude,
+      "country": country,
+      "city": city,
+    };
   }
 }

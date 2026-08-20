@@ -8,6 +8,7 @@ import 'package:plant_care/presentations/themes/app_theme.dart';
 import 'controllers/cache/cache_helper.dart';
 import 'controllers/core/api/dio_consumer.dart';
 import 'controllers/cubit/ai_cubit/ai_cubit.dart';
+import 'controllers/cubit/community_cubit/community_cubit.dart';
 import 'controllers/cubit/plant_cubit/plant_cubit.dart';
 import 'controllers/cubit/user_cubit/user_cubit.dart';
 import 'controllers/cubit/weather_cubit/weather_cubit.dart';
@@ -26,6 +27,7 @@ void main() async {
         BlocProvider(create: (_) => UserCubit(DioConsumer(dio: Dio()))),
         BlocProvider(create: (_) => WeatherCubit(DioConsumer(dio: Dio()))),
         BlocProvider(create: (_) => AiCubit(DioConsumer(dio: Dio()))),
+        BlocProvider(create: (_) => CommunityCubit(DioConsumer(dio: Dio()))),
       ],
 
       child: MyApp(),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plant_care/controllers/models/plant_model.dart';
+import 'package:plant_care/presentations/widgets/ModalBottomSheet.dart';
 
 import '../../../controllers/cubit/plant_cubit/plant_cubit.dart';
 import '../../themes/app_colors.dart';
@@ -47,82 +48,21 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                   backgroundColor: Colors.white,
 
                   builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.all(24.0).r,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            height: 3.h,
-                            width: 50.w,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            "Delete Plant",
-                            style: Theme.of(context).textTheme.headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                          ),
-                          SizedBox(height: 16.h),
-                          Text(
-                            "Are you sure you want to delete this plant?",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          SizedBox(height: 16.h),
+                    return ModalBottomSheet(
+                      hintText: 'Are you sure you want to delete this plant?',
+                      actionText: "Delete",
+                      onPress: () async {
+                        Navigator.pop(context); // إغلاق Dialog
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "Cancel",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall
-                                      ?.copyWith(
-                                        color: Theme.of(context).hintColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  Navigator.pop(context); // إغلاق Dialog
+                        await context.read<PlantCubit>().deletePlant(
+                          widget.plant!.plantId!,
+                        );
 
-                                  await context.read<PlantCubit>().deletePlant(
-                                    widget.plant!.plantId!,
-                                  );
+                        if (!mounted) return;
 
-                                  if (!mounted) return;
-
-                                  Navigator.pop(
-                                    context,
-                                  ); // الرجوع من Details إلى Plants
-                                },
-                                child: Text(
-                                  "Delete",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall
-                                      ?.copyWith(
-                                        color: AppColors.error,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        Navigator.pop(context); // الرجوع من Details إلى Plants
+                      },
+                      title: 'Delete Plant',
                     );
                   },
                 );

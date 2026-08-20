@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -231,12 +233,39 @@ class UserCubit extends Cubit<UserState> {
 
       final user = UserModel.fromJson(response["user"]);
 
+      // Save latest user data locally
+      await getIt<CacheHelper>().saveData(
+        key: ApiKeys.cachedUser,
+        value: jsonEncode(user.toJson()),
+      );
+
       emit(UserSuccess(user: user));
     } on ServerException catch (e) {
-      emit(UserError(e.errorModel.errorMessage));
+      await _loadCachedUser(e.errorModel.errorMessage);
     } catch (e) {
-      emit(UserError(e.toString()));
+      await _loadCachedUser(e.toString());
     }
+  }
+
+  Future<void> _loadCachedUser(String errorMessage) async {
+    final cachedUser = getIt<CacheHelper>().getDataString(
+      key: ApiKeys.cachedUser,
+    );
+
+    if (cachedUser != null && cachedUser.isNotEmpty) {
+      try {
+        final userData = jsonDecode(cachedUser);
+
+        final user = UserModel.fromJson(Map<String, dynamic>.from(userData));
+
+        emit(UserSuccess(user: user));
+        return;
+      } catch (_) {
+        // Cache is invalid
+      }
+    }
+
+    emit(UserError(errorMessage));
   }
 
   // =====================================================

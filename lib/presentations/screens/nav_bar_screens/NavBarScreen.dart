@@ -7,6 +7,7 @@ import 'package:plant_care/presentations/screens/plants_screens/GetPlantScreen.d
 import 'package:plant_care/presentations/themes/app_colors.dart';
 
 import '../ai_chat_screen/AiChatScreen.dart';
+import 'CommunityScreen.dart';
 import 'ScannerScreen.dart';
 
 class NavBarScreen extends StatefulWidget {
@@ -40,7 +41,11 @@ class _NavBarScreenState extends State<NavBarScreen> {
           });
         },
       ),
-      ScannerScreen(),
+      CommunityScreen(() {
+        setState(() {
+          _selectedIndex = 0;
+        });
+      }),
       ProfileScreen(),
     ];
   }
@@ -69,12 +74,11 @@ class _NavBarScreenState extends State<NavBarScreen> {
             child: GNav(
               rippleColor: Colors.green[300]!,
               hoverColor: Colors.green[100]!,
-              gap: 8,
 
               activeColor: Colors.black,
               iconSize: 24.sp,
               backgroundColor: Colors.transparent,
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               duration: Duration(milliseconds: 400),
               tabBackgroundColor: Colors.green[100]!,
 
@@ -110,13 +114,13 @@ class _NavBarScreenState extends State<NavBarScreen> {
                 ),
                 GButton(
                   icon: Icons.camera_alt_outlined,
-                  text: 'Scan',
+                  text: 'Community',
                   textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: AppColors.textPrimary,
                     fontWeight: FontWeight.w900,
                   ),
                   leading: Image.asset(
-                    'assets/images/camera.png',
+                    'assets/images/world.png',
                     width: 20.w,
                     height: 20.h,
                     fit: BoxFit.contain,

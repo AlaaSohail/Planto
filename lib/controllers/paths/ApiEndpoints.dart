@@ -22,10 +22,16 @@ class ApiEndpoints {
 
   static const String plants = "/plants";
 
-  static const String chat="/ai/chat";
+  static const String chat = "/ai/chat";
+
+  static const String posts = "/posts";
 
   static String deletePlants(plantId) {
     return "/plants/$plantId";
+  }
+
+  static String deletePosts(postId) {
+    return "/posts/$postId";
   }
 
   static String getUserData(id) {
@@ -61,6 +67,8 @@ class ApiKeys {
   static const String latitude = "latitude";
   static const String longitude = "longitude";
   static const String lastLocationUpdate = "last_location_update";
+  static const String cachedUser = "cached_user";
+  static const String cachedPlants = "cached_plants";
 }
 
 class PlantApiKeys {
@@ -84,4 +92,13 @@ class WeatherApiKeys {
   static const String weathercode = "weathercode";
   static const String relativehumidity_2m = "relativehumidity_2m";
   static const String windspeed_10m = "windspeed_10m";
+}
+
+class CommunityApiKeys {
+  static const String content = "content";
+  static const String image = "image";
+  static const String postId = "id";
+  static const String userName = "name";
+  static const String userImage = "image";
+  static const String userId = "id";
 }
