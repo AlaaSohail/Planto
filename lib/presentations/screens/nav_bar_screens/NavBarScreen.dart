@@ -91,6 +91,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
                     height: 20.h,
                     fit: BoxFit.contain,
                   ),
+                  gap: 8,
                   text: 'Home',
                   textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: AppColors.textPrimary,

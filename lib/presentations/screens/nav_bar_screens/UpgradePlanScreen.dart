@@ -62,12 +62,25 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
                 ),
               ),
               SizedBox(height: 8.h),
-              Text('Join 50,000+ plant lovers who upgraded to Pro',style: Theme.of(context).textTheme.bodyLarge),
+              Text(
+                'Join 50,000+ plant lovers who upgraded to Pro',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
               SizedBox(height: 16.h),
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

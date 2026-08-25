@@ -27,7 +27,18 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+  }
 
+  @override
+  void dispose() {
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserState>(

@@ -45,7 +45,7 @@ class WeatherCard extends StatelessWidget {
         ),
         child: Padding(
           padding: EdgeInsets.only(
-            right: 32.0,
+            right: 12.0,
             top: 16,
             bottom: 16,
             left: 16,
@@ -60,7 +60,10 @@ class WeatherCard extends StatelessWidget {
                   Text(icon!, style: Theme.of(context).textTheme.bodyLarge),
 
                   SizedBox(width: 8.w),
-                  Text(location!, style: Theme.of(context).textTheme.bodyLarge),
+                  Text(
+                    location!,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ],
               ),
               SizedBox(height: 8.h),

@@ -23,6 +23,7 @@ class PlantCard extends StatelessWidget {
     return Card(
       elevation: 0,
       shadowColor: Colors.transparent,
+
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       color: AppColors.secondary.withOpacity(0.1),
       child: Center(

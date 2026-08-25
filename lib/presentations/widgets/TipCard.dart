@@ -25,12 +25,12 @@ class TipCard extends StatelessWidget {
       shadowColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24.r),
-        side: BorderSide(color: color ?? Colors.grey, width: 0.5.w),
+        side: BorderSide(color: color ?? Colors.grey, width: 0.1.w),
       ),
 
       color: color!.withOpacity(0.2),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 14.h),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -59,7 +59,6 @@ class TipCard extends StatelessWidget {
                     ),
                     softWrap: true,
                   ),
-                  SizedBox(height: 4.h),
                 ],
               ),
             ),

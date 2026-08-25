@@ -9,6 +9,10 @@ class PostModel {
   final String userName;
   final String? userImage;
 
+  final String likesCount;
+  final String commentsCount;
+  final bool likedByMe;
+
   PostModel({
     required this.id,
     required this.userId,
@@ -18,6 +22,9 @@ class PostModel {
     required this.createdAt,
     required this.userName,
     this.userImage,
+    required this.likesCount,
+    required this.commentsCount,
+    required this.likedByMe,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> jsonData) {
@@ -30,6 +37,9 @@ class PostModel {
       createdAt: DateTime.parse(jsonData['created_at']),
       userName: jsonData['user_name'] ?? '',
       userImage: jsonData['user_image'],
+      likesCount: jsonData['likes_count'],
+      commentsCount: jsonData['comments_count'],
+      likedByMe: jsonData['liked_by_me'],
     );
   }
 }

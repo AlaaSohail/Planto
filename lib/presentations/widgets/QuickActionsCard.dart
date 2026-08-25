@@ -30,8 +30,8 @@ class QuickActionsCard extends StatelessWidget {
       hoverColor: Colors.transparent,
       focusColor: Colors.transparent,
       child: SizedBox(
-        width: 100.w,
-        height: 90.h,
+        width: 90.w,
+        height: 80.h,
         child: Card(
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -42,7 +42,7 @@ class QuickActionsCard extends StatelessWidget {
           color: color,
           child: Center(
             child: Padding(
-              padding: EdgeInsetsGeometry.all(12.r),
+              padding: EdgeInsetsGeometry.all(10.r),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,9 +62,8 @@ class QuickActionsCard extends StatelessWidget {
                     title ?? '',
                     textAlign: TextAlign.center,
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: 12.sp,
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.textPrimary,
                     ),

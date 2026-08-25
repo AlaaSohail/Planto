@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -5,10 +7,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:plant_care/controllers/cubit/ai_cubit/ai_cubit.dart';
 import 'package:plant_care/controllers/cubit/weather_cubit/weather_cubit.dart';
 import 'package:plant_care/controllers/services/service_locator.dart';
 import 'package:plant_care/presentations/screens/ai_chat_screen/AiChatScreen.dart';
 import 'package:plant_care/presentations/widgets/BadgeContainer.dart';
+import 'package:plant_care/presentations/widgets/ModalBottomSheet.dart';
 import 'package:plant_care/presentations/widgets/TipCard.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../controllers/cache/cache_helper.dart';
@@ -25,6 +32,7 @@ import '../../widgets/WeatherCard.dart';
 import '../plants_screens/AddPlantManualScreen.dart';
 import '../plants_screens/GetPlantScreen.dart';
 import '../plants_screens/PlantDetailsScreen.dart';
+import 'CommunityScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.onOpenPlants});
@@ -37,6 +45,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _searchController = TextEditingController();
+  final hour = DateTime.now().hour;
 
   String? city = "unknown";
   String? country = "unknown";
@@ -48,15 +57,17 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<UserCubit>().getUserProfile();
 
     _loadLocationData();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AiCubit>().getDailyTip();
+    });
   }
 
   Future<void> _loadLocationData() async {
     try {
       final position = await LocationService.getCurrentLocation();
 
-      if (!mounted || position == null) {
-        return;
-      }
+      if (!mounted || position == null) return;
 
       // Weather
       await context.read<WeatherCubit>().getWeather(
@@ -66,11 +77,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (!mounted) return;
 
-      // Update user location
-      final shouldUpdate =
-      await LocationService.shouldUpdateLocation();
+      final shouldUpdate = await LocationService.shouldUpdateLocation();
 
-      if (shouldUpdate && mounted) {
+      if (!mounted) return;
+
+      if (shouldUpdate) {
         await context.read<UserCubit>().updateLocation(
           latitude: position.latitude,
           longitude: position.longitude,
@@ -78,17 +89,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
         await LocationService.saveLocationUpdateTime();
       }
-    } catch (e) {
-      debugPrint('❌ Location/Weather error: $e');
 
-      // مهم:
-      // لا نخلي فشل الإنترنت يسقط HomeScreen
+      if (!mounted) return;
+
+      if (Platform.isAndroid || Platform.isIOS) {
+        final Geocoding geocoding = Geocoding();
+
+        final List<Placemark> placemarks = await geocoding
+            .placemarkFromCoordinates(position.latitude, position.longitude);
+
+        if (!mounted) return;
+
+        if (placemarks.isNotEmpty) {
+          final place = placemarks.first;
+
+          country = place.country;
+          city = place.locality;
+        }
+      }
+    } catch (e, stackTrace) {
+      debugPrint('❌ Location/Weather error: $e');
+      debugPrint('📍 StackTrace:\n$stackTrace');
     }
   }
 
   String getGreeting() {
-    final hour = DateTime.now().hour;
-
     if (hour < 12) {
       return "Good Morning 🌞";
     } else if (hour < 18) {
@@ -100,12 +125,55 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<QuickAction> get quickActions => [
     QuickAction(
-      title: 'Add Plant',
-      icon: 'assets/images/leaf.png',
+      title: 'Scan',
+      icon: 'assets/images/scan.png',
       onTap: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(builder: (_) => AddPlantManualScreen()),
+        showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return ModalBottomSheet(
+              hintText: '',
+              actionText: '',
+              onPress: () {},
+              title: '',
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      ImagePicker()
+                          .pickImage(source: ImageSource.camera)
+                          .then(
+                            (value) =>
+                                context.read<AiCubit>().analyzePlant(value),
+                          );
+                    },
+                    icon: Image.asset(
+                      'assets/images/cameraa.png',
+                      width: 50.w,
+                      height: 50.h,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      ImagePicker()
+                          .pickImage(source: ImageSource.gallery)
+                          .then(
+                            (value) =>
+                                context.read<AiCubit>().analyzePlant(value),
+                          );
+                    },
+                    icon: Image.asset(
+                      'assets/images/picture.png',
+                      width: 50.w,
+                      height: 50.h,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     ),
@@ -122,9 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
     QuickAction(
       title: 'Community',
       icon: 'assets/images/society.png',
-      onTap: () {
-        // TODO: Open Diagnose
-      },
+      onTap: () {},
     ),
     QuickAction(
       title: 'Care Tips',
@@ -200,18 +266,8 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SearchTextField(
-                      controller: _searchController,
-                      hintText: "Search plants, care tips..",
-                      prefix: Icon(Icons.search_rounded, color: Colors.grey),
-                    )
-                    .animate()
-                    .fadeIn(delay: 50.ms)
-                    .slideY(begin: 0.5, end: 0, duration: 50.ms),
-                SizedBox(height: 8.h),
                 Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         BlocBuilder<WeatherCubit, WeatherState>(
                           builder: (context, state) {
@@ -231,7 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: WeatherCard(
                                 icon: weather?.icon ?? "☀️",
                                 location: weather != null
-                                    ? "$city, $country"
+                                    ? "$city"
                                     : "Loading location",
                                 description: weather?.description ?? "loading",
                                 cTemperature:
@@ -251,11 +307,78 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           },
                         ),
+
+                        Expanded(
+                          child: Card(
+                            elevation: 0,
+                            shadowColor: Colors.green.withOpacity(0.3),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                              side: BorderSide(
+                                color: Colors.green.withOpacity(0.1),
+                              ),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    Color(0xFFF1F1C9),
+                                    Color(0xFFe7f2e7),
+                                    Color(0xFFe7f2e7),
+                                  ],
+                                ),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(16.r),
+                                child: Column(
+                                  children: [
+                                    CircularPercentIndicator(
+                                      radius: 40.r,
+                                      backgroundColor: AppColors.primary
+                                          .withOpacity(0.1),
+
+                                      lineWidth: 8.0.w,
+
+                                      percent: 0.6,
+                                      circularStrokeCap:
+                                          CircularStrokeCap.round,
+                                      center: Text(
+                                        '${(0.6 * 100).toStringAsFixed(0)}%',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall
+                                            ?.copyWith(
+                                              color: AppColors.textPrimary,
+                                            ),
+                                      ),
+
+                                      progressColor: AppColors.secondary,
+
+                                      animation: true,
+                                      animationDuration: 1000,
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Text(
+                                      'Garden\nHealth',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     )
                     .animate()
                     .fadeIn(delay: 100.ms)
                     .slideY(begin: 0.5, end: 0, duration: 100.ms),
+
                 SizedBox(height: 8.h),
                 InkWell(
                   splashColor: Colors.transparent,
@@ -282,6 +405,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .fadeIn(delay: 150.ms)
                           .slideY(begin: 0.5, end: 0, duration: 150.ms),
                 ),
+                SizedBox(height: 4.h),
 
                 Text(
                       "Quick Actions",
@@ -356,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     .animate()
                     .fadeIn(delay: 180.ms)
                     .slideY(begin: 0.5, end: 0, duration: 180.ms),
-                SizedBox(height: 4.h),
+
                 BlocConsumer<PlantCubit, PlantState>(
                       listener: (context, state) {
                         if (state is PlantError) {
@@ -402,38 +526,34 @@ class _HomeScreenState extends State<HomeScreen> {
                           return SizedBox(
                             height: 200.h,
                             child: ListView.builder(
+                              padding: EdgeInsets.all(0),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.symmetric(horizontal: 4.w),
                               itemCount: plants.length,
                               itemBuilder: (context, index) {
                                 final plant = plants[index];
-                                return Padding(
-                                  padding: EdgeInsets.only(right: 12.w),
-                                  child: SizedBox(
-                                    width: 130.w,
-                                    child: InkWell(
-                                      focusColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      splashColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          CupertinoPageRoute(
-                                            builder: (context) =>
-                                                PlantDetailsScreen(
-                                                  plant: plant,
-                                                ),
-                                          ),
-                                        );
-                                      },
-                                      child: PlantCard(
-                                        name: plant.name ?? '',
-                                        species: plant.species ?? '',
-                                        description: '',
-                                        imageUrl: plant.imageUrl ?? '',
-                                      ),
+                                return SizedBox(
+                                  width: 130.w,
+                                  child: InkWell(
+                                    focusColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    splashColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              PlantDetailsScreen(plant: plant),
+                                        ),
+                                      );
+                                    },
+                                    child: PlantCard(
+                                      name: plant.name ?? '',
+                                      species: plant.species ?? '',
+                                      description: '',
+                                      imageUrl: plant.imageUrl ?? '',
                                     ),
                                   ),
                                 );
@@ -529,21 +649,48 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   color: Colors.white,
-                  child: Row(children: []),
+                  child: SizedBox(
+                    height: 100.h,
+                    width: double.infinity,
+
+                    child: LinearPercentIndicator(
+                      percent: 0.6,
+                      animation: true,
+                      backgroundColor: Colors.blueAccent.withOpacity(0.2),
+
+                      animationDuration: 1000,
+                      barRadius: Radius.circular(8).r,
+                      lineHeight: 8.h,
+
+                      progressColor: Colors.blueAccent,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 8.h),
 
-                TipCard(
-                      title: "Daily Tips",
-                      imageUrl: 'assets/images/tips.png',
-                      color: Colors.yellow,
+                BlocBuilder<AiCubit, AiState>(
+                  builder: (context, state) {
+                    String tip = 'Loading...';
 
-                      sub:
-                          "Morning watering is best for most houseplants — it gives leaves time to dry and prevents fungal diseases.",
-                    )
-                    .animate()
-                    .fadeIn(delay: 300.ms)
-                    .slideY(begin: 0.5, end: 0, duration: 300.ms),
+                    if (state is AiChatSuccess) {
+                      tip = state.message;
+                    }
+
+                    if (state is AiChatError) {
+                      tip = 'Unable to load daily tip';
+                    }
+
+                    return TipCard(
+                          title: "Daily Tips",
+                          imageUrl: 'assets/images/tips.png',
+                          color: Colors.yellow,
+                          sub: tip,
+                        )
+                        .animate()
+                        .fadeIn(delay: 300.ms)
+                        .slideY(begin: 0.5, end: 0, duration: 300.ms);
+                  },
+                ),
               ],
             ),
           ),

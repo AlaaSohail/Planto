@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +53,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
               child: ContainerIcons(icon: 'assets/images/plus.png'),
               onTap: () {
                 postController.clear();
+                context.read<CommunityCubit>().postImage = null;
                 showModalBottomSheet(
                   context: context,
                   shape: RoundedRectangleBorder(
@@ -63,7 +66,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
                   builder: (context) {
                     return ModalBottomSheet(
-                      hintText: "What's on your mind ?",
+                      hintText: hintText,
                       controller: postController,
                       actionText: "Deploy",
                       onPress: () async {
@@ -77,10 +80,11 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
                         await context.read<CommunityCubit>().addPost(
                           content,
-                          null,
+                          context.read<CommunityCubit>().postImage,
                         );
 
                         postController.clear();
+                        context.read<CommunityCubit>().postImage = null;
                       },
                       title: "Add a new post",
                     );
@@ -114,41 +118,53 @@ class _CommunityScreenState extends State<CommunityScreen> {
           }
         },
         builder: (context, state) {
-          if (state is CommunityLoading) {
-            return Center(child: CircularProgressIndicator());
+          final cubit = context.read<CommunityCubit>();
+          final posts = cubit.posts;
+
+          if (state is CommunityLoading && posts.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
           }
-          if (state is CommunitySuccess) {
-            final posts = state.post;
 
-            return SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: posts.length,
-                      itemBuilder: (context, index) {
-                        final post = posts[index];
+          if (posts.isEmpty) {
+            return const Center(child: Text("No Posts Found"));
+          }
 
-                        return PostCard(
-                          imageUrl: post.imageUrl,
-                          content: post.content,
-                          userName: post.userName,
-                          userImage: post.userImage,
-                          postId: post.id,
-                          userId: post.userId,
-                        );
-                      },
-                    ),
-                  ],
-                ),
+          //final randomPosts = List.of(posts)..shuffle();
+          final allPost = cubit.posts;
+          return SingleChildScrollView(
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: allPost.length,
+                    itemBuilder: (context, index) {
+                      final post = allPost[index];
+
+                      return PostCard(
+                        imageUrl: post.imageUrl,
+                        content: post.content,
+                        userName: post.userName,
+                        userImage: post.userImage,
+                        postId: post.id,
+                        userId: post.userId,
+                        likesCount: post.likesCount.toString(),
+                        commentsCount: post.commentsCount,
+                        isLiked: post.likedByMe,
+                        post: post,
+                        onTap: () async {
+                          await cubit.addLike(post.id);
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
-            );
-          }
-          return SizedBox();
+            ),
+          );
         },
       ),
     );

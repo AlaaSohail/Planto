@@ -18,3 +18,26 @@ final class CommunityError extends CommunityState {
 
   CommunityError(this.message);
 }
+
+final class UploadPostImageLoading extends CommunityState {}
+
+final class UploadPostImageSuccess extends CommunityState {}
+
+final class UploadPostImageError extends CommunityState {
+  final String message;
+
+  UploadPostImageError(this.message);
+}
+
+class CommunityLikeUpdated extends CommunityState {}
+
+class CommunityCommentsLoading extends CommunityState {}
+
+class CommunityCommentsSuccess extends CommunityState {}
+
+class CommunityCommentsError extends CommunityState {
+  final String message;
+
+  CommunityCommentsError(this.message);
+}
+class CommunityCommentAdding extends CommunityState {}

@@ -20,6 +20,7 @@ class PlantDetailsScreen extends StatefulWidget {
 }
 
 class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

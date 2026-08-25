@@ -11,7 +11,15 @@ class ScannerScreen extends StatefulWidget {
   State<ScannerScreen> createState() => _ScannerScreenState();
 }
 
-class _ScannerScreenState extends State<ScannerScreen> {
+class _ScannerScreenState extends State<ScannerScreen> {@override
+void initState() {
+  super.initState();
+}
+
+@override
+void dispose() {
+  super.dispose();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

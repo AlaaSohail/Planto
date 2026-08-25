@@ -25,6 +25,20 @@ class ApiEndpoints {
   static const String chat = "/ai/chat";
 
   static const String posts = "/posts";
+  static const String analyze = '/plants/analyze';
+
+
+  static String addComment(postId) {
+    return "/posts/${postId}/comments";
+  }
+
+  static String deleteComment(postId, commentId) {
+    return "/posts/${postId}/comments/${commentId}";
+  }
+
+  static String addLike(postId) {
+    return "/posts/${postId}/like";
+  }
 
   static String deletePlants(plantId) {
     return "/plants/$plantId";
@@ -69,6 +83,9 @@ class ApiKeys {
   static const String lastLocationUpdate = "last_location_update";
   static const String cachedUser = "cached_user";
   static const String cachedPlants = "cached_plants";
+
+  static const String dailyTip = 'daily_tip';
+  static const String dailyTipDate = 'daily_tip_date';
 }
 
 class PlantApiKeys {
@@ -98,7 +115,12 @@ class CommunityApiKeys {
   static const String content = "content";
   static const String image = "image";
   static const String postId = "id";
-  static const String userName = "name";
-  static const String userImage = "image";
+  static const String userName = "user_name";
+  static const String userImage = "user_image";
+  static const String postImage = 'image';
   static const String userId = "id";
+  static const String likesCount = "likes_count";
+  static const String commentsCount = "comments_count";
+  static const String likedByMe = "liked_by_me";
+  static const String createdAt = "created_at";
 }
