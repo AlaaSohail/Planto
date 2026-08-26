@@ -55,9 +55,9 @@ class ModalBottomSheet extends StatelessWidget {
             title!,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
-              color: actionText == "Deploy"
-                  ? AppColors.textPrimary
-                  : AppColors.error,
+              color: actionText == "Delete"
+                  ? AppColors.error
+                  : AppColors.textPrimary,
             ),
           ),
           if (child == null) SizedBox(height: 8.h),
@@ -87,7 +87,17 @@ class ModalBottomSheet extends StatelessWidget {
           ),
           if (child == null) SizedBox(height: 16.h),
           if (controller == null)
-            Text(hintText, style: Theme.of(context).textTheme.bodyLarge),
+            Align(
+              alignment: AlignmentGeometry.center,
+              child: Text(
+                hintText,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.sp,
+                ),
+              ),
+            ),
           if (child != null) child!,
           if (controller != null)
             Row(
@@ -128,7 +138,7 @@ class ModalBottomSheet extends StatelessWidget {
               ],
             ),
 
-          SizedBox(height: 16.h),
+          SizedBox(height: child != null ? 0.h : 16.h),
 
           if (child == null)
             Row(

@@ -6,9 +6,7 @@ import 'package:plant_care/presentations/screens/nav_bar_screens/ProfileScreen.d
 import 'package:plant_care/presentations/screens/plants_screens/GetPlantScreen.dart';
 import 'package:plant_care/presentations/themes/app_colors.dart';
 
-import '../ai_chat_screen/AiChatScreen.dart';
 import 'CommunityScreen.dart';
-import 'ScannerScreen.dart';
 
 class NavBarScreen extends StatefulWidget {
   const NavBarScreen({super.key});

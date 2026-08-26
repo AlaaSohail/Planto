@@ -31,7 +31,6 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
     context.read<PlantCubit>().getPlant();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

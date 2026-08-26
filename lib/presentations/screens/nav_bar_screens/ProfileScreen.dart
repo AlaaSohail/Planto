@@ -134,7 +134,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                               child: TipCard(
                                 title: "Planto Pro",
-                                imageUrl: 'assets/images/leaf.png',
+                                image: Image.asset(
+                                  'assets/images/leaf.png',
+                                  width: 42.w,
+                                  height: 42.h,
+                                ),
                                 color: AppColors.primary,
                                 sub: "Unlimited AI scans · Advanced analytics",
                               ),

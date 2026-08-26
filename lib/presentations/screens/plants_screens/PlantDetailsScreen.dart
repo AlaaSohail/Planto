@@ -20,7 +20,6 @@ class PlantDetailsScreen extends StatefulWidget {
 }
 
 class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,21 +46,22 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                     ),
                   ),
                   backgroundColor: Colors.white,
-
-                  builder: (context) {
+                  builder: (sheetContext) {
                     return ModalBottomSheet(
                       hintText: 'Are you sure you want to delete this plant?',
                       actionText: "Delete",
                       onPress: () async {
-                        Navigator.pop(context); // إغلاق Dialog
+                        // إغلاق BottomSheet
+                        Navigator.pop(sheetContext);
 
+                        // استخدم Context الشاشة الأصلية
                         await context.read<PlantCubit>().deletePlant(
                           widget.plant!.plantId!,
                         );
 
                         if (!mounted) return;
 
-                        Navigator.pop(context); // الرجوع من Details إلى Plants
+                        Navigator.pop(context);
                       },
                       title: 'Delete Plant',
                     );

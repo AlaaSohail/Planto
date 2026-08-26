@@ -17,7 +17,6 @@ class WeatherModel {
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) {
     final current = json['current'];
-
     return WeatherModel(
       temperature: (current['temperature_2m'] as num).toDouble(),
       humidity: (current['relative_humidity_2m'] as num).toDouble(),
@@ -93,44 +92,49 @@ class WeatherModel {
   String get icon {
     switch (weatherCode) {
       case 0:
-        return "☀️";
+        return "assets/images/sun.png";
 
       case 1:
       case 2:
-        return "🌤️";
+        return "assets/images/sun.png";
 
       case 3:
-        return "☁️";
+        return "assets/images/cloudy.png";
 
       case 45:
       case 48:
-        return "🌫️";
+        return "assets/images/fog.png";
 
       case 51:
       case 53:
       case 55:
-        return "🌦️";
+        return "assets/images/drizzle.png";
 
       case 61:
       case 63:
+        return "assets/images/rain.png";
       case 65:
-        return "🌧️";
+        return "assets/images/heavy-rain.png";
 
       case 71:
       case 73:
       case 75:
-        return "❄️";
+        return "assets/images/snow.png";
 
       case 80:
       case 81:
       case 82:
-        return "🌦️";
+        return "assets/images/showers.png";
 
       case 95:
-        return "⛈️";
-
+        return "assets/images/thunder.png";
+      case 96:
+      case 97:
+      case 98:
+      case 99:
+        return "assets/images/hail.png";
       default:
-        return "🌡️";
+        return "assets/images/weather.png";
     }
   }
 }

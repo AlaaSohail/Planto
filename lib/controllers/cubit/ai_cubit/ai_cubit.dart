@@ -94,6 +94,7 @@ class AiCubit extends Cubit<AiState> {
       emit(AiAnalyzeError('Please select an image'));
       return;
     }
+    analyzeImage = image;
 
     emit(AiLoading());
 

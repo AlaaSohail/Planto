@@ -15,8 +15,8 @@ class DioConsumer extends ApiConsumer {
         request: true,
         requestBody: true,
         requestHeader: true,
-        responseBody: true,
-        responseHeader: true,
+        responseBody: false,
+        responseHeader: false,
         error: true,
       ),
     );

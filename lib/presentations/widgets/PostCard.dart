@@ -218,6 +218,8 @@ class _PostCardState extends State<PostCard> {
                   final cubit = context.read<CommunityCubit>();
 
                   final likes = cubit.likeCounts[widget.postId] ?? 0;
+                  final comments = cubit.commentsCounts[widget.postId] ?? 0;
+
                   final liked = cubit.likedPosts[widget.postId] ?? false;
 
                   return Row(
@@ -254,7 +256,15 @@ class _PostCardState extends State<PostCard> {
                         hoverColor: Colors.transparent,
 
                         onTap: () {
-                          if (widget.postId != null) {}
+                          if (widget.postId != null) {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) =>
+                                    PostDetailsScreen(post: widget.post!),
+                              ),
+                            );
+                          }
                         },
                         child: Image.asset(
                           "assets/images/comment.png",
@@ -265,7 +275,7 @@ class _PostCardState extends State<PostCard> {
 
                       SizedBox(width: 6.w),
                       Text(
-                        widget.commentsCount ?? "0",
+                        comments.toString(),
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],

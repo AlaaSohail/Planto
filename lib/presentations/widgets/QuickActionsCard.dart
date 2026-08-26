@@ -31,7 +31,7 @@ class QuickActionsCard extends StatelessWidget {
       focusColor: Colors.transparent,
       child: SizedBox(
         width: 90.w,
-        height: 80.h,
+        height: 85.h,
         child: Card(
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -55,9 +55,9 @@ class QuickActionsCard extends StatelessWidget {
                               ?.copyWith(color: AppColors.textPrimary),
                         )
                       : icon != null
-                      ? Image.asset(icon!, width: 36.w, height: 36.h)
+                      ? Image.asset(icon!, width: 32.w, height: 32.h)
                       : const SizedBox(),
-                  SizedBox(height: 8.h),
+                  SizedBox(height: 4.h),
                   Text(
                     title ?? '',
                     textAlign: TextAlign.center,

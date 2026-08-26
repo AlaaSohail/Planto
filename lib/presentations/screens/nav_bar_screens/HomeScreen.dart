@@ -14,6 +14,7 @@ import 'package:plant_care/controllers/cubit/ai_cubit/ai_cubit.dart';
 import 'package:plant_care/controllers/cubit/weather_cubit/weather_cubit.dart';
 import 'package:plant_care/controllers/services/service_locator.dart';
 import 'package:plant_care/presentations/screens/ai_chat_screen/AiChatScreen.dart';
+import 'package:plant_care/presentations/screens/plants_screens/ScannerNewPlant.dart';
 import 'package:plant_care/presentations/widgets/BadgeContainer.dart';
 import 'package:plant_care/presentations/widgets/ModalBottomSheet.dart';
 import 'package:plant_care/presentations/widgets/TipCard.dart';
@@ -21,6 +22,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../controllers/cache/cache_helper.dart';
 import '../../../controllers/cubit/plant_cubit/plant_cubit.dart';
 import '../../../controllers/cubit/user_cubit/user_cubit.dart';
+import '../../../controllers/paths/ApiEndpoints.dart';
 import '../../../controllers/services/location_service.dart';
 import '../../themes/app_colors.dart';
 import '../../widgets/ContainerIcons.dart' show ContainerIcons;
@@ -47,12 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final _searchController = TextEditingController();
   final hour = DateTime.now().hour;
 
-  String? city = "unknown";
-  String? country = "unknown";
-
   @override
   void initState() {
     super.initState();
+
     context.read<PlantCubit>().getPlant();
     context.read<UserCubit>().getUserProfile();
 
@@ -92,21 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (!mounted) return;
 
-      if (Platform.isAndroid || Platform.isIOS) {
-        final Geocoding geocoding = Geocoding();
-
-        final List<Placemark> placemarks = await geocoding
-            .placemarkFromCoordinates(position.latitude, position.longitude);
-
-        if (!mounted) return;
-
-        if (placemarks.isNotEmpty) {
-          final place = placemarks.first;
-
-          country = place.country;
-          city = place.locality;
-        }
-      }
+      context.read<WeatherCubit>().getLocation(
+        position.latitude,
+        position.longitude,
+      );
     } catch (e, stackTrace) {
       debugPrint('❌ Location/Weather error: $e');
       debugPrint('📍 StackTrace:\n$stackTrace');
@@ -115,11 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String getGreeting() {
     if (hour < 12) {
-      return "Good Morning 🌞";
+      return "Good Morning";
     } else if (hour < 18) {
-      return "Good Afternoon ☀️";
+      return "Good Afternoon ️";
     } else {
-      return "Good Evening 🌙";
+      return "Good Evening";
     }
   }
 
@@ -156,13 +145,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      ImagePicker()
-                          .pickImage(source: ImageSource.gallery)
-                          .then(
-                            (value) =>
-                                context.read<AiCubit>().analyzePlant(value),
-                          );
+                    onPressed: () async {
+                      final value = await ImagePicker().pickImage(
+                        source: ImageSource.gallery,
+                      );
+
+                      if (value == null) return;
+
+                      if (!mounted) return;
+
+                      context.read<AiCubit>().analyzePlant(value);
+
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(builder: (_) => ScannerNewPlant()),
+                      );
                     },
                     icon: Image.asset(
                       'assets/images/picture.png',
@@ -195,9 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
     QuickAction(
       title: 'Care Tips',
       icon: 'assets/images/caree.png',
-      onTap: () {
-        // TODO: Open Care Tips
-      },
+      onTap: () {},
     ),
   ];
 
@@ -212,8 +207,12 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, state) {
             final isLoading = state is UserLoading;
             if (state is UserSuccess) {
-              city = state.user.city ?? "Unknown";
-              country = state.user.country ?? "Unknown";
+              final city = getIt<CacheHelper>().getDataString(
+                key: ApiKeys.city,
+              );
+              final country = getIt<CacheHelper>().getDataString(
+                key: ApiKeys.country,
+              );
             }
 
             return Skeletonizer(
@@ -272,6 +271,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         BlocBuilder<WeatherCubit, WeatherState>(
                           builder: (context, state) {
                             final isLoading = state is WeatherLoading;
+                            final city = getIt<CacheHelper>().getDataString(
+                              key: 'city',
+                            );
 
                             if (state is WeatherError) {
                               return Text(state.message);
@@ -287,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: WeatherCard(
                                 icon: weather?.icon ?? "☀️",
                                 location: weather != null
-                                    ? "$city"
+                                    ? city
                                     : "Loading location",
                                 description: weather?.description ?? "loading",
                                 cTemperature:
@@ -332,8 +334,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(16.r),
+                                padding: EdgeInsets.all(8.0.r),
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+
                                   children: [
                                     CircularPercentIndicator(
                                       radius: 40.r,
@@ -349,9 +353,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         '${(0.6 * 100).toStringAsFixed(0)}%',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headlineSmall
+                                            .bodyLarge
                                             ?.copyWith(
                                               color: AppColors.textPrimary,
+                                              fontWeight: FontWeight.w900,
                                             ),
                                       ),
 
@@ -394,12 +399,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   child:
                       TipCard(
-                            imageUrl: 'assets/images/chatbot.png',
                             color: AppColors.secondary,
 
                             sub:
                                 "Your Fiddle Leaf Fig may need more light. Tap to learn more →",
                             title: "AI Plant Doctor",
+                            image: Image.asset(
+                              'assets/images/aibot.png',
+                              width: 64.w,
+                              height: 64.h,
+                            ),
                           )
                           .animate()
                           .fadeIn(delay: 150.ms)
@@ -421,7 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 4.h),
 
                 SizedBox(
-                      height: 100.h,
+                      height: 90.h,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: quickActions.length,
@@ -682,7 +691,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     return TipCard(
                           title: "Daily Tips",
-                          imageUrl: 'assets/images/tips.png',
+
+                          image: Image.asset(
+                            'assets/images/tips.png',
+                            width: 42.w,
+                            height: 42.h,
+                          ),
                           color: Colors.yellow,
                           sub: tip,
                         )

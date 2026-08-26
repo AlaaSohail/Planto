@@ -20,6 +20,9 @@ class AiAnalysisModel {
   final String sunlightAdvice;
   final String fertilizerAdvice;
 
+  final String description;
+  final String species;
+
   AiAnalysisModel({
     this.id = 0,
     this.plantId = 0,
@@ -41,6 +44,8 @@ class AiAnalysisModel {
     required this.wateringAdvice,
     required this.sunlightAdvice,
     required this.fertilizerAdvice,
+    required this.description,
+    required this.species,
   });
 
   factory AiAnalysisModel.fromJson(Map<String, dynamic> json) {
@@ -75,6 +80,8 @@ class AiAnalysisModel {
       sunlightAdvice: json['sunlight_advice']?.toString() ?? '',
 
       fertilizerAdvice: json['fertilizer_advice']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      species: json['species']?.toString() ?? '',
     );
   }
 
@@ -107,6 +114,8 @@ class AiAnalysisModel {
       'sunlight_advice': sunlightAdvice,
 
       'fertilizer_advice': fertilizerAdvice,
+      'description': description,
+      'species': species,
     };
   }
 }

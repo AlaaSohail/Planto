@@ -4,18 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../themes/app_colors.dart';
 
 class TipCard extends StatelessWidget {
-  TipCard({
-    super.key,
-    required this.sub,
-    this.title,
-    this.imageUrl,
-    this.color,
-  });
+  TipCard({super.key, required this.sub, this.title, this.color, this.image});
 
   String? sub;
   String? title;
-  String? imageUrl;
   Color? color;
+  Widget? image;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +29,7 @@ class TipCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.asset(imageUrl!, width: 42.w, height: 42.h),
+            image!,
             SizedBox(width: 14.w),
             Expanded(
               child: Column(
