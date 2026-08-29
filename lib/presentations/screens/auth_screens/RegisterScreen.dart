@@ -141,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                     Text(
-                      "Join Planto 🌱",
+                      "Join Planto",
                       style: Theme.of(context).textTheme.headlineLarge
                           ?.copyWith(
                             color: AppColors.textPrimary,

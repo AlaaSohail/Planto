@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: MediaQuery.of(context).size.height * 0.08),
 
                     Text(
-                      "Welcome back 🌿",
+                      "Welcome back",
                       style: Theme.of(context).textTheme.headlineLarge
                           ?.copyWith(color: AppColors.textPrimary),
                     ),

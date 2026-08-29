@@ -54,7 +54,7 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                           height: MediaQuery.of(context).size.height * 0.5,
                         ),
                         Text(
-                          'Analyzing Your Plant\nwith AI ...',
+                          'Analyzing Your Plant with AI ...',
                           style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(
                                 color: Theme.of(context).primaryColor,
@@ -68,16 +68,19 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
 
                 if (state is AiAnalyzeSuccess) {
                   final result = state.aiAnalysisModel;
+                  final image = context.read<AiCubit>().analyzeImage;
+
+                  if (image == null) {
+                    return const SizedBox();
+                  }
 
                   return Column(
                     children: [
-                      SizedBox(
-                        child: CachedNetworkImage(
-                          imageUrl: result.imageUrl!,
-                          width: double.infinity,
-                          height: 250.h,
-                          fit: BoxFit.cover,
-                        ),
+                      Image.file(
+                        File(image.path),
+                        width: double.infinity,
+                        height: 250.h,
+                        fit: BoxFit.cover,
                       ),
                       Container(
                         width: double.infinity,
@@ -111,6 +114,7 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                     ),
                                     Text(
                                       result.species,
+                                      overflow: TextOverflow.ellipsis,
                                       style: Theme.of(
                                         context,
                                       ).textTheme.bodyLarge,
@@ -224,7 +228,6 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
                                 padding: EdgeInsets.all(0),
 
                                 children: [
@@ -318,6 +321,14 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                   result.species,
                                   context.read<AiCubit>().analyzeImage,
                                   result.description,
+                                  result.healthStatus,
+                                  result.healthScore,
+                                  result.wateringAdvice,
+                                  result.sunlightAdvice,
+                                  result.fertilizerAdvice,
+                                  result.disease,
+                                  result.confidence,
+                                  result.recommendation,
                                 );
                               },
                               mainAxisSize: MainAxisSize.max,

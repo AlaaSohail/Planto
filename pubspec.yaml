@@ -56,10 +56,10 @@ dev_dependencies:
 
 flutter_launcher_icons:
 
-  image_path: "assets/images/icon_luncher.png"
-  adaptive_icon_foreground: "assets/images/icon_luncher.png"
+  image_path: "assets/images/logo_luncher.png"
+  adaptive_icon_foreground: "assets/images/logo_luncher.png"
   adaptive_icon_background: "#15351b"
-  adaptive_icon_foreground_inset: 0
+  adaptive_icon_foreground_inset: 8
 
 
 

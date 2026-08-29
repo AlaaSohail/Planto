@@ -9,6 +9,7 @@ import 'package:plant_care/controllers/models/plant_model.dart';
 
 import '../../cache/cache_helper.dart';
 import '../../core/functions/upload_image.dart';
+import '../../models/ai_model.dart';
 import '../../paths/ApiEndpoints.dart';
 import '../../services/service_locator.dart';
 
@@ -27,13 +28,24 @@ class PlantCubit extends Cubit<PlantState> {
     emit(UploadPlantImage());
   }
 
-  addPlant(
+  Future<void> addPlant(
     String name,
     String species,
     XFile? imageUrl,
     String description,
+
+    // AI Data
+    String? healthStatus,
+    double? healthScore,
+    String? wateringAdvice,
+    String? sunlightAdvice,
+    String? fertilizerAdvice,
+    String? disease,
+    double? confidence,
+    String? recommendation,
   ) async {
     emit(PlantLoading());
+
     try {
       final response = await api.post(
         ApiEndpoints.plants,
@@ -42,12 +54,24 @@ class PlantCubit extends Cubit<PlantState> {
           PlantApiKeys.species: species,
           PlantApiKeys.imagePlant: await uploadImageToAPI(imageUrl!),
           PlantApiKeys.description: description,
+
+          // AI Data
+          'health_status': healthStatus,
+          'health_score': healthScore,
+          'watering_advice': wateringAdvice,
+          'sunlight_advice': sunlightAdvice,
+          'fertilizer_advice': fertilizerAdvice,
+          'disease': disease,
+          'confidence': confidence,
+          'recommendation': recommendation,
         },
         isFormData: true,
       );
 
       plant = PlantModel.fromJson(response);
+
       emit(PlantSuccess(plant!, "Plant Added Successfully"));
+
       await getPlant();
     } on ServerException catch (e) {
       emit(PlantError(e.errorModel.errorMessage));
@@ -114,6 +138,35 @@ class PlantCubit extends Cubit<PlantState> {
       final response = await api.delete(ApiEndpoints.deletePlants(id));
       plant = PlantModel.fromJson(response);
       emit(PlantSuccess(plant!, "Plant Deleted Successfully"));
+      await getPlant();
+    } on ServerException catch (e) {
+      emit(PlantError(e.errorModel.errorMessage));
+    }
+  }
+
+  Future<void> updatePlantAI(String plantId, AiAnalysisModel result) async {
+    emit(PlantLoading());
+
+    try {
+      print('UPDATE AI URL: ${ApiEndpoints.updatePlantAi(plantId)}');
+      final response = await api.put(
+        ApiEndpoints.updatePlantAi(plantId),
+        data: {
+          'health_status': result.healthStatus,
+          'health_score': result.healthScore,
+          'watering_advice': result.wateringAdvice,
+          'sunlight_advice': result.sunlightAdvice,
+          'fertilizer_advice': result.fertilizerAdvice,
+          'disease': result.disease,
+          'confidence': result.confidence,
+          'recommendation': result.recommendation,
+        },
+      );
+
+      plant = PlantModel.fromJson(response['plant']);
+
+      emit(PlantSuccess(plant!, "Plant Analysis Updated Successfully"));
+
       await getPlant();
     } on ServerException catch (e) {
       emit(PlantError(e.errorModel.errorMessage));

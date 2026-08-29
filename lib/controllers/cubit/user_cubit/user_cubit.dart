@@ -374,8 +374,6 @@ class UserCubit extends Cubit<UserState> {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn.instance;
 
-      await googleSignIn.initialize();
-
       final GoogleSignInAccount account = await googleSignIn.authenticate();
 
       final GoogleSignInAuthentication authentication = account.authentication;

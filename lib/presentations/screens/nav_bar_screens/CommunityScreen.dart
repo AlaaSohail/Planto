@@ -1,20 +1,13 @@
-import 'dart:math';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plant_care/controllers/cubit/community_cubit/community_cubit.dart';
-import 'package:plant_care/presentations/widgets/AuthTextField.dart';
 import 'package:plant_care/presentations/widgets/ModalBottomSheet.dart';
 
-import '../../../controllers/cubit/plant_cubit/plant_cubit.dart';
-import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/ContainerIcons.dart';
 import '../../widgets/PostCard.dart';
-import '../plants_screens/AddPlantManualScreen.dart';
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen(this.onBackToHome, {super.key});

@@ -40,3 +40,18 @@ final class UploadPlantImageError extends PlantState {
 
   UploadPlantImageError(this.message);
 }
+
+final class UpdatePlantAILoading extends PlantState {}
+
+final class UpdatePlantAIError extends PlantState {
+  final String message;
+
+  UpdatePlantAIError(this.message);
+}
+
+final class UpdatePlantAISuccess extends PlantState {
+  final PlantModel plant;
+  final String message;
+
+  UpdatePlantAISuccess(this.plant, this.message);
+}

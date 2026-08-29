@@ -168,6 +168,7 @@ class _PostCardState extends State<PostCard> {
 
                 Text(
                   widget.content,
+
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w900,

@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -28,13 +25,10 @@ import '../../themes/app_colors.dart';
 import '../../widgets/ContainerIcons.dart' show ContainerIcons;
 import '../../widgets/PlantCard.dart';
 import '../../widgets/QuickActionsCard.dart';
-import '../../widgets/SearchTextField.dart';
 import '../../widgets/TaskCard.dart';
 import '../../widgets/WeatherCard.dart';
 import '../plants_screens/AddPlantManualScreen.dart';
-import '../plants_screens/GetPlantScreen.dart';
 import '../plants_screens/PlantDetailsScreen.dart';
-import 'CommunityScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.onOpenPlants});
@@ -58,9 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _loadLocationData();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AiCubit>().getDailyTip();
-    });
+    context.read<AiCubit>().getDailyTip();
   }
 
   Future<void> _loadLocationData() async {
@@ -115,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<QuickAction> get quickActions => [
     QuickAction(
       title: 'Scan',
-      icon: 'assets/images/scan.png',
+      icon: 'assets/images/scan_plant.png',
       onTap: () {
         showModalBottomSheet(
           context: context,
@@ -130,13 +122,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 children: [
                   IconButton(
-                    onPressed: () {
-                      ImagePicker()
-                          .pickImage(source: ImageSource.camera)
-                          .then(
-                            (value) =>
-                                context.read<AiCubit>().analyzePlant(value),
-                          );
+                    onPressed: () async {
+                      final value = await ImagePicker().pickImage(
+                        source: ImageSource.camera,
+                      );
+
+                      if (value == null) return;
+
+                      if (!mounted) return;
+
+                      context.read<AiCubit>().analyzePlant(value);
+
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(builder: (_) => ScannerNewPlant()),
+                      );
                     },
                     icon: Image.asset(
                       'assets/images/cameraa.png',
@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     QuickAction(
       title: 'Doctor AI',
-      icon: 'assets/images/ai.png',
+      icon: 'assets/images/aibot.png',
       onTap: () {
         Navigator.push(
           context,
@@ -186,12 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     QuickAction(
       title: 'Community',
-      icon: 'assets/images/society.png',
+      icon: 'assets/images/plant_community.png',
       onTap: () {},
     ),
     QuickAction(
       title: 'Care Tips',
-      icon: 'assets/images/caree.png',
+      icon: 'assets/images/plant_tips.png',
       onTap: () {},
     ),
   ];
@@ -287,7 +287,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               enabled: isLoading,
 
                               child: WeatherCard(
-                                icon: weather?.icon ?? "☀️",
+                                icon:
+                                    weather?.icon ??
+                                    "assets/images/weather.png",
                                 location: weather != null
                                     ? city
                                     : "Loading location",
@@ -442,6 +444,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: action.icon,
                             color: Colors.white,
                             onTap: action.onTap,
+                            iconWidth: 44.w,
+                            iconHeight: 44.h,
                           );
                         },
                       ),
@@ -493,8 +497,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlocConsumer<PlantCubit, PlantState>(
                       listener: (context, state) {
                         if (state is PlantError) {
+                          debugPrint('❌ PLANT ERROR: ${state.message}');
+
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(state.message)),
+                            SnackBar(
+                              content: Text('Plant Error: ${state.message}'),
+                            ),
                           );
                         }
                       },
@@ -693,9 +701,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: "Daily Tips",
 
                           image: Image.asset(
-                            'assets/images/tips.png',
-                            width: 42.w,
-                            height: 42.h,
+                            'assets/images/lamp.png',
+                            width: 48.w,
+                            height: 48.h,
                           ),
                           color: Colors.yellow,
                           sub: tip,

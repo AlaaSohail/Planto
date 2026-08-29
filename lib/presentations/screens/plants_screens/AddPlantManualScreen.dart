@@ -140,7 +140,17 @@ class _AddPlantManualScreenState extends State<AddPlantManualScreen> {
                           _speciesController.text,
                           context.read<PlantCubit>().plantImage,
                           _descriptionController.text,
+
+                          null,
+                          0,
+                          null,
+                          null,
+                          null,
+                          null,
+                          0,
+                          null,
                         );
+
                         _nameController.clear();
                         _descriptionController.clear();
                         _speciesController.clear();

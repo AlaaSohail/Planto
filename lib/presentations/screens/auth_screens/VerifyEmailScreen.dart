@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plant_care/presentations/screens/auth_screens/LoginScreen.dart';
 
 import '../../../controllers/cubit/user_cubit/user_cubit.dart';
 import '../../themes/app_button_theme.dart';
@@ -78,11 +80,16 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Check your email 📩",
-              style: Theme.of(context).textTheme.headlineMedium,
+            Align(
+              alignment: Alignment.topCenter,
+              child: Image.asset(
+                'assets/images/emailVerify.png',
+                width: 200.w,
+                height: 200.h,
+              ),
             ),
             SizedBox(height: 20.h),
+
             RichText(
               text: TextSpan(
                 style: Theme.of(context).textTheme.bodyMedium,
@@ -111,17 +118,52 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               ),
             ),
             SizedBox(height: 20.h),
+
             MainButton(
               onPressed: () {
-                context.read<UserCubit>().resendVerificationEmail(widget.email);
+                // await context.read<UserCubit>().verifyEmail(widget.email);
+                // Navigator.pushReplacement(
+                //   context,
+                //   CupertinoPageRoute(builder: (context) => LoginScreen()),
+                // );
               },
-              content: "Resend Verification Email",
+              content: "Email Verified",
               textStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
               ),
               buttonStyle: AppButtonTheme.theme.style!.copyWith(),
               mainAxisSize: MainAxisSize.max,
+            ),
+            SizedBox(height: 20.h),
+
+            Row(
+              children: [
+                TextButton(
+                  onPressed: _secondsRemaining == 0
+                      ? () {
+                          context.read<UserCubit>().resendVerificationEmail(
+                            widget.email,
+                          );
+
+                          _startResendTimer();
+                        }
+                      : null,
+                  child: Text(
+                    _secondsRemaining == 0
+                        ? 'Didn\'t receive the email?'
+                        : 'Resend email',
+                  ),
+                ),
+
+                if (_secondsRemaining > 0)
+                  Text(
+                    '$_secondsRemaining seconds',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+              ],
             ),
           ],
         ),

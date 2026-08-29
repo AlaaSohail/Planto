@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plant_care/presentations/themes/app_colors.dart';
 
 class WeatherCard extends StatelessWidget {
-  WeatherCard({
+  const WeatherCard({
     super.key,
     this.location,
     this.fTemperature,
@@ -17,14 +17,14 @@ class WeatherCard extends StatelessWidget {
     this.icon,
   });
 
-  String? location;
-  String? fTemperature;
-  String? cTemperature;
-  String? description;
-  String? humidity;
-  double? windSpeed;
-  String? icon;
-  String? rain;
+  final String? location;
+  final String? fTemperature;
+  final String? cTemperature;
+  final String? description;
+  final String? humidity;
+  final double? windSpeed;
+  final String? icon;
+  final String? rain;
 
   @override
   Widget build(BuildContext context) {

@@ -12,11 +12,15 @@ class QuickActionsCard extends StatelessWidget {
     this.color,
     this.onTap,
     this.count,
+    this.iconWidth,
+    this.iconHeight,
   });
 
   String? icon;
   String? title;
   String? count;
+  double? iconWidth;
+  double? iconHeight;
 
   Color? color;
   GestureTapCallback? onTap;
@@ -42,7 +46,7 @@ class QuickActionsCard extends StatelessWidget {
           color: color,
           child: Center(
             child: Padding(
-              padding: EdgeInsetsGeometry.all(10.r),
+              padding: EdgeInsetsGeometry.all(8.r),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,17 +59,23 @@ class QuickActionsCard extends StatelessWidget {
                               ?.copyWith(color: AppColors.textPrimary),
                         )
                       : icon != null
-                      ? Image.asset(icon!, width: 32.w, height: 32.h)
+                      ? Image.asset(
+                          icon!,
+                          width: iconWidth?.w ?? 32.w,
+                          height: iconHeight?.h ?? 32.h,
+                        )
                       : const SizedBox(),
                   SizedBox(height: 4.h),
-                  Text(
-                    title ?? '',
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.textPrimary,
+                  Expanded(
+                    child: Text(
+                      title ?? '',
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                   ),
                 ],

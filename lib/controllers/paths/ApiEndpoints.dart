@@ -27,7 +27,6 @@ class ApiEndpoints {
   static const String posts = "/posts";
   static const String analyze = '/plants/analyze';
 
-
   static String addComment(postId) {
     return "/posts/${postId}/comments";
   }
@@ -50,6 +49,10 @@ class ApiEndpoints {
 
   static String getUserData(id) {
     return "/users/$id";
+  }
+
+  static String updatePlantAi(String plantId) {
+    return '${ApiEndpoints.plants}/$plantId/analysis';
   }
 
   static const String updateLocation = "/users/location";
