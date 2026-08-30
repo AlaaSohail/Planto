@@ -14,6 +14,7 @@ import 'package:plant_care/controllers/paths/ApiEndpoints.dart';
 import 'package:plant_care/controllers/services/service_locator.dart';
 
 import '../../cache/cache_helper.dart';
+import '../../core/functions/upload_image.dart';
 import '../../models/user_model.dart';
 
 part 'user_state.dart';
@@ -23,22 +24,14 @@ class UserCubit extends Cubit<UserState> {
 
   final ApiConsumer api;
 
-  LoginModel? user;
+  LoginModel? loginUser;
   RegisterModel? register;
+  UserModel? user;
 
   XFile? userImage;
 
-  Future<void> uploadUserImage(XFile image) async {
+  uploadUserImage(XFile image) {
     userImage = image;
-
-    emit(UploadUserImage());
-
-    try {
-      // هنا سنرفع الصورة إلى Cloudinary
-      // ثم نرسل الـ URL للـ backend
-    } catch (e) {
-      emit(UserError(e.toString()));
-    }
   }
 
   // =====================================================
@@ -54,15 +47,15 @@ class UserCubit extends Cubit<UserState> {
         data: {ApiKeys.email: email.trim(), ApiKeys.password: password},
       );
 
-      user = LoginModel.fromMap(response);
+      loginUser = LoginModel.fromMap(response);
 
       // Decode JWT
-      final decodedToken = JwtDecoder.decode(user!.token);
+      final decodedToken = JwtDecoder.decode(loginUser!.token);
 
       // Save token
       await getIt<CacheHelper>().saveData(
         key: ApiKeys.token,
-        value: user!.token,
+        value: loginUser!.token,
       );
 
       // Save user ID
@@ -231,15 +224,15 @@ class UserCubit extends Cubit<UserState> {
     try {
       final response = await api.get(ApiEndpoints.profile);
 
-      final user = UserModel.fromJson(response["user"]);
+      user = UserModel.fromJson(response["user"]);
 
       // Save latest user data locally
       await getIt<CacheHelper>().saveData(
         key: ApiKeys.cachedUser,
-        value: jsonEncode(user.toJson()),
+        value: jsonEncode(user!.toJson()),
       );
 
-      emit(UserSuccess(user: user));
+      emit(UserSuccess(user: user!));
     } on ServerException catch (e) {
       await _loadCachedUser(e.errorModel.errorMessage);
     } catch (e) {
@@ -256,9 +249,9 @@ class UserCubit extends Cubit<UserState> {
       try {
         final userData = jsonDecode(cachedUser);
 
-        final user = UserModel.fromJson(Map<String, dynamic>.from(userData));
+        user = UserModel.fromJson(Map<String, dynamic>.from(userData));
 
-        emit(UserSuccess(user: user));
+        emit(UserSuccess(user: user!));
         return;
       } catch (_) {
         // Cache is invalid
@@ -338,13 +331,13 @@ class UserCubit extends Cubit<UserState> {
         data: {'token': accessToken},
       );
 
-      user = LoginModel.fromMap(response);
+      loginUser = LoginModel.fromMap(response);
 
-      final decodedToken = JwtDecoder.decode(user!.token);
+      final decodedToken = JwtDecoder.decode(loginUser!.token);
 
       await getIt<CacheHelper>().saveData(
         key: ApiKeys.token,
-        value: user!.token,
+        value: loginUser!.token,
       );
 
       await getIt<CacheHelper>().saveData(
@@ -390,13 +383,13 @@ class UserCubit extends Cubit<UserState> {
         data: {'token': idToken},
       );
 
-      user = LoginModel.fromMap(response);
+      loginUser = LoginModel.fromMap(response);
 
-      final decodedToken = JwtDecoder.decode(user!.token);
+      final decodedToken = JwtDecoder.decode(loginUser!.token);
 
       await getIt<CacheHelper>().saveData(
         key: ApiKeys.token,
-        value: user!.token,
+        value: loginUser!.token,
       );
 
       await getIt<CacheHelper>().saveData(
@@ -409,6 +402,58 @@ class UserCubit extends Cubit<UserState> {
       emit(LoginError(e.errorModel.errorMessage));
     } catch (e) {
       emit(LoginError(e.toString()));
+    }
+  }
+
+  Future<void> updateProfileDetails(
+    String name,
+    String email,
+    String phoneNumber, {
+    XFile? userImage,
+  }) async {
+    emit(UpdateProfileDetailsLoading());
+
+    try {
+      final response = await api.put(
+        ApiEndpoints.profile,
+        data: {
+          ApiKeys.name: name,
+          ApiKeys.email: email,
+          ApiKeys.phone: phoneNumber,
+
+          if (userImage != null) 'image': await uploadImageToAPI(userImage),
+        },
+        isFormData: true,
+      );
+
+      emit(UpdateProfileDetailsSuccess(response["message"]));
+      await getUserProfile();
+    } on ServerException catch (e) {
+      emit(UpdateProfileDetailsError(e.errorModel.errorMessage));
+    } catch (e) {
+      emit(UpdateProfileDetailsError(e.toString()));
+    }
+  }
+
+  Future<void> updatePassword(
+    String currentPassword,
+    String newPassword,
+  ) async {
+    emit(UserLoading());
+    emit(UpdatePasswordLoading());
+    try {
+      final response = await api.put(
+        ApiEndpoints.updatePassword,
+        data: {
+          ApiKeys.oldPassword: currentPassword,
+          ApiKeys.newPassword: newPassword,
+        },
+      );
+      emit(UpdatePasswordSuccess(response["message"]));
+    } on ServerException catch (e) {
+      emit(UpdatePasswordError(e.errorModel.errorMessage));
+    } catch (e) {
+      emit(UpdatePasswordError(e.toString()));
     }
   }
 }

@@ -15,7 +15,9 @@ import '../../widgets/BadgeContainer.dart';
 import '../../widgets/ContainerIcons.dart';
 import '../../widgets/ProfileCard.dart';
 import '../auth_screens/LoginScreen.dart';
+import 'EditProfileDetailsScreen.dart';
 import 'NotificationScreen.dart';
+import 'PasswordChangeScreen.dart';
 import 'SettingScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -51,7 +53,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
               actions: [
                 Padding(
                   padding: EdgeInsets.only(right: 16.w),
-                  child: ContainerIcons(icon: 'assets/images/settings.png'),
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (_) => EditProfileDetailsScreen(),
+                        ),
+                      );
+                    },
+
+                    child: ContainerIcons(icon: 'assets/images/edit.png'),
+                  ),
                 ),
               ],
             ),
@@ -73,7 +91,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             ClipOval(
                               child: CachedNetworkImage(
-                                imageUrl: state.user.image ?? '',
+                                imageUrl:
+                                    state.user.image ??
+                                    'assets/images/farmer.png',
                                 width: 100.r,
                                 height: 100.r,
                                 fit: BoxFit.cover,
@@ -135,9 +155,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: TipCard(
                                 title: "Planto Pro",
                                 image: Image.asset(
-                                  'assets/images/leaf.png',
-                                  width: 42.w,
-                                  height: 42.h,
+                                  'assets/images/plantBot.png',
+                                  width: 60.w,
+                                  height: 60.h,
                                 ),
                                 color: AppColors.primary,
                                 sub: "Unlimited AI scans · Advanced analytics",
@@ -181,8 +201,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   ProfileCard(
                                     icon: 'assets/images/privacy-policy.png',
-                                    title: 'Privacy & Security',
-                                    page: NotificationScreen(),
+                                    title: 'Password',
+                                    page: PasswordChangeScreen(),
                                   ),
                                   Divider(
                                     height: 1.h,

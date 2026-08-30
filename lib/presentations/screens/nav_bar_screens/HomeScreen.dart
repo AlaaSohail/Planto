@@ -341,31 +341,66 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
 
                                   children: [
-                                    CircularPercentIndicator(
-                                      radius: 40.r,
-                                      backgroundColor: AppColors.primary
-                                          .withOpacity(0.1),
+                                    BlocBuilder<PlantCubit, PlantState>(
+                                      builder: (context, state) {
+                                        final isLoading = state is PlantLoading;
 
-                                      lineWidth: 8.0.w,
+                                        if (state is PlantError) {
+                                          return Text(state.message);
+                                        }
 
-                                      percent: 0.6,
-                                      circularStrokeCap:
-                                          CircularStrokeCap.round,
-                                      center: Text(
-                                        '${(0.6 * 100).toStringAsFixed(0)}%',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
-                                              color: AppColors.textPrimary,
-                                              fontWeight: FontWeight.w900,
+                                        double health = 00;
+
+                                        if (state is GetALLPlantSuccess &&
+                                            state.plants.isNotEmpty) {
+                                          final totalHealth = state.plants
+                                              .fold<double>(
+                                                0,
+                                                (sum, plant) =>
+                                                    sum +
+                                                    (plant.healthScore ?? 0),
+                                              );
+
+                                          health =
+                                              totalHealth / state.plants.length;
+                                        }
+
+                                        final healthPercent = (health / 100)
+                                            .clamp(0.0, 1.0);
+
+                                        return Skeletonizer(
+                                          enabled: isLoading,
+                                          child: CircularPercentIndicator(
+                                            radius: 40.r,
+                                            lineWidth: 8.0.w,
+                                            backgroundColor: AppColors.primary
+                                                .withOpacity(0.1),
+
+                                            // صحة جميع النباتات
+                                            percent: healthPercent,
+
+                                            circularStrokeCap:
+                                                CircularStrokeCap.round,
+
+                                            center: Text(
+                                              '${health.toStringAsFixed(0)}%',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                    color:
+                                                        AppColors.textPrimary,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
                                             ),
-                                      ),
 
-                                      progressColor: AppColors.secondary,
+                                            progressColor: AppColors.primary,
 
-                                      animation: true,
-                                      animationDuration: 1000,
+                                            animation: true,
+                                            animationDuration: 1000,
+                                          ),
+                                        );
+                                      },
                                     ),
                                     SizedBox(height: 8.h),
                                     Text(
@@ -469,23 +504,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         Spacer(),
                         InkWell(
                           onTap: widget.onOpenPlants,
-                          child: Row(
-                            children: [
-                              Text(
-                                "See all",
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(
-                                      color: AppColors.primary,
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 14.sp,
-                                    ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 14.sp,
-                                color: AppColors.primary,
-                              ),
-                            ],
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+
+                          child: Text(
+                            "See all",
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 14.sp,
+                                ),
                           ),
                         ),
                       ],
@@ -497,8 +528,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlocConsumer<PlantCubit, PlantState>(
                       listener: (context, state) {
                         if (state is PlantError) {
-                          debugPrint('❌ PLANT ERROR: ${state.message}');
-
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Plant Error: ${state.message}'),
@@ -518,7 +547,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           final plants = state.plants;
                           if (plants.isEmpty) {
                             return SizedBox(
-                              height: 150.h,
+                              height: 100.h,
                               width: double.infinity,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -545,11 +574,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: ListView.builder(
                               padding: EdgeInsets.all(0),
                               shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
+
                               scrollDirection: Axis.horizontal,
                               itemCount: plants.length,
                               itemBuilder: (context, index) {
                                 final plant = plants[index];
+
                                 return SizedBox(
                                   width: 130.w,
                                   child: InkWell(
@@ -571,6 +601,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       species: plant.species ?? '',
                                       description: '',
                                       imageUrl: plant.imageUrl ?? '',
+                                      percent: plant.healthScore,
                                     ),
                                   ),
                                 );

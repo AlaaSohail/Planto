@@ -11,12 +11,14 @@ class SearchTextField extends StatefulWidget {
     this.suffix,
     this.prefix,
     this.validator,
+    this.onChange,
   });
 
   IconButton? suffix;
   Icon? prefix;
   String hintText;
   String? Function(String?)? validator;
+  String? Function(String?)? onChange;
   TextEditingController controller;
 
   @override
@@ -27,6 +29,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: widget.onChange,
       controller: widget.controller,
       validator: widget.validator,
       decoration: InputDecoration(

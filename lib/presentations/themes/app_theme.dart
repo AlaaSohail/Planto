@@ -78,27 +78,17 @@ class AppTheme {
   }
 
   static Widget backButton(BuildContext context, {VoidCallback? onPressed}) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 24, top: 12, bottom: 12),
-      child: InkWell(
-        onTap: onPressed ?? () => Navigator.of(context).pop(),
-        borderRadius: BorderRadius.circular(10),
-        child: Container(
-          width: 40,
-          height: 40,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.grey, width: 0.5),
-          ),
-          child: Image.asset(
-            'assets/images/back.png',
-            width: 20,
-            height: 20,
-            fit: BoxFit.contain,
-          ),
-        ),
+    return IconButton(
+      hoverColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      focusColor: Colors.transparent,
+
+      onPressed: onPressed ?? () => Navigator.of(context).pop(),
+      icon: Icon(
+        Icons.arrow_back_ios_new_rounded,
+        color: Theme.of(context).primaryColor,
+        size: 28.sp,
       ),
     );
   }

@@ -26,6 +26,9 @@ class ApiEndpoints {
 
   static const String posts = "/posts";
   static const String analyze = '/plants/analyze';
+  static const String updatePassword = '/users/password';
+  static const String oldPassword = 'oldPassword';
+  static const String newPassword = 'newPassword';
 
   static String addComment(postId) {
     return "/posts/${postId}/comments";

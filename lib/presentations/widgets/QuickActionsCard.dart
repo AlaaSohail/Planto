@@ -35,7 +35,7 @@ class QuickActionsCard extends StatelessWidget {
       focusColor: Colors.transparent,
       child: SizedBox(
         width: 90.w,
-        height: 85.h,
+        height: 90.h,
         child: Card(
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -70,9 +70,10 @@ class QuickActionsCard extends StatelessWidget {
                     child: Text(
                       title ?? '',
                       textAlign: TextAlign.center,
-                      maxLines: 1,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontSize: 10.sp,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
                         color: AppColors.textPrimary,
                       ),

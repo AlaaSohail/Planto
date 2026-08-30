@@ -7,6 +7,8 @@ final class AiInitial extends AiState {}
 
 final class AiLoading extends AiState {}
 
+final class AiChatLoading extends AiState {}
+
 final class AiChatSuccess extends AiState {
   final String message;
 

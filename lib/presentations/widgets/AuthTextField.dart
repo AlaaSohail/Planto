@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../controllers/core/functions/IsArabic.dart';
 import '../themes/app_colors.dart';
 
 class AuthTextField extends StatefulWidget {
@@ -39,7 +40,9 @@ class _AuthTextFieldState extends State<AuthTextField> {
       readOnly: widget.readOnly ?? false,
       initialValue: widget.initialValue,
       keyboardType: widget.keyboardType,
-
+      textDirection: isArabic(widget.controller.text)
+          ? TextDirection.rtl
+          : TextDirection.ltr,
 
       obscureText: widget.obscureText ?? false,
       validator: widget.validator,

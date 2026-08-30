@@ -22,7 +22,9 @@ class PlantCubit extends Cubit<PlantState> {
   PlantModel? plant;
 
   XFile? plantImage;
-
+  List<PlantModel> plants = [];
+  List<PlantModel> filteredPlants = [];
+  List<PlantModel> allPlants = [];
   uploadPlantImage(XFile image) {
     plantImage = image;
     emit(UploadPlantImage());
@@ -86,19 +88,30 @@ class PlantCubit extends Cubit<PlantState> {
 
       final plantsJson = response["plants"] as List<dynamic>;
 
-      // Save latest plants locally
       await getIt<CacheHelper>().saveData(
         key: ApiKeys.cachedPlants,
         value: jsonEncode(plantsJson),
       );
 
-      final List<PlantModel> plants = plantsJson
-          .map((plant) => PlantModel.fromJson(plant as Map<String, dynamic>))
+      allPlants = plantsJson
+          .map(
+            (plant) => PlantModel.fromJson(
+          plant as Map<String, dynamic>,
+        ),
+      )
           .toList();
 
-      emit(GetALLPlantSuccess(plants, "Plants Loaded Successfully"));
+      // عند تحميل النباتات من جديد، ألغِ البحث
+      filteredPlants = List.from(allPlants);
 
-      return plants;
+      emit(
+        GetALLPlantSuccess(
+          filteredPlants,
+          "Plants Loaded Successfully",
+        ),
+      );
+
+      return allPlants;
     } on ServerException catch (e) {
       return _loadCachedPlants(e.errorModel.errorMessage);
     } catch (e) {
@@ -106,7 +119,32 @@ class PlantCubit extends Cubit<PlantState> {
     }
   }
 
-  Future<List<PlantModel>> _loadCachedPlants(String errorMessage) async {
+  void searchPlants(String query) {
+    final searchQuery = query.trim().toLowerCase();
+
+    if (searchQuery.isEmpty) {
+      filteredPlants = List.from(allPlants);
+    } else {
+      filteredPlants = allPlants.where((plant) {
+        final name = plant.name?.toLowerCase() ?? '';
+        final species = plant.species?.toLowerCase() ?? '';
+
+        return name.contains(searchQuery) ||
+            species.contains(searchQuery);
+      }).toList();
+    }
+
+    emit(
+      GetALLPlantSuccess(
+        filteredPlants,
+        "Success",
+      ),
+    );
+  }
+
+  Future<List<PlantModel>> _loadCachedPlants(
+      String errorMessage,
+      ) async {
     try {
       final cachedData = getIt<CacheHelper>().getDataString(
         key: ApiKeys.cachedPlants,
@@ -119,19 +157,39 @@ class PlantCubit extends Cubit<PlantState> {
 
       final List<dynamic> decoded = jsonDecode(cachedData);
 
-      final List<PlantModel> plants = decoded
-          .map((plant) => PlantModel.fromJson(plant as Map<String, dynamic>))
+      allPlants = decoded
+          .map(
+            (plant) => PlantModel.fromJson(
+          plant as Map<String, dynamic>,
+        ),
+      )
           .toList();
 
-      emit(GetALLPlantSuccess(plants, "Loaded from local storage"));
+      filteredPlants = List.from(allPlants);
 
-      return plants;
+      emit(
+        GetALLPlantSuccess(
+          filteredPlants,
+          "Loaded from local storage",
+        ),
+      );
+
+      return allPlants;
     } catch (e) {
       emit(PlantError(errorMessage));
       return [];
     }
   }
+  void clearSearch() {
+    filteredPlants = List.from(allPlants);
 
+    emit(
+      GetALLPlantSuccess(
+        filteredPlants,
+        "Success",
+      ),
+    );
+  }
   deletePlant(String id) async {
     emit(PlantLoading());
     try {

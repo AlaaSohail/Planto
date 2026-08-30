@@ -146,3 +146,31 @@ class UploadUserImageError extends UserState {
 
   UploadUserImageError(this.message);
 }
+
+class UpdateProfileDetailsLoading extends UserState {}
+
+class UpdateProfileDetailsSuccess extends UserState {
+  final String message;
+
+  UpdateProfileDetailsSuccess(this.message);
+}
+
+class UpdateProfileDetailsError extends UserState {
+  final String message;
+
+  UpdateProfileDetailsError(this.message);
+}
+
+class UpdatePasswordLoading extends UserState {}
+
+class UpdatePasswordSuccess extends UserState {
+  final String message;
+
+  UpdatePasswordSuccess(this.message);
+}
+
+class UpdatePasswordError extends UserState {
+  final String message;
+
+  UpdatePasswordError(this.message);
+}

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:plant_care/presentations/themes/app_colors.dart';
 
 class PlantCard extends StatelessWidget {
@@ -11,12 +12,14 @@ class PlantCard extends StatelessWidget {
     this.description,
     super.key,
     this.imageUrl,
+    this.percent = 0,
   });
 
   final String? name;
   final String? species;
   final String? description;
   final String? imageUrl;
+  final double? percent;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +78,20 @@ class PlantCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Colors.grey.shade700,
                     ),
+                  ),
+                  SizedBox(height: 4.h),
+                  LinearPercentIndicator(
+                    percent: percent != null || percent != 0
+                        ? percent! / 100
+                        : 0.0,
+                    lineHeight: 4.h,
+                    barRadius: Radius.circular(8).r,
+                    progressColor: Colors.green,
+                    animationDuration: 1000,
+                    padding: EdgeInsets.only(right: 32.w),
+
+                    animation: true,
+                    backgroundColor: Colors.green.withOpacity(0.2),
                   ),
                 ],
               ),

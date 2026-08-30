@@ -8,6 +8,7 @@ import 'package:plant_care/controllers/cache/cache_helper.dart';
 import 'package:plant_care/controllers/services/service_locator.dart';
 import 'package:plant_care/presentations/screens/nav_bar_screens/PostDetailsScreen.dart';
 
+import '../../controllers/core/functions/IsArabic.dart';
 import '../../controllers/cubit/community_cubit/community_cubit.dart';
 import '../../controllers/models/post_model.dart';
 import '../../controllers/paths/ApiEndpoints.dart';
@@ -168,6 +169,9 @@ class _PostCardState extends State<PostCard> {
 
                 Text(
                   widget.content,
+                  textDirection: isArabic(widget.content)
+                      ? TextDirection.rtl
+                      : TextDirection.ltr,
 
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Colors.black,

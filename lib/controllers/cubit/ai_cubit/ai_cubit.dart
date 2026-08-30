@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:plant_care/controllers/core/api/api_consumer.dart';
+import 'package:plant_care/controllers/models/ChatMessage.dart';
 import 'package:plant_care/controllers/paths/ApiEndpoints.dart';
 
 import '../../cache/cache_helper.dart';
@@ -19,6 +20,7 @@ class AiCubit extends Cubit<AiState> {
   final picker = ImagePicker();
   XFile? image;
   XFile? analyzeImage;
+  List<ChatMessage> messages = [];
 
   Future<void> uploadPostImage(XFile image) async {
     emit(UploadAnalyzeImageLoading());
@@ -32,24 +34,68 @@ class AiCubit extends Cubit<AiState> {
     }
   }
 
-  chatAiBot(String message) async {
-    emit(AiLoading());
+  Future<String?> chatAiBot(String message) async {
+    // User message
+    messages.add(
+      ChatMessage(
+        message: message,
+        isUser: true,
+      ),
+    );
+
+    // Temporary AI message
+    messages.add(
+      ChatMessage(
+        message: '',
+        isUser: false,
+        isLoading: true,
+      ),
+    );
+
+    emit(AiChatLoading());
+
     try {
       final response = await api!.post(
         ApiEndpoints.chat,
-        data: {ApiKeys.message: message},
+        data: {
+          ApiKeys.message: message,
+        },
         isFormData: true,
       );
 
-      emit(AiChatSuccess(response["message"]));
-      return response[ApiKeys.message];
+      final aiMessage = response[ApiKeys.message];
+
+      // Replace loading message with AI response
+      messages[messages.length - 1] = ChatMessage(
+        message: aiMessage,
+        isUser: false,
+        isLoading: false,
+      );
+
+      emit(AiChatSuccess(aiMessage));
+
+      return aiMessage;
     } on ServerException catch (e) {
+      // Replace loading message with error
+      messages[messages.length - 1] = ChatMessage(
+        message: e.toString(),
+        isUser: false,
+        isLoading: false,
+      );
+
       emit(AiChatError(e.toString()));
+      return null;
     } catch (e) {
+      messages[messages.length - 1] = ChatMessage(
+        message: e.toString(),
+        isUser: false,
+        isLoading: false,
+      );
+
       emit(AiChatError(e.toString()));
+      return null;
     }
   }
-
   Future<void> getDailyTip() async {
     final cache = getIt<CacheHelper>();
 

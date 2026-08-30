@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:plant_care/controllers/cubit/ai_cubit/ai_cubit.dart';
 import 'package:plant_care/presentations/widgets/AuthTextField.dart';
 
@@ -18,6 +19,7 @@ class AiChatScreen extends StatefulWidget {
 
 class _AiChatScreenState extends State<AiChatScreen> {
   TextEditingController messageController = TextEditingController();
+  bool isUser = true;
 
   @override
   void initState() {
@@ -69,14 +71,62 @@ class _AiChatScreenState extends State<AiChatScreen> {
         child: BlocConsumer<AiCubit, AiState>(
           listener: (context, state) {},
           builder: (context, state) {
+            final isLoading = state is AiChatLoading;
+            if (state is AiLoading) {
+              return Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              );
+            }
+
             return Column(
               children: [
                 Expanded(
-                  child: ListView(
+                  child: ListView.builder(
                     padding: EdgeInsets.all(16.r),
-                    children: [
-                      // Chat messages هنا
-                    ],
+                    itemCount: context.read<AiCubit>().messages.length,
+                    itemBuilder: (context, index) {
+                      final message = context.read<AiCubit>().messages[index];
+
+                      return Align(
+                        alignment: message.isUser
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 10.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 14.w,
+                            vertical: 10.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: message.isUser
+                                ? AppColors.primary
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
+
+                          child: message.isLoading
+                              ? SizedBox(
+                                  width: 32.w,
+                                  height: 32.h,
+                                  child: SpinKitThreeBounce(
+                                    color: AppColors.primary,
+                                    size: 16.sp,
+                                    duration: const Duration(
+                                      milliseconds: 1200,
+                                    ),
+                                  ),
+                                )
+                              : Text(
+                                  message.message,
+                                  style: TextStyle(
+                                    color: message.isUser
+                                        ? Colors.white
+                                        : AppColors.textPrimary,
+                                  ),
+                                ),
+                        ),
+                      );
+                    },
                   ),
                 ),
 
@@ -125,6 +175,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
                               messageController.text,
                             );
                             messageController.clear();
+                            isUser = true;
                           }
                         },
                         icon: Image.asset(
