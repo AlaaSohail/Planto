@@ -9,8 +9,6 @@ class ApiInterceptors extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.headers[ApiKeys.authorization] =
         'Bearer ${getIt<CacheHelper>().getData(key: ApiKeys.token)}';
-
-
     super.onRequest(options, handler);
   }
 }

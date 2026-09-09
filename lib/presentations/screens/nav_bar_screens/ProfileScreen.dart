@@ -93,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: CachedNetworkImage(
                                 imageUrl:
                                     state.user.image ??
-                                    'assets/images/farmer.png',
+                                    'https://res.cloudinary.com/n4qtd6co/image/upload/v1788421140/farmer_hw0ugv.png',
                                 width: 100.r,
                                 height: 100.r,
                                 fit: BoxFit.cover,

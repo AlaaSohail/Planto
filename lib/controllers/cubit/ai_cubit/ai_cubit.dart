@@ -99,39 +99,58 @@ class AiCubit extends Cubit<AiState> {
   Future<void> getDailyTip() async {
     final cache = getIt<CacheHelper>();
 
-    final savedDate = cache.getDataString(key: ApiKeys.dailyTipDate);
+    final savedDate = cache.getDataString(
+      key: ApiKeys.dailyTipDate,
+    );
 
-    final today = DateTime.now().toIso8601String().split('T').first;
+    final today = DateTime.now()
+        .toIso8601String()
+        .split('T')
+        .first;
 
     if (savedDate == today) {
-      final savedTip = cache.getDataString(key: ApiKeys.dailyTip);
+      final savedTip = cache.getDataString(
+        key: ApiKeys.dailyTip,
+      );
 
       if (savedTip != null && savedTip.isNotEmpty) {
-        emit(AiChatSuccess(savedTip));
+        emit(AiDailyTipSuccess(savedTip));
         return;
       }
     }
 
-    emit(AiLoading());
+    emit(AiDailyTipLoading());
 
     try {
       final response = await api!.post(
         ApiEndpoints.chat,
-        data: {ApiKeys.message: 'Give me Daily Tip in 15 words'},
+        data: {
+          ApiKeys.message: 'Give me Daily Tip in 15 words',
+        },
         isFormData: true,
       );
 
       final tip = response[ApiKeys.message];
 
-      await cache.saveData(key: ApiKeys.dailyTip, value: tip);
+      await cache.saveData(
+        key: ApiKeys.dailyTip,
+        value: tip,
+      );
 
-      await cache.saveData(key: ApiKeys.dailyTipDate, value: today);
+      await cache.saveData(
+        key: ApiKeys.dailyTipDate,
+        value: today,
+      );
 
-      emit(AiChatSuccess(tip));
+      emit(AiDailyTipSuccess(tip));
     } on ServerException catch (e) {
-      emit(AiChatError(e.errorModel.errorMessage));
+      emit(
+        AiDailyTipError(
+          e.errorModel.errorMessage,
+        ),
+      );
     } catch (e) {
-      emit(AiChatError(e.toString()));
+      emit(AiDailyTipError(e.toString()));
     }
   }
 

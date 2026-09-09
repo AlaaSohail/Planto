@@ -16,6 +16,7 @@ import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/AuthTextField.dart';
 import '../../widgets/ContainerIcons.dart';
+import '../../widgets/LoginSocialMedia.dart';
 import '../../widgets/MainButton.dart';
 import '../../widgets/dropDownMenu.dart';
 import '../nav_bar_screens/HomeScreen.dart';
@@ -132,407 +133,443 @@ class _RegisterScreenState extends State<RegisterScreen> {
               leadingWidth: 55.w,
               leading: AppTheme.backButton(context),
             ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(24.0).r,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                    Text(
-                      "Join Planto",
-                      style: Theme.of(context).textTheme.headlineLarge
-                          ?.copyWith(
-                            color: AppColors.textPrimary,
-                            fontSize: 24.sp,
-                          ),
+            body: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
                     ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      'Create an account to start growing',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    SizedBox(height: 20.h),
-
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        spacing: 8.h,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'FULL NAME',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                          AuthTextField(
-                            controller: nameController,
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your name';
-                              }
-                              return null;
-                            },
-                            prefix: ContainerIcons(
-                              icon: "assets/images/user.png",
+                    child: IntrinsicHeight(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0).r,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.05,
                             ),
-                            obscureText: false,
-                            hintText: "enter your name",
-                          ),
-
-                          Text(
-                            'EMAIL ADDRESS',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                          AuthTextField(
-                            controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
-
-                            validator: (value) {
-                              if (value!.isEmpty || value == null) {
-                                return "Enter your email";
-                              }
-                              if (!RegExp(
-                                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                              ).hasMatch(value)) {
-                                return "Enter valid email";
-                              }
-
-                              return null;
-                            },
-
-                            prefix: ContainerIcons(
-                              icon: "assets/images/at.png",
+                            Text(
+                              "Join Planto",
+                              style: Theme.of(context).textTheme.headlineLarge
+                                  ?.copyWith(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 24.sp,
+                                  ),
                             ),
-
-                            obscureText: false,
-                            hintText: "example@alaasohail.com",
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'PASSWORD',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-
-                          AuthTextField(
-                            controller: passwordController,
-                            hintText: "Min 8 characters",
-                            keyboardType: TextInputType.visiblePassword,
-                            obscureText: isObscure,
-                            prefix: ContainerIcons(
-                              icon: "assets/images/lock.png",
+                            SizedBox(height: 4.h),
+                            Text(
+                              'Create an account to start growing',
+                              style: Theme.of(context).textTheme.bodyLarge,
                             ),
+                            SizedBox(height: 20.h),
 
-                            suffix: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isObscure = !isObscure;
-                                });
-                              },
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                spacing: 8.h,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'FULL NAME',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: AppColors.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  AuthTextField(
+                                    controller: nameController,
+                                    keyboardType: TextInputType.name,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your name';
+                                      }
+                                      return null;
+                                    },
+                                    prefix: ContainerIcons(
+                                      icon: "assets/images/user.png",
+                                    ),
+                                    obscureText: false,
+                                    hintText: "enter your name",
+                                  ),
 
-                              child: ContainerIcons(
-                                icon: isObscure
-                                    ? "assets/images/show.png"
-                                    : "assets/images/close-eye.png",
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  value.length < 8) {
-                                if (value!.length < 8) {
-                                  return 'Password must be at least 8 characters';
-                                }
-                                return 'Please enter your password';
-                              }
-                              return null;
-                            },
-                          ),
-                          Text(
-                            'CONFIRM PASSWORD',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
+                                  Text(
+                                    'EMAIL ADDRESS',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: AppColors.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  AuthTextField(
+                                    controller: emailController,
+                                    keyboardType: TextInputType.emailAddress,
 
-                          AuthTextField(
-                            controller: confirmPasswordController,
-                            hintText: "confirm password",
-                            keyboardType: TextInputType.visiblePassword,
-                            obscureText: isObscure2,
-                            prefix: ContainerIcons(
-                              icon: "assets/images/lock.png",
-                            ),
+                                    validator: (value) {
+                                      if (value!.isEmpty || value == null) {
+                                        return "Enter your email";
+                                      }
+                                      if (!RegExp(
+                                        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                      ).hasMatch(value)) {
+                                        return "Enter valid email";
+                                      }
 
-                            suffix: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isObscure2 = !isObscure2;
-                                });
-                              },
+                                      return null;
+                                    },
 
-                              child: ContainerIcons(
-                                icon: isObscure2
-                                    ? "assets/images/show.png"
-                                    : "assets/images/close-eye.png",
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  value.length < 8 ||
-                                  value != passwordController.text) {
-                                if (value!.length < 8) {
-                                  return 'Password must be at least 8 characters';
-                                }
-                                if (value != passwordController.text) {
-                                  return 'Passwords do not match';
-                                }
-                                return 'Please enter your password';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 4.h),
+                                    prefix: ContainerIcons(
+                                      icon: "assets/images/at.png",
+                                    ),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 8, top: 2).r,
-                                child: MSHCheckbox(
-                                  size: 20.sp,
-                                  value: isChecked,
-                                  colorConfig:
-                                      MSHColorConfig.fromCheckedUncheckedDisabled(
-                                        uncheckedColor: Colors.grey,
-                                        checkedColor: AppColors.textPrimary,
+                                    obscureText: false,
+                                    hintText: "example@alaasohail.com",
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'PASSWORD',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: AppColors.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+
+                                  AuthTextField(
+                                    controller: passwordController,
+                                    hintText: "Min 8 characters",
+                                    keyboardType: TextInputType.visiblePassword,
+                                    obscureText: isObscure,
+                                    prefix: ContainerIcons(
+                                      icon: "assets/images/lock.png",
+                                    ),
+
+                                    suffix: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          isObscure = !isObscure;
+                                        });
+                                      },
+
+                                      child: ContainerIcons(
+                                        icon: isObscure
+                                            ? "assets/images/show.png"
+                                            : "assets/images/close-eye.png",
                                       ),
-                                  style: MSHCheckboxStyle.stroke,
-                                  onChanged: (selected) {
-                                    setState(() {
-                                      isChecked = selected;
-                                    });
-                                  },
-                                ),
-                              ),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodyMedium,
+                                    ),
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.isEmpty ||
+                                          value.length < 8) {
+                                        if (value!.length < 8) {
+                                          return 'Password must be at least 8 characters';
+                                        }
+                                        return 'Please enter your password';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  Text(
+                                    'CONFIRM PASSWORD',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: AppColors.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+
+                                  AuthTextField(
+                                    controller: confirmPasswordController,
+                                    hintText: "confirm password",
+                                    keyboardType: TextInputType.visiblePassword,
+                                    obscureText: isObscure2,
+                                    prefix: ContainerIcons(
+                                      icon: "assets/images/lock.png",
+                                    ),
+
+                                    suffix: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          isObscure2 = !isObscure2;
+                                        });
+                                      },
+
+                                      child: ContainerIcons(
+                                        icon: isObscure2
+                                            ? "assets/images/show.png"
+                                            : "assets/images/close-eye.png",
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.isEmpty ||
+                                          value.length < 8 ||
+                                          value != passwordController.text) {
+                                        if (value!.length < 8) {
+                                          return 'Password must be at least 8 characters';
+                                        }
+                                        if (value != passwordController.text) {
+                                          return 'Passwords do not match';
+                                        }
+                                        return 'Please enter your password';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(height: 4.h),
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const TextSpan(
-                                        text:
-                                            "By creating an account, you agree to our ",
-                                      ),
-                                      TextSpan(
-                                        text: "Terms of Service",
-                                        style: const TextStyle(
-                                          color: AppColors.textPrimary,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Navigator.push(
-                                              context,
-                                              CupertinoPageRoute(
-                                                builder: (_) => SettingScreen(),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          right: 8,
+                                          top: 2,
+                                        ).r,
+                                        child: MSHCheckbox(
+                                          size: 20.sp,
+                                          value: isChecked,
+                                          colorConfig:
+                                              MSHColorConfig.fromCheckedUncheckedDisabled(
+                                                uncheckedColor: Colors.grey,
+                                                checkedColor:
+                                                    AppColors.textPrimary,
                                               ),
-                                            );
+                                          style: MSHCheckboxStyle.stroke,
+                                          onChanged: (selected) {
+                                            setState(() {
+                                              isChecked = selected;
+                                            });
                                           },
-                                      ),
-                                      const TextSpan(text: " and "),
-                                      TextSpan(
-                                        text: "Privacy Policy",
-                                        style: const TextStyle(
-                                          color: AppColors.textPrimary,
-                                          fontWeight: FontWeight.w600,
                                         ),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Navigator.push(
+                                      ),
+                                      Expanded(
+                                        child: RichText(
+                                          text: TextSpan(
+                                            style: Theme.of(
                                               context,
-                                              CupertinoPageRoute(
-                                                builder: (_) => SettingScreen(),
+                                            ).textTheme.bodyMedium,
+                                            children: [
+                                              const TextSpan(
+                                                text:
+                                                    "By creating an account, you agree to our ",
                                               ),
-                                            );
-                                          },
+                                              TextSpan(
+                                                text: "Terms of Service",
+                                                style: const TextStyle(
+                                                  color: AppColors.textPrimary,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                recognizer:
+                                                    TapGestureRecognizer()
+                                                      ..onTap = () {
+                                                        Navigator.push(
+                                                          context,
+                                                          CupertinoPageRoute(
+                                                            builder: (_) =>
+                                                                SettingScreen(),
+                                                          ),
+                                                        );
+                                                      },
+                                              ),
+                                              const TextSpan(text: " and "),
+                                              TextSpan(
+                                                text: "Privacy Policy",
+                                                style: const TextStyle(
+                                                  color: AppColors.textPrimary,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                recognizer:
+                                                    TapGestureRecognizer()
+                                                      ..onTap = () {
+                                                        Navigator.push(
+                                                          context,
+                                                          CupertinoPageRoute(
+                                                            builder: (_) =>
+                                                                SettingScreen(),
+                                                          ),
+                                                        );
+                                                      },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
+                                  SizedBox(height: 12.h),
+                                  BlocBuilder<UserCubit, UserState>(
+                                    builder: (context, state) {
+                                      final isLoading =
+                                          state is RegisterLoading;
+
+                                      return MainButton(
+                                        content: isLoading
+                                            ? "Signing Up..."
+                                            : "Sign Up",
+
+                                        icon: isLoading
+                                            ? SpinKitDualRing(
+                                                color: Theme.of(
+                                                  context,
+                                                ).primaryColor,
+                                                size: 20.sp,
+                                              )
+                                            : Icon(
+                                                Icons.arrow_forward,
+                                                color: AppColors.textPrimary,
+                                                size: 20.sp,
+                                              ),
+
+                                        onPressed: () async {
+                                          if (isLoading) return;
+                                          if (_formKey.currentState!
+                                                  .validate() &&
+                                              isChecked == true) {
+                                            final position =
+                                                await LocationService.getCurrentLocation();
+
+                                            await userCubit.Register(
+                                              email: emailController.text,
+                                              password: passwordController.text,
+                                              confirmPassword:
+                                                  confirmPasswordController
+                                                      .text,
+                                              name: nameController.text,
+                                              phone: phoneNumberController.text,
+                                              image:
+                                                  'https://res.cloudinary.com/n4qtd6co/image/upload/v1788421140/farmer_hw0ugv.png',
+
+                                              latitude: position?.latitude,
+                                              longitude: position?.longitude,
+                                            );
+                                          }
+                                        },
+
+                                        mainAxisSize: MainAxisSize.max,
+
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall
+                                            ?.copyWith(
+                                              color: AppColors.textPrimary,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+
+                                        buttonStyle: AppButtonTheme.theme.style!
+                                            .copyWith(),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          SizedBox(height: 12.h),
-                          BlocBuilder<UserCubit, UserState>(
-                            builder: (context, state) {
-                              final isLoading = state is RegisterLoading;
+                            ),
+                            SizedBox(height: 12.h),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 0.3.h,
+                                    color: Colors.grey,
+                                    margin: EdgeInsets.only(right: 16.r),
+                                  ),
+                                ),
+                                Text(
+                                  "Or continue with",
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 0.3.h,
+                                    color: Colors.grey,
+                                    margin: EdgeInsets.only(left: 16.r),
+                                  ),
+                                ),
+                              ],
+                            ),
 
-                              return MainButton(
-                                content: isLoading
-                                    ? "Signing Up..."
-                                    : "Sign Up",
+                            SizedBox(height: 20.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                LoginSocialMedia(
+                                  onTap: () async {
+                                    await context
+                                        .read<UserCubit>()
+                                        .googleLogin();
+                                  },
+                                  imageName: 'assets/images/google.png',
+                                ),
 
-                                icon: isLoading
-                                    ? SpinKitDualRing(
-                                        color: Theme.of(context).primaryColor,
-                                        size: 20.sp,
-                                      )
-                                    : Icon(
-                                        Icons.arrow_forward,
-                                        color: AppColors.textPrimary,
-                                        size: 20.sp,
+                                LoginSocialMedia(
+                                  onTap: () async {
+                                    await context
+                                        .read<UserCubit>()
+                                        .facebookLogin();
+                                  },
+                                  imageName: 'assets/images/facebook.png',
+                                ),
+                                LoginSocialMedia(
+                                  onTap: () async {
+                                    await context
+                                        .read<UserCubit>()
+                                        .facebookLogin();
+                                  },
+                                  imageName: 'assets/images/apple.png',
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8.h),
+                            Spacer(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text("Don't have an account?"),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (_) => RegisterScreen(),
                                       ),
-
-                                onPressed: () async {
-                                  if (isLoading) return;
-                                  if (_formKey.currentState!.validate() &&
-                                      isChecked == true) {
-                                    final position =
-                                        await LocationService.getCurrentLocation();
-
-                                    await userCubit.Register(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      confirmPassword:
-                                          confirmPasswordController.text,
-                                      name: nameController.text,
-                                      phone: phoneNumberController.text,
-                                      image: 'assets/images/farmer.png',
-
-                                      latitude: position?.latitude,
-                                      longitude: position?.longitude,
                                     );
-                                  }
-                                },
-
-                                mainAxisSize: MainAxisSize.max,
-
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall
-                                    ?.copyWith(
-                                      color: AppColors.textPrimary,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-
-                                buttonStyle: AppButtonTheme.theme.style!
-                                    .copyWith(),
-                              );
-                            },
-                          ),
-                        ],
+                                  },
+                                  child: Text(
+                                    "Sign Up Free",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: AppColors.textPrimary,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(height: 12.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 0.3.h,
-                            color: Colors.grey,
-                            margin: EdgeInsets.only(right: 16.r),
-                          ),
-                        ),
-                        Text(
-                          "Or continue with",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 0.3.h,
-                            color: Colors.grey,
-                            margin: EdgeInsets.only(left: 16.r),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 12.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            userCubit.googleLogin();
-                          },
-                          icon: Icon(
-                            SimpleIcons.google,
-                            color: SimpleIconColors.gmail,
-                            size: 42.sp,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            userCubit.facebookLogin();
-                          },
-                          icon: Icon(
-                            SimpleIcons.facebook,
-                            color: SimpleIconColors.facebook,
-                            size: 42.sp,
-                          ),
-                        ),
-
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            SimpleIcons.apple,
-                            color: SimpleIconColors.apple,
-                            size: 42.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text("Already have an account?"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(builder: (_) => LoginScreen()),
-                            );
-                          },
-                          child: Text(
-                            "Sign In",
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           );
         },

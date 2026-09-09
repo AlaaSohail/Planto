@@ -4,7 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:plant_care/controllers/cubit/payment_cubit/payment_cubit.dart';
+import 'package:plant_care/controllers/paths/ApiEndpoints.dart';
 import 'package:plant_care/presentations/screens/auth_screens/LoginScreen.dart';
 import 'package:plant_care/presentations/screens/welcome_screens/SplashScreen.dart';
 import 'package:plant_care/presentations/themes/app_theme.dart';
@@ -28,7 +31,8 @@ void main() async {
           '141453372151-4lj4i23rl7m1m2fpa3mtle5t3qqckjuq.apps.googleusercontent.com',
     );
   }
-
+  // Stripe.publishableKey = PaymentApiKeys.publishable;
+  // await Stripe.instance.applySettings();
   setupServiceLocator();
   await getIt<CacheHelper>().init();
   runApp(
@@ -39,6 +43,7 @@ void main() async {
         BlocProvider(create: (_) => WeatherCubit(DioConsumer(dio: Dio()))),
         BlocProvider(create: (_) => AiCubit(DioConsumer(dio: Dio()))),
         BlocProvider(create: (_) => CommunityCubit(DioConsumer(dio: Dio()))),
+        BlocProvider(create: (_) => PaymentCubit(DioConsumer(dio: Dio()))),
       ],
 
       child: MyApp(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../themes/app_theme.dart';
+import '../../widgets/PlantProCard.dart';
 
 class UpgradePlanScreen extends StatefulWidget {
   const UpgradePlanScreen({super.key});
@@ -30,44 +31,80 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
         leadingWidth: 55.w,
       ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16.0.r),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
-              Image.asset("assets/images/pro-member.png", height: 100.h),
+                children: [
+                  Image.asset("assets/images/pro-member.png", height: 100.h),
 
-              SizedBox(height: 16.h),
+                  SizedBox(height: 16.h),
 
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Unlock Your Full ",
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Unlock Your Full ",
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        TextSpan(
+                          text: "Garden Potential",
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                      ],
                     ),
-                    TextSpan(
-                      text: "Garden Potential",
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    'Join 50,000+ plant lovers who upgraded to Pro',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  SizedBox(height: 16.h),
+                  PlantProCard(
+                    price: 0,
+                    color: Colors.grey,
+                    title: "Free",
+                    buttonContent: "Current Plan",
+                    duration: "forever",
+                    image: 'assets/images/free.png',
+                    feature: [
+                      "5 plant identifications/month",
+                      "Basic care reminders",
+                      "Plant library access",
+                      "Community access",
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+
+                  PlantProCard(
+                    price: 4.99,
+                    color: Color(0xfffff454),
+                    title: "Premium",
+                    buttonContent: "Start Free Trial",
+                    duration: "per month",
+                    image: 'assets/images/pro.png',
+                    feature: [
+                      "Unlimited AI identifications",
+                      "AI Plant Doctor unlimited",
+                      "Smart care schedules",
+                      "Advanced plant analytics",
+                      "Priority support",
+                    ],
+                  ),
+                ],
               ),
-              SizedBox(height: 8.h),
-              Text(
-                'Join 50,000+ plant lovers who upgraded to Pro',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              SizedBox(height: 16.h),
-            ],
+            ),
           ),
         ),
       ),

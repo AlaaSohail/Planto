@@ -28,12 +28,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<PlantCubit>().getPlant();
-    context.read<UserCubit>().getUserProfile();
-
-    _loadLocationData();
-
-    context.read<AiCubit>().getDailyTip();
+    // context.read<PlantCubit>().getPlant();
+    // context.read<UserCubit>().getUserProfile();
+    //
+    // _loadLocationData();
+    //
+    // context.read<AiCubit>().getDailyTip();
 
     _navigate();
   }
@@ -91,7 +91,14 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         CupertinoPageRoute(builder: (_) => const NavBarScreen()),
+
       );
+      context.read<PlantCubit>().getPlant();
+      context.read<UserCubit>().getUserProfile();
+
+      _loadLocationData();
+
+      context.read<AiCubit>().getDailyTip();
     } else if (isOnBoarding != true) {
       Navigator.pushReplacement(
         context,

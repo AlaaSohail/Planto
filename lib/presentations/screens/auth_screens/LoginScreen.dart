@@ -11,12 +11,10 @@ import '../../themes/app_button_theme.dart';
 import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/ContainerIcons.dart';
+import '../../widgets/LoginSocialMedia.dart';
 import '../../widgets/MainButton.dart';
-import '../nav_bar_screens/HomeScreen.dart';
-import '../nav_bar_screens/ProfileScreen.dart';
 import 'CheckEmailResetPassword.dart';
 import 'RegisterScreen.dart';
-import 'VerifyCodeScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -72,283 +70,308 @@ class _LoginScreenState extends State<LoginScreen> {
               leadingWidth: 55.w,
               leading: AppTheme.backButton(context),
             ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(24.0).r,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-
-                    Text(
-                      "Welcome back",
-                      style: Theme.of(context).textTheme.headlineLarge
-                          ?.copyWith(color: AppColors.textPrimary),
+            body: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
                     ),
-                    SizedBox(height: 4.h),
-
-                    Text(
-                      'Sign in to continue growing',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    SizedBox(height: 20.h),
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'EMAIL ADDRESS',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(color: AppColors.textPrimary),
-                          ),
-                          SizedBox(height: 4.h),
-                          AuthTextField(
-                            controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
-
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Enter your email";
-                              }
-
-                              if (!RegExp(
-                                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                              ).hasMatch(value)) {
-                                return "Enter valid email";
-                              }
-
-                              return null;
-                            },
-
-                            prefix: ContainerIcons(
-                              icon: "assets/images/at.png",
-                            ),
-                            obscureText: false,
-                            hintText: "example@alaasohail.com",
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            'PASSWORD',
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(color: AppColors.textPrimary),
-                          ),
-                          SizedBox(height: 4.h),
-                          AuthTextField(
-                            controller: passwordController,
-                            hintText: "Enter your password",
-                            keyboardType: TextInputType.visiblePassword,
-                            obscureText: isObscure,
-                            prefix: ContainerIcons(
-                              icon: "assets/images/lock.png",
+                    child: IntrinsicHeight(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0).r,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.08,
                             ),
 
-                            suffix: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isObscure = !isObscure;
-                                });
-                              },
-
-                              child: ContainerIcons(
-                                icon: isObscure
-                                    ? "assets/images/show.png"
-                                    : "assets/images/close-eye.png",
-                              ),
+                            Text(
+                              "Welcome back",
+                              style: Theme.of(context).textTheme.headlineLarge
+                                  ?.copyWith(color: AppColors.textPrimary),
                             ),
+                            SizedBox(height: 4.h),
 
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
+                            Text(
+                              'Sign in to continue growing',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            SizedBox(height: 20.h),
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'EMAIL ADDRESS',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: AppColors.textPrimary,
+                                        ),
+                                  ),
+                                  SizedBox(height: 4.h),
+                                  AuthTextField(
+                                    controller: emailController,
+                                    keyboardType: TextInputType.emailAddress,
 
-                              if (value.length < 8) {
-                                return 'Password must be at least 8 characters';
-                              }
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Enter your email";
+                                      }
 
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 12.h),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              onPressed: () {
-                                if (emailController.text.isEmpty ||
-                                    emailController.text.length < 6 ||
-                                    !RegExp(
-                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                                    ).hasMatch(emailController.text)) {
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                      builder: (_) => CheckEmailResetPassword(),
+                                      if (!RegExp(
+                                        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                      ).hasMatch(value)) {
+                                        return "Enter valid email";
+                                      }
+
+                                      return null;
+                                    },
+
+                                    prefix: ContainerIcons(
+                                      icon: "assets/images/at.png",
                                     ),
-                                  );
-                                } else {
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                      builder: (_) => CheckEmailResetPassword(
-                                        email: emailController.text,
+                                    obscureText: false,
+                                    hintText: "example@alaasohail.com",
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  Text(
+                                    'PASSWORD',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: AppColors.textPrimary,
+                                        ),
+                                  ),
+                                  SizedBox(height: 4.h),
+                                  AuthTextField(
+                                    controller: passwordController,
+                                    hintText: "Enter your password",
+                                    keyboardType: TextInputType.visiblePassword,
+                                    obscureText: isObscure,
+                                    prefix: ContainerIcons(
+                                      icon: "assets/images/lock.png",
+                                    ),
+
+                                    suffix: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          isObscure = !isObscure;
+                                        });
+                                      },
+
+                                      child: ContainerIcons(
+                                        icon: isObscure
+                                            ? "assets/images/show.png"
+                                            : "assets/images/close-eye.png",
                                       ),
                                     ),
-                                  );
-                                }
-                              },
-                              child: Text(
-                                "Forgot Password?",
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(
-                                      color: AppColors.textPrimary,
-                                      fontWeight: FontWeight.w600,
+
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your password';
+                                      }
+
+                                      if (value.length < 8) {
+                                        return 'Password must be at least 8 characters';
+                                      }
+
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(height: 12.h),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        if (emailController.text.isEmpty ||
+                                            emailController.text.length < 6 ||
+                                            !RegExp(
+                                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                            ).hasMatch(emailController.text)) {
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              builder: (_) =>
+                                                  CheckEmailResetPassword(),
+                                            ),
+                                          );
+                                        } else {
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              builder: (_) =>
+                                                  CheckEmailResetPassword(
+                                                    email: emailController.text,
+                                                  ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: Text(
+                                        "Forgot Password?",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                              color: AppColors.textPrimary,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                      ),
                                     ),
+                                  ),
+                                  SizedBox(height: 20.h),
+                                  BlocBuilder<UserCubit, UserState>(
+                                    builder: (context, state) {
+                                      final isLoading = state is LoginLoading;
+
+                                      return MainButton(
+                                        content: isLoading
+                                            ? "Signing in..."
+                                            : "Sign In",
+
+                                        icon: isLoading
+                                            ? SpinKitDualRing(
+                                                color: Theme.of(
+                                                  context,
+                                                ).primaryColor,
+                                                size: 20.sp,
+                                              )
+                                            : Icon(
+                                                Icons.arrow_forward,
+                                                color: AppColors.textPrimary,
+                                                size: 20.sp,
+                                              ),
+
+                                        onPressed: () async {
+                                          if (isLoading) return;
+
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            await userCubit.Login(
+                                              emailController.text.trim(),
+                                              passwordController.text,
+                                            );
+                                          }
+                                        },
+
+                                        mainAxisSize: MainAxisSize.max,
+
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall
+                                            ?.copyWith(
+                                              color: AppColors.textPrimary,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+
+                                        buttonStyle: AppButtonTheme.theme.style!
+                                            .copyWith(),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          SizedBox(height: 20.h),
-                          BlocBuilder<UserCubit, UserState>(
-                            builder: (context, state) {
-                              final isLoading = state is LoginLoading;
+                            SizedBox(height: 20.h),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: 0.3.h,
+                                    color: Colors.grey,
+                                    margin: EdgeInsets.only(right: 16).r,
+                                  ),
+                                ),
+                                Text(
+                                  "Or continue with",
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 0.3.h,
+                                    color: Colors.grey,
+                                    margin: EdgeInsets.only(left: 16).r,
+                                  ),
+                                ),
+                              ],
+                            ),
 
-                              return MainButton(
-                                content: isLoading
-                                    ? "Signing in..."
-                                    : "Sign In",
+                            SizedBox(height: 20.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                LoginSocialMedia(
+                                  onTap: () async {
+                                    await context
+                                        .read<UserCubit>()
+                                        .googleLogin();
+                                  },
+                                  imageName: 'assets/images/google.png',
+                                ),
 
-                                icon: isLoading
-                                    ? SpinKitDualRing(
-                                        color: Theme.of(context).primaryColor,
-                                        size: 20.sp,
-                                      )
-                                    : Icon(
-                                        Icons.arrow_forward,
-                                        color: AppColors.textPrimary,
-                                        size: 20.sp,
+                                LoginSocialMedia(
+                                  onTap: () async {
+                                    await context
+                                        .read<UserCubit>()
+                                        .facebookLogin();
+                                  },
+                                  imageName: 'assets/images/facebook.png',
+                                ),
+                                LoginSocialMedia(
+                                  onTap: () async {
+                                    await context
+                                        .read<UserCubit>()
+                                        .facebookLogin();
+                                  },
+                                  imageName: 'assets/images/apple.png',
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text("Don't have an account?"),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder: (_) => RegisterScreen(),
                                       ),
-
-                                onPressed: () async {
-                                  if (isLoading) return;
-
-                                  if (_formKey.currentState!.validate()) {
-                                    await userCubit.Login(
-                                      emailController.text.trim(),
-                                      passwordController.text,
                                     );
-                                  }
-                                },
-
-                                mainAxisSize: MainAxisSize.max,
-
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall
-                                    ?.copyWith(
-                                      color: AppColors.textPrimary,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-
-                                buttonStyle: AppButtonTheme.theme.style!
-                                    .copyWith(),
-                              );
-                            },
-                          ),
-                        ],
+                                  },
+                                  child: Text(
+                                    "Sign Up Free",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: AppColors.textPrimary,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(height: 18.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 0.3.h,
-                            color: Colors.grey,
-                            margin: EdgeInsets.only(right: 16).r,
-                          ),
-                        ),
-                        Text(
-                          "Or continue with",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 0.3.h,
-                            color: Colors.grey,
-                            margin: EdgeInsets.only(left: 16).r,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 12.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            context.read<UserCubit>().googleLogin();
-                          },
-                          icon: Icon(
-                            SimpleIcons.google,
-                            color: SimpleIconColors.gmail,
-                            size: 42.sp,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            context.read<UserCubit>().facebookLogin();
-                          },
-                          icon: Icon(
-                            SimpleIcons.facebook,
-                            color: SimpleIconColors.facebook,
-                            size: 42.sp,
-                          ),
-                        ),
-
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            SimpleIcons.apple,
-                            color: SimpleIconColors.apple,
-                            size: 42.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text("Don't have an account?"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (_) => RegisterScreen(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Sign Up Free",
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           );
         },

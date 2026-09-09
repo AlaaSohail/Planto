@@ -3,6 +3,8 @@ class ApiEndpoints {
 
   static const String weatherUrl = "https://api.open-meteo.com/v1/forecast";
 
+  static const String paymentUrl="https://api.stripe.com/v1/payment_intents";
+
   static const String login = "/auth/login";
 
   static const String register = "/auth/register";
@@ -129,4 +131,11 @@ class CommunityApiKeys {
   static const String commentsCount = "comments_count";
   static const String likedByMe = "liked_by_me";
   static const String createdAt = "created_at";
+}
+class PaymentApiKeys{
+  static const String amount="amount";
+  static const String currency="currency";
+
+
+
 }

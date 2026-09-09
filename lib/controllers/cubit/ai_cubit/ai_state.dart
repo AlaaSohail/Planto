@@ -42,3 +42,16 @@ final class UploadAnalyzeImageError extends AiState {
 
   UploadAnalyzeImageError(this.message);
 }
+class AiDailyTipLoading extends AiState {}
+
+class AiDailyTipSuccess extends AiState {
+  final String message;
+
+  AiDailyTipSuccess(this.message);
+}
+
+class AiDailyTipError extends AiState {
+  final String message;
+
+  AiDailyTipError(this.message);
+}
