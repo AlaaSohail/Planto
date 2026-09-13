@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:plant_care/controllers/cubit/community_cubit/community_cubit.dart';
 import 'package:plant_care/presentations/widgets/ModalBottomSheet.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/ContainerIcons.dart';
 import '../../widgets/PostCard.dart';
@@ -19,20 +21,29 @@ class CommunityScreen extends StatefulWidget {
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
-  TextEditingController postController = TextEditingController();
+  final TextEditingController postController = TextEditingController();
 
-  String hintText = "What's on your mind?";
-  TextInputType keyboardType = TextInputType.text;
+  final TextInputType keyboardType = TextInputType.text;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<CommunityCubit>().getPosts();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return Scaffold(
-      backgroundColor: Color(0xfff7fbf5),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
         leadingWidth: 55.w,
-        leading: AppTheme.backButton(context, onPressed: widget.onBackToHome),
+        leading: AppTheme.backButton(
+          context,
+          onPressed: widget.onBackToHome,
+        ),
         titleSpacing: 10.w,
         actions: [
           Padding(
@@ -42,11 +53,11 @@ class _CommunityScreenState extends State<CommunityScreen> {
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
               hoverColor: Colors.transparent,
-
-              child: ContainerIcons(icon: 'assets/images/plus.png'),
               onTap: () {
                 postController.clear();
+
                 context.read<CommunityCubit>().postImage = null;
+
                 showModalBottomSheet(
                   context: context,
                   shape: RoundedRectangleBorder(
@@ -55,13 +66,14 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       topRight: Radius.circular(20.r),
                     ),
                   ),
-                  backgroundColor: Colors.white,
-
+                  backgroundColor: Theme.of(context)
+                      .scaffoldBackgroundColor
+                      .withOpacity(0.9),
                   builder: (context) {
                     return ModalBottomSheet(
-                      hintText: hintText,
+                      hintText: localization.whatsOnYourMind,
                       controller: postController,
-                      actionText: "Deploy",
+                      actionText: localization.deploy,
                       onPress: () async {
                         final content = postController.text.trim();
 
@@ -71,19 +83,24 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
                         Navigator.pop(context);
 
-                        await context.read<CommunityCubit>().addPost(
+                        final cubit = context.read<CommunityCubit>();
+
+                        await cubit.addPost(
                           content,
-                          context.read<CommunityCubit>().postImage,
+                          cubit.postImage,
                         );
 
                         postController.clear();
-                        context.read<CommunityCubit>().postImage = null;
+                        cubit.postImage = null;
                       },
-                      title: "Add a new post",
+                      title: localization.addNewPost,
                     );
                   },
                 );
               },
+              child: ContainerIcons(
+                icon: 'assets/images/plus.png',
+              ),
             ),
           ),
         ],
@@ -91,23 +108,21 @@ class _CommunityScreenState extends State<CommunityScreen> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: "Community",
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold,
-                ),
+                text: localization.community,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ],
           ),
         ),
       ),
-
       body: BlocConsumer<CommunityCubit, CommunityState>(
         listener: (context, state) {
           if (state is CommunityError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
           }
         },
         builder: (context, state) {
@@ -115,15 +130,21 @@ class _CommunityScreenState extends State<CommunityScreen> {
           final posts = cubit.posts;
 
           if (state is CommunityLoading && posts.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           if (posts.isEmpty) {
-            return const Center(child: Text("No Posts Found"));
+            return Center(
+              child: Text(
+                localization.noPostsFound,
+              ),
+            );
           }
 
-          //final randomPosts = List.of(posts)..shuffle();
           final allPost = cubit.posts;
+
           return SingleChildScrollView(
             child: Center(
               child: Column(
@@ -161,12 +182,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
         },
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<CommunityCubit>().getPosts();
   }
 
   @override

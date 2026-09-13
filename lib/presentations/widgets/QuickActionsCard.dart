@@ -43,7 +43,7 @@ class QuickActionsCard extends StatelessWidget {
             side: BorderSide(color: AppColors.primary, width: 0.3.w),
           ),
           margin: EdgeInsets.all(6.r),
-          color: color,
+          color: AppColors.secondary.withOpacity(0.3),
           child: Center(
             child: Padding(
               padding: EdgeInsetsGeometry.all(8.r),
@@ -55,8 +55,7 @@ class QuickActionsCard extends StatelessWidget {
                   count != null
                       ? Text(
                           count!,
-                          style: Theme.of(context).textTheme.headlineSmall
-                              ?.copyWith(color: AppColors.textPrimary),
+                          style: Theme.of(context).textTheme.headlineSmall,
                         )
                       : icon != null
                       ? Image.asset(
@@ -72,11 +71,7 @@ class QuickActionsCard extends StatelessWidget {
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.textPrimary,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                 ],

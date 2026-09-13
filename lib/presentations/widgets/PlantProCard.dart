@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:plant_care/controllers/cubit/payment_cubit/payment_cubit.dart';
 import 'package:plant_care/presentations/widgets/MainButton.dart';
 
-import '../screens/auth_screens/LoginScreen.dart';
 import '../themes/app_button_theme.dart';
-import '../themes/app_colors.dart';
-import 'QuickActionsCard.dart';
 
 class PlantProCard extends StatelessWidget {
   PlantProCard({
@@ -51,27 +46,15 @@ class PlantProCard extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: "${title}\n",
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                              height: 2.h,
-                            ),
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       TextSpan(
                         text: "\$${price.toString()}",
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 16.sp,
-                            ),
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       TextSpan(
-                        text: '\\${duration}',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        text: ' /${duration}',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
                   ),
@@ -80,10 +63,11 @@ class PlantProCard extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             SizedBox(
-              height: 100.h,
+              height: 140.h,
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: feature!.length,
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final action = feature![index];
 
@@ -94,17 +78,15 @@ class PlantProCard extends StatelessWidget {
                 },
               ),
             ),
-            MainButton(
-              buttonStyle: AppButtonTheme.themeSecondary.style!.copyWith(),
-              content: buttonContent,
-              textStyle: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(color: AppColors.textPrimary),
-              onPressed: () async {
-                await context.read<PaymentCubit>().makePayment(10, 'usd');
-              },
-              mainAxisSize: MainAxisSize.min,
-            ),
+            if (price != 0)
+              MainButton(
+                buttonStyle: AppButtonTheme.themeSecondary.style!.copyWith(),
+                content: buttonContent,
+                textStyle: Theme.of(context).textTheme.headlineSmall,
+                onPressed: () async {
+                },
+                mainAxisSize: MainAxisSize.min,
+              ),
           ],
         ),
       ),

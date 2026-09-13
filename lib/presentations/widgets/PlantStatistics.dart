@@ -1,44 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../themes/app_colors.dart';
-
 class PlantStatistics extends StatelessWidget {
-  PlantStatistics({super.key, this.title, this.count, this.icon});
+  const PlantStatistics({super.key, this.title, this.count, this.icon});
 
-  String? title;
-  String? count;
-  String? icon;
+  final String? title;
+  final String? count;
+  final String? icon;
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Padding(
-      padding: EdgeInsets.all(10.0).r,
+      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(icon!, width: 36.w, height: 36.h),
+          if (icon != null && icon!.isNotEmpty)
+            Image.asset(icon!, width: 32.w, height: 32.h, fit: BoxFit.contain),
+
+          SizedBox(height: 6.h),
 
           Text(
-            count!,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall?.copyWith(color: AppColors.textPrimary),
-          ),
-          SizedBox(height: 4.h),
-          Expanded(
-            child: Text(
-              title ?? '',
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textPrimary,
-              ),
+            count ?? '0',
+            textAlign: TextAlign.center,
+            style: textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
             ),
+          ),
+
+          SizedBox(height: 4.h),
+
+          Text(
+            title ?? '',
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ],
       ),

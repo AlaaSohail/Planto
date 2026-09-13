@@ -1,20 +1,22 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:plant_care/presentations/widgets/CodeValidateField.dart';
 import 'package:plant_care/presentations/widgets/MainButton.dart';
 
 import '../../../controllers/cubit/user_cubit/user_cubit.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
-import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
 import 'UpdatePasswordScreen.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
-  const VerifyCodeScreen({super.key, required this.email});
+  const VerifyCodeScreen({
+    super.key,
+    required this.email,
+  });
 
   final String? email;
 
@@ -23,15 +25,13 @@ class VerifyCodeScreen extends StatefulWidget {
 }
 
 class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
-
-
-
   final code1Controller = TextEditingController();
   final code2Controller = TextEditingController();
   final code3Controller = TextEditingController();
   final code4Controller = TextEditingController();
   final code5Controller = TextEditingController();
   final code6Controller = TextEditingController();
+
   final focus1 = FocusNode();
   final focus2 = FocusNode();
   final focus3 = FocusNode();
@@ -49,30 +49,46 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        focus1.requestFocus();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return BlocConsumer<UserCubit, UserState>(
       listener: (context, state) {
         if (state is VerifyCodeSuccess) {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (_) => UpdatePasswordScreen(resetToken: state.resetToken),
+              builder: (_) => UpdatePasswordScreen(
+                resetToken: state.resetToken,
+              ),
             ),
           );
         }
 
         if (state is VerifyCodeError) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+            ),
+          );
         }
       },
-
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
             appBar: AppBar(
-              title: AppTheme.plantCareAILogo(),
+              title: AppTheme.plantCareAILogo(context),
               leading: AppTheme.backButton(context),
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -85,7 +101,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Reset Password",
+                      localization.resetPassword,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     SizedBox(height: 20.h),
@@ -97,9 +113,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             focusNode: focus1,
                           ),
                         ),
-
                         SizedBox(width: 8.w),
-
                         Expanded(
                           child: CodeValidateField(
                             controller: code2Controller,
@@ -107,9 +121,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             previousFocus: focus1,
                           ),
                         ),
-
                         SizedBox(width: 8.w),
-
                         Expanded(
                           child: CodeValidateField(
                             controller: code3Controller,
@@ -117,9 +129,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             previousFocus: focus2,
                           ),
                         ),
-
                         SizedBox(width: 8.w),
-
                         Expanded(
                           child: CodeValidateField(
                             controller: code4Controller,
@@ -127,9 +137,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             previousFocus: focus3,
                           ),
                         ),
-
                         SizedBox(width: 8.w),
-
                         Expanded(
                           child: CodeValidateField(
                             controller: code5Controller,
@@ -137,9 +145,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             previousFocus: focus4,
                           ),
                         ),
-
                         SizedBox(width: 8.w),
-
                         Expanded(
                           child: CodeValidateField(
                             controller: code6Controller,
@@ -155,14 +161,16 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(width: 10.w),
-
                         Expanded(
                           child: MainButton(
                             mainAxisSize: MainAxisSize.max,
-                            content: "Confirm",
+                            content: localization.confirm,
                             onPressed: () {
                               final code = enteredCode;
-                              if (code.length == 6) {
+
+                              if (code.length == 6 &&
+                                  widget.email != null &&
+                                  widget.email!.isNotEmpty) {
                                 context.read<UserCubit>().verifyCode(
                                   widget.email!,
                                   code,
@@ -170,35 +178,36 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text("Please enter a valid code"),
+                                    content: Text(
+                                      localization.pleaseEnterAValidCode,
+                                    ),
                                   ),
                                 );
                               }
                             },
-                            textStyle: Theme.of(context).textTheme.headlineSmall
-                                ?.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                            buttonStyle: AppButtonTheme.theme.style!.copyWith(),
+                            textStyle:
+                            Theme.of(context).textTheme.headlineSmall,
+                            buttonStyle:
+                            AppButtonTheme.theme.style!.copyWith(),
                           ),
                         ),
                         SizedBox(width: 24.w),
                         Expanded(
                           child: MainButton(
                             mainAxisSize: MainAxisSize.max,
-                            content: "Resend",
+                            content: localization.resend,
                             onPressed: () {
-                              context.read<UserCubit>().forgotPassword(
-                                widget.email!,
-                              );
+                              if (widget.email != null &&
+                                  widget.email!.isNotEmpty) {
+                                context.read<UserCubit>().forgotPassword(
+                                  widget.email!,
+                                );
+                              }
                             },
-                            textStyle: Theme.of(context).textTheme.headlineSmall
-                                ?.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                            buttonStyle: AppButtonTheme.themeSecondary.style!
+                            textStyle:
+                            Theme.of(context).textTheme.headlineSmall,
+                            buttonStyle: AppButtonTheme
+                                .themeSecondary.style!
                                 .copyWith(),
                           ),
                         ),
@@ -212,12 +221,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
         );
       },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    focus1.requestFocus();
   }
 
   @override
@@ -235,6 +238,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     focus4.dispose();
     focus5.dispose();
     focus6.dispose();
+
     super.dispose();
   }
 }

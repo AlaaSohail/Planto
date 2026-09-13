@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../themes/app_colors.dart';
+
 class WelcomeStatistics extends StatelessWidget {
   const WelcomeStatistics({
     super.key,
@@ -18,12 +20,27 @@ class WelcomeStatistics extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(value, style: Theme.of(context).textTheme.bodySmall),
-            Text(unit, style: Theme.of(context).textTheme.bodySmall),
+            Text(
+              value,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+            ),
+            Text(
+              unit,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+            ),
           ],
         ),
 
-        Text(title, style: Theme.of(context).textTheme.bodyLarge),
+        Text(
+          title,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+        ),
       ],
     );
   }

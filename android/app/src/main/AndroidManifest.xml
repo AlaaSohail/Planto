@@ -34,7 +34,9 @@
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
 
-
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-2001413788003710~4648530241"/>
         <!-- Facebook Login Activity -->
 
         <activity
@@ -91,6 +93,7 @@
             <meta-data
                 android:name="flutter_deeplinking_enabled"
                 android:value="false" />
+
 
             <intent-filter>
 

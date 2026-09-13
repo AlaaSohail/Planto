@@ -6,6 +6,7 @@ import 'package:plant_care/presentations/widgets/MainButton.dart';
 
 import '../../../controllers/cache/cache_helper.dart';
 import '../../../controllers/services/service_locator.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
 import 'WelcomeScreen.dart';
 
@@ -33,28 +34,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   int currentPage = 0;
 
-  final List<OnBoardingContent> contents = [
-    OnBoardingContent(
-      image: Lottie.asset("assets/lottie/Plant_Scanning.json"),
-      title: "Identify Plants Instantly",
-      subtitle:
-          "Point your camera at any plant and get instant identification with detailed care instructions in seconds.",
-    ),
 
-    OnBoardingContent(
-      image: Lottie.asset("assets/lottie/Animated_plant_loader.json"),
-      title: "Smart Plant Care",
-      subtitle:
-          "Get personalized care recommendations based on your plant and its needs.",
-    ),
-
-    OnBoardingContent(
-      image: Lottie.asset("assets/lottie/ai.json"),
-      title: "AI Plant Doctor",
-      subtitle:
-          "Diagnose diseases, pests, and deficiencies with our advanced AI and get expert treatment recommendations instantly.",
-    ),
-  ];
 
   @override
   void dispose() {
@@ -64,11 +44,28 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
+    final List<OnBoardingContent> contents = [
+      OnBoardingContent(
+        image: Lottie.asset("assets/lottie/Plant_Scanning.json"),
+        title: localization.onboardingIdentifyPlantsTitle,
+        subtitle: localization.onboardingIdentifyPlantsSubtitle,
+      ),
+      OnBoardingContent(
+        image: Lottie.asset("assets/lottie/Animated_plant_loader.json"),
+        title: localization.onboardingSmartCareTitle,
+        subtitle: localization.onboardingSmartCareSubtitle,
+      ),
+      OnBoardingContent(
+        image: Lottie.asset("assets/lottie/ai.json"),
+        title: localization.onboardingAiDoctorTitle,
+        subtitle: localization.onboardingAiDoctorSubtitle,
+      ),
+    ];
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xffF7FBF5),
-
       body: SafeArea(
         child: Column(
           children: [
@@ -84,7 +81,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     );
                   },
                   child: Text(
-                    "Skip",
+                    localization.onboardingSkip,
                     style: TextStyle(
                       color: Colors.grey.shade600,
                       fontWeight: FontWeight.w600,
@@ -126,10 +123,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         Text(
                           content.title,
                           textAlign: TextAlign.center,
-                          style: theme.textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: theme.primaryColor,
-                          ),
+                          style: theme.textTheme.headlineSmall,
                         ),
 
                         SizedBox(height: 16.h),
@@ -164,9 +158,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 onPressed: () async {
                   if (currentPage < contents.length - 1) {
                     await getIt<CacheHelper>().saveData(
-                  key: "onBoarding",
-                  value: true,
-                  );
+                      key: "onBoarding",
+                      value: true,
+                    );
                     pageController.nextPage(
                       duration: const Duration(milliseconds: 350),
                       curve: Curves.easeInOut,
@@ -179,14 +173,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   }
                 },
                 content: currentPage == contents.length - 1
-                    ? "Get Started"
-                    : "Next",
+                    ? localization.onboardingGetStarted
+                    : localization.onboardingNext,
                 mainAxisSize: MainAxisSize.max,
                 buttonStyle: AppButtonTheme.theme.style!,
-                textStyle: theme.textTheme.bodyLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+                textStyle: theme.textTheme.headlineSmall,
               ),
             ),
 

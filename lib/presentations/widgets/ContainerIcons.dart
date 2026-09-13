@@ -26,6 +26,7 @@ class ContainerIcons extends StatelessWidget {
           width: 20.w,
           height: 20.w,
           fit: BoxFit.contain,
+          color: Theme.of(context).textTheme.headlineSmall?.color,
         ),
       ),
     );

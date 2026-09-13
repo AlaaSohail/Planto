@@ -36,36 +36,25 @@ class AiCubit extends Cubit<AiState> {
 
   Future<String?> chatAiBot(String message) async {
     // User message
-    messages.add(
-      ChatMessage(
-        message: message,
-        isUser: true,
-      ),
-    );
+    messages.add(ChatMessage(message: message, isUser: true));
 
     // Temporary AI message
-    messages.add(
-      ChatMessage(
-        message: '',
-        isUser: false,
-        isLoading: true,
-      ),
-    );
+    messages.add(ChatMessage(message: '', isUser: false, isLoading: true));
 
     emit(AiChatLoading());
 
     try {
       final response = await api!.post(
         ApiEndpoints.chat,
-        data: {
-          ApiKeys.message: message,
-        },
+        data: {ApiKeys.message: message},
         isFormData: true,
       );
 
-      final aiMessage = response[ApiKeys.message];
+      final aiMessage = response[ApiKeys.message]?.toString();
+      if (aiMessage == null || aiMessage.trim().isEmpty) {
+        throw Exception('AI response is empty');
+      }
 
-      // Replace loading message with AI response
       messages[messages.length - 1] = ChatMessage(
         message: aiMessage,
         isUser: false,
@@ -96,63 +85,79 @@ class AiCubit extends Cubit<AiState> {
       return null;
     }
   }
+
   Future<void> getDailyTip() async {
     final cache = getIt<CacheHelper>();
-
-    final savedDate = cache.getDataString(
-      key: ApiKeys.dailyTipDate,
-    );
-
-    final today = DateTime.now()
-        .toIso8601String()
-        .split('T')
-        .first;
-
+    final savedDate = cache.getDataString(key: ApiKeys.dailyTipDate);
+    final today = DateTime.now().toIso8601String().split('T').first;
     if (savedDate == today) {
-      final savedTip = cache.getDataString(
-        key: ApiKeys.dailyTip,
-      );
-
-      if (savedTip != null && savedTip.isNotEmpty) {
+      final savedTip = cache.getDataString(key: ApiKeys.dailyTip);
+      if (savedTip != null && savedTip.trim().isNotEmpty) {
         emit(AiDailyTipSuccess(savedTip));
         return;
       }
     }
-
     emit(AiDailyTipLoading());
-
     try {
       final response = await api!.post(
         ApiEndpoints.chat,
         data: {
-          ApiKeys.message: 'Give me Daily Tip in 15 words',
+          ApiKeys.message: 'Give me a useful plant care daily tip in 15 words.',
         },
         isFormData: true,
       );
-
-      final tip = response[ApiKeys.message];
-
-      await cache.saveData(
-        key: ApiKeys.dailyTip,
-        value: tip,
-      );
-
-      await cache.saveData(
-        key: ApiKeys.dailyTipDate,
-        value: today,
-      );
-
+      final tip = response[ApiKeys.message]?.toString();
+      if (tip == null || tip.trim().isEmpty) {
+        throw Exception('Daily tip is empty');
+      }
+      await cache.saveData(key: ApiKeys.dailyTip, value: tip);
+      await cache.saveData(key: ApiKeys.dailyTipDate, value: today);
       emit(AiDailyTipSuccess(tip));
     } on ServerException catch (e) {
-      emit(
-        AiDailyTipError(
-          e.errorModel.errorMessage,
-        ),
-      );
+      emit(AiDailyTipError(e.errorModel.errorMessage));
     } catch (e) {
       emit(AiDailyTipError(e.toString()));
     }
   }
+
+  // Future<void> getDailyTip() async {
+  //   final cache = getIt<CacheHelper>();
+  //
+  //   final savedDate = cache.getDataString(key: ApiKeys.dailyTipDate);
+  //
+  //   final today = DateTime.now().toIso8601String().split('T').first;
+  //
+  //   if (savedDate == today) {
+  //     final savedTip = cache.getDataString(key: ApiKeys.dailyTip);
+  //
+  //     if (savedTip != null && savedTip.isNotEmpty) {
+  //       emit(AiDailyTipSuccess(savedTip));
+  //       return;
+  //     }
+  //   }
+  //
+  //   emit(AiDailyTipLoading());
+  //
+  //   try {
+  //     final response = await api!.post(
+  //       ApiEndpoints.chat,
+  //       data: {ApiKeys.message: 'Give me Daily Tip in 15 words'},
+  //       isFormData: true,
+  //     );
+  //
+  //     final tip = response[ApiKeys.message];
+  //
+  //     await cache.saveData(key: ApiKeys.dailyTip, value: tip);
+  //
+  //     await cache.saveData(key: ApiKeys.dailyTipDate, value: today);
+  //
+  //     emit(AiDailyTipSuccess(tip));
+  //   } on ServerException catch (e) {
+  //     emit(AiDailyTipError(e.errorModel.errorMessage));
+  //   } catch (e) {
+  //     emit(AiDailyTipError(e.toString()));
+  //   }
+  // }
 
   Future<void> analyzePlant(XFile? image) async {
     if (image == null) {

@@ -31,7 +31,6 @@ class _AiChatScreenState extends State<AiChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Color(0xfff7fbf5),
       appBar: AppBar(
         titleSpacing: 10.w,
         title: RichText(
@@ -39,15 +38,12 @@ class _AiChatScreenState extends State<AiChatScreen> {
             children: [
               TextSpan(
                 text: "Planto \n",
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               TextSpan(
                 text: "Online · Expert botanist AI",
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.green,
+                  color: AppColors.secondary,
                   fontWeight: FontWeight.w900,
                 ),
               ),
@@ -100,7 +96,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
                           decoration: BoxDecoration(
                             color: message.isUser
                                 ? AppColors.primary
-                                : Colors.white,
+                                : AppColors.secondary.withOpacity(0.5),
                             borderRadius: BorderRadius.circular(16.r),
                           ),
 
@@ -132,10 +128,10 @@ class _AiChatScreenState extends State<AiChatScreen> {
 
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.greenAccent,
+                    color: AppColors.secondary.withOpacity(0.15),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12.r),
-                      topRight: Radius.circular(12.r),
+                      topLeft: Radius.circular(24.r),
+                      topRight: Radius.circular(24.r),
                     ),
                   ),
                   padding: EdgeInsets.symmetric(
@@ -146,6 +142,12 @@ class _AiChatScreenState extends State<AiChatScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButton.filledTonal(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.white,
+                          ),
+                        ),
+
                         onPressed: () {},
                         icon: Image.asset(
                           "assets/images/image.png",
@@ -162,12 +164,19 @@ class _AiChatScreenState extends State<AiChatScreen> {
                           hintText: 'Ask me anything...',
 
                           keyboardType: TextInputType.multiline,
+                          obscureText: false,
                         ),
                       ),
 
                       SizedBox(width: 6.w),
 
                       IconButton.filled(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.white,
+                          ),
+                        ),
+
                         onPressed: () {
                           if (messageController.text.trim().isNotEmpty &&
                               messageController.text != "") {

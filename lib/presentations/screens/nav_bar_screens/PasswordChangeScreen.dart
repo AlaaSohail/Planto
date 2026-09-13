@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import 'package:plant_care/presentations/widgets/MainButton.dart';
 
 import '../../../controllers/cubit/user_cubit/user_cubit.dart';
-import '../../themes/app_colors.dart' show AppColors;
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/AuthTextField.dart';
 import '../../widgets/ContainerIcons.dart';
@@ -29,25 +30,20 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
-  void dispose() {
-    currentPasswordController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
     super.initState();
+
     context.read<UserCubit>().getUserProfile();
   }
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.transparent,
-        title: AppTheme.plantCareAILogo(),
+        title: AppTheme.plantCareAILogo(context),
         leadingWidth: 32.w,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -63,29 +59,32 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: 8.h),
+
+                /// Current Password
                 Text(
-                  'CURRENT PASSWORD',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  localization.currentPassword,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
+
                 SizedBox(height: 8.h),
 
                 AuthTextField(
                   controller: currentPasswordController,
-                  hintText: "Min 8 characters",
+                  hintText: localization.min8Characters,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: isObscure,
                   prefix: ContainerIcons(icon: "assets/images/lock.png"),
-
                   suffix: InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashFactory: NoSplash.splashFactory,
                     onTap: () {
                       setState(() {
                         isObscure = !isObscure;
                       });
                     },
-
                     child: ContainerIcons(
                       icon: isObscure
                           ? "assets/images/show.png"
@@ -93,40 +92,45 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty || value.length < 8) {
-                      if (value!.length < 8) {
-                        return 'Password must be at least 8 characters';
-                      }
-                      return 'Please enter your password';
+                    if (value == null || value.isEmpty) {
+                      return localization.pleaseEnterYourPassword;
                     }
+
+                    if (value.length < 8) {
+                      return localization.passwordMustBeAtLeast8Characters;
+                    }
+
                     return null;
                   },
                 ),
-                SizedBox(height: 4),
 
+                SizedBox(height: 12.h),
+
+                /// New Password
                 Text(
-                  'NEW PASSWORD',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  localization.newPassword,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
+
                 SizedBox(height: 8.h),
 
                 AuthTextField(
                   controller: passwordController,
-                  hintText: "new password",
+                  hintText: localization.newPasswordHint,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: isObscure2,
                   prefix: ContainerIcons(icon: "assets/images/lock.png"),
-
                   suffix: InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashFactory: NoSplash.splashFactory,
                     onTap: () {
                       setState(() {
                         isObscure2 = !isObscure2;
                       });
                     },
-
                     child: ContainerIcons(
                       icon: isObscure2
                           ? "assets/images/show.png"
@@ -134,45 +138,45 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        value.length < 8 ||
-                        value != passwordController.text) {
-                      if (value!.length < 8) {
-                        return 'Password must be at least 8 characters';
-                      }
-                      if (value != passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return 'Please enter your password';
+                    if (value == null || value.isEmpty) {
+                      return localization.pleaseEnterYourPassword;
                     }
+
+                    if (value.length < 8) {
+                      return localization.passwordMustBeAtLeast8Characters;
+                    }
+
                     return null;
                   },
                 ),
-                SizedBox(height: 8.h),
+
+                SizedBox(height: 12.h),
+
+                /// Confirm Password
                 Text(
-                  'CONFIRM PASSWORD',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  localization.confirmPassword,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
+
                 SizedBox(height: 8.h),
 
                 AuthTextField(
                   controller: confirmPasswordController,
-                  hintText: "confirm password",
+                  hintText: localization.confirmPasswordHint,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: isObscure3,
                   prefix: ContainerIcons(icon: "assets/images/lock.png"),
-
                   suffix: InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashFactory: NoSplash.splashFactory,
                     onTap: () {
                       setState(() {
                         isObscure3 = !isObscure3;
                       });
                     },
-
                     child: ContainerIcons(
                       icon: isObscure3
                           ? "assets/images/show.png"
@@ -180,22 +184,24 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        value.length < 8 ||
-                        value != passwordController.text) {
-                      if (value!.length < 8) {
-                        return 'Password must be at least 8 characters';
-                      }
-                      if (value != passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return 'Please enter your password';
+                    if (value == null || value.isEmpty) {
+                      return localization.pleaseEnterYourPassword;
                     }
+
+                    if (value.length < 8) {
+                      return localization.passwordMustBeAtLeast8Characters;
+                    }
+
+                    if (value != passwordController.text) {
+                      return localization.passwordsDoNotMatch;
+                    }
+
                     return null;
                   },
                 ),
-                SizedBox(height: 8.h),
+
+                SizedBox(height: 16.h),
+
                 BlocConsumer<UserCubit, UserState>(
                   listener: (context, state) {
                     if (state is UpdatePasswordSuccess) {
@@ -208,6 +214,7 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                       confirmPasswordController.clear();
 
                       Navigator.pop(context, true);
+
                       context.read<UserCubit>().getUserProfile();
                     }
 
@@ -217,12 +224,13 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                       ).showSnackBar(SnackBar(content: Text(state.message)));
                     }
                   },
-
                   builder: (context, state) {
                     if (state is UpdatePasswordLoading) {
                       return Center(
                         child: SpinKitSpinningLines(
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(
+                            context,
+                          ).textTheme.headlineSmall!.color!,
                           size: 30.sp,
                         ),
                       );
@@ -230,15 +238,14 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
 
                     return MainButton(
                       mainAxisSize: MainAxisSize.max,
-                      content: "Save",
+                      content: localization.save,
                       textStyle: Theme.of(context).textTheme.headlineSmall,
                       buttonStyle: Theme.of(context).elevatedButtonTheme.style,
-
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           await context.read<UserCubit>().updatePassword(
-                            currentPasswordController.text,
-                            passwordController.text,
+                            currentPasswordController.text.trim(),
+                            passwordController.text.trim(),
                           );
                         }
                       },
@@ -251,5 +258,14 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    currentPasswordController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+
+    super.dispose();
   }
 }

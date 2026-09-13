@@ -54,10 +54,9 @@ class ModalBottomSheet extends StatelessWidget {
           Text(
             title!,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
               color: actionText == "Delete"
                   ? AppColors.error
-                  : AppColors.textPrimary,
+                  : Theme.of(context).textTheme.headlineSmall?.color,
             ),
           ),
           if (child == null) SizedBox(height: 8.h),
@@ -91,11 +90,7 @@ class ModalBottomSheet extends StatelessWidget {
               alignment: AlignmentGeometry.center,
               child: Text(
                 hintText,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
-                ),
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
           if (child != null) child!,
@@ -152,10 +147,7 @@ class ModalBottomSheet extends StatelessWidget {
                   },
                   child: Text(
                     "Cancel",
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: Theme.of(context).hintColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
                 TextButton(
@@ -164,9 +156,8 @@ class ModalBottomSheet extends StatelessWidget {
                     actionText!,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: actionText == "Deploy"
-                          ? AppColors.textPrimary
+                          ? Theme.of(context).textTheme.headlineSmall?.color
                           : AppColors.error,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

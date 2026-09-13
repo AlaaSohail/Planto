@@ -47,7 +47,7 @@ class PlantCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   imageUrl: imageUrl ?? '',
                   placeholder: (context, url) => SpinKitSpinningLines(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).textTheme.headlineSmall!.color!,
                     size: 30.sp,
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -64,20 +64,14 @@ class PlantCard extends StatelessWidget {
                     name ?? 'Unknown Plant',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 16.sp,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
 
                   Text(
                     species ?? 'Unknown species',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey.shade700,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   SizedBox(height: 4.h),
                   LinearPercentIndicator(

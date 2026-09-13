@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../controllers/cubit/plant_cubit/plant_cubit.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
 import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
@@ -17,7 +18,8 @@ class AddPlantManualScreen extends StatefulWidget {
   const AddPlantManualScreen({super.key});
 
   @override
-  State<AddPlantManualScreen> createState() => _AddPlantManualScreenState();
+  State<AddPlantManualScreen> createState() =>
+      _AddPlantManualScreenState();
 }
 
 class _AddPlantManualScreenState extends State<AddPlantManualScreen> {
@@ -26,17 +28,14 @@ class _AddPlantManualScreenState extends State<AddPlantManualScreen> {
   final _speciesController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.transparent,
-          title: AppTheme.plantCareAILogo(),
+          title: AppTheme.plantCareAILogo(context),
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: AppTheme.backButton(context),
@@ -44,103 +43,150 @@ class _AddPlantManualScreenState extends State<AddPlantManualScreen> {
         body: BlocConsumer<PlantCubit, PlantState>(
           listener: (context, state) {
             if (state is PlantError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
             }
           },
           builder: (context, state) {
             return SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.all(16.0.r),
+                padding: EdgeInsets.all(16.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Center(
                       child: GestureDetector(
-                        onTap: () {
-                          ImagePicker()
-                              .pickImage(source: ImageSource.gallery)
-                              .then(
-                                (value) => context
-                                    .read<PlantCubit>()
-                                    .uploadPlantImage(value!),
-                              );
+                        onTap: () async {
+                          final image = await ImagePicker().pickImage(
+                            source: ImageSource.gallery,
+                          );
+
+                          if (image == null || !context.mounted) {
+                            return;
+                          }
+
+                          await context
+                              .read<PlantCubit>()
+                              .uploadPlantImage(image);
                         },
                         child: context.read<PlantCubit>().plantImage == null
                             ? CircleAvatar(
-                                radius: 50,
-                                backgroundImage: AssetImage(
-                                  "assets/images/plant.png",
-                                ),
-                              )
+                          backgroundColor:
+                          AppColors.secondary.withOpacity(0.2),
+                          radius: 50.r,
+                          backgroundImage: const AssetImage(
+                            "assets/images/plant.png",
+                          ),
+                        )
                             : CircleAvatar(
-                                radius: 50.r,
-                                backgroundImage: FileImage(
-                                  File(
-                                    context.read<PlantCubit>().plantImage!.path,
-                                  ),
-                                ),
-                              ),
+                          radius: 50.r,
+                          backgroundImage: FileImage(
+                            File(
+                              context
+                                  .read<PlantCubit>()
+                                  .plantImage!
+                                  .path,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
+
                     SizedBox(height: 16.h),
+
                     Text(
-                      "Plant Name",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textPrimary,
-                      ),
+                      localization.plantName,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
+
                     SizedBox(height: 8.h),
+
                     AuthTextField(
                       controller: _nameController,
                       keyboardType: TextInputType.text,
-
-                      hintText: "Enter plant name",
-                      prefix: ContainerIcons(icon: "assets/images/leafs.png"),
-                    ),
-                    SizedBox(height: 16.h),
-                    Text(
-                      "Species",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textPrimary,
+                      hintText: localization.enterPlantName,
+                      prefix: ContainerIcons(
+                        icon: "assets/images/leafs.png",
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return localization.pleaseEnterPlantName;
+                        }
+
+                        return null;
+                      },
                     ),
+
+                    SizedBox(height: 16.h),
+
+                    Text(
+                      localization.species,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+
                     SizedBox(height: 8.h),
+
                     AuthTextField(
                       controller: _speciesController,
                       keyboardType: TextInputType.text,
-                      hintText: "Enter plant Species",
-                      prefix: ContainerIcons(icon: "assets/images/species.png"),
-                    ),
-                    SizedBox(height: 16.h),
-                    Text(
-                      "Description",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textPrimary,
+                      hintText: localization.enterPlantSpecies,
+                      prefix: ContainerIcons(
+                        icon: "assets/images/species.png",
                       ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return localization.pleaseEnterPlantSpecies;
+                        }
+
+                        return null;
+                      },
                     ),
+
+                    SizedBox(height: 16.h),
+
+                    Text(
+                      localization.description,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+
                     SizedBox(height: 8.h),
+
                     AuthTextField(
                       controller: _descriptionController,
                       keyboardType: TextInputType.text,
-
-                      hintText: "Enter plant description",
+                      hintText: localization.enterPlantDescription,
                       prefix: ContainerIcons(
                         icon: "assets/images/document.png",
                       ),
                     ),
+
                     SizedBox(height: 16.h),
+
                     MainButton(
                       mainAxisSize: MainAxisSize.max,
                       onPressed: () async {
-                        context.read<PlantCubit>().addPlant(
-                          _nameController.text,
-                          _speciesController.text,
-                          context.read<PlantCubit>().plantImage,
-                          _descriptionController.text,
+                        if (_nameController.text.trim().isEmpty ||
+                            _descriptionController.text.trim().isEmpty ||
+                            _speciesController.text.trim().isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                localization.pleaseFillAllFields,
+                              ),
+                            ),
+                          );
 
+                          return;
+                        }
+
+                        await context.read<PlantCubit>().addPlant(
+                          _nameController.text.trim(),
+                          _speciesController.text.trim(),
+                          context.read<PlantCubit>().plantImage,
+                          _descriptionController.text.trim(),
                           null,
                           0,
                           null,
@@ -154,17 +200,17 @@ class _AddPlantManualScreenState extends State<AddPlantManualScreen> {
                         _nameController.clear();
                         _descriptionController.clear();
                         _speciesController.clear();
+
                         context.read<PlantCubit>().plantImage = null;
                       },
-                      icon: Icon(Icons.add, color: Colors.white),
-                      content: "Add Plant",
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                      content: localization.addPlant,
                       buttonStyle: AppButtonTheme.theme.style,
-                      textStyle: Theme.of(context).textTheme.bodyLarge
-                          ?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 20.sp,
-                          ),
+                      textStyle:
+                      Theme.of(context).textTheme.headlineSmall,
                     ),
                   ],
                 ),
@@ -181,6 +227,7 @@ class _AddPlantManualScreenState extends State<AddPlantManualScreen> {
     _nameController.dispose();
     _descriptionController.dispose();
     _speciesController.dispose();
+
     super.dispose();
   }
 }

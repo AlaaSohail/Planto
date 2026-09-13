@@ -57,7 +57,7 @@ class _PostCardState extends State<PostCard> {
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       elevation: 4,
-      color: Colors.grey.shade50,
+      color: Color(0xffA7E39A).withOpacity(0.2),
       clipBehavior: Clip.antiAlias,
 
       child: Column(
@@ -103,6 +103,9 @@ class _PostCardState extends State<PostCard> {
                               'assets/images/menu.png',
                               width: 20.w,
                               height: 20.h,
+                              color: isDark(context)
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                             onPressed: () async {
                               final RenderBox button =
@@ -134,7 +137,9 @@ class _PostCardState extends State<PostCard> {
                                   borderRadius: BorderRadius.circular(16.r),
                                 ),
                                 elevation: 4,
-                                color: Colors.white,
+                                color: Theme.of(
+                                  context,
+                                ).scaffoldBackgroundColor,
                                 items: const [
                                   PopupMenuItem<String>(
                                     value: 'Delete',
@@ -173,10 +178,7 @@ class _PostCardState extends State<PostCard> {
                       ? TextDirection.rtl
                       : TextDirection.ltr,
 
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
 
                 SizedBox(height: 10.h),
@@ -230,6 +232,10 @@ class _PostCardState extends State<PostCard> {
                   return Row(
                     children: [
                       InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
                         onTap: () {
                           if (widget.postId != null) {
                             cubit.addLike(widget.postId!);
@@ -275,6 +281,7 @@ class _PostCardState extends State<PostCard> {
                           "assets/images/comment.png",
                           width: 20.w,
                           height: 20.h,
+                          color: Colors.grey,
                         ),
                       ),
 

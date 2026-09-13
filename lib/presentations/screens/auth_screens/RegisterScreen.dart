@@ -11,6 +11,7 @@ import 'package:simple_icons/simple_icons.dart';
 
 import '../../../controllers/cubit/user_cubit/user_cubit.dart';
 import '../../../controllers/services/location_service.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
 import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
@@ -98,6 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
+    final localization = AppLocalizations.of(context)!;
 
     return SafeArea(
       child: BlocConsumer<UserCubit, UserState>(
@@ -126,10 +128,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: Color(0xfff7fbf5),
-
             appBar: AppBar(
-              title: AppTheme.plantCareAILogo(),
+              title: AppTheme.plantCareAILogo(context),
               leadingWidth: 55.w,
               leading: AppTheme.backButton(context),
             ),
@@ -150,16 +150,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               height: MediaQuery.of(context).size.height * 0.05,
                             ),
                             Text(
-                              "Join Planto",
-                              style: Theme.of(context).textTheme.headlineLarge
-                                  ?.copyWith(
-                                    color: AppColors.textPrimary,
-                                    fontSize: 24.sp,
-                                  ),
+                              localization.registerJoinPlanto,
+                              style: Theme.of(context).textTheme.headlineLarge,
                             ),
                             SizedBox(height: 4.h),
                             Text(
-                              'Create an account to start growing',
+                              localization.registerSubtitle,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             SizedBox(height: 20.h),
@@ -172,21 +168,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'FULL NAME',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: AppColors.textPrimary,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    localization.registerFullName,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
                                   AuthTextField(
                                     controller: nameController,
                                     keyboardType: TextInputType.name,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please enter your name';
+                                        return localization.registerEnterName;
                                       }
                                       return null;
                                     },
@@ -194,33 +186,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       icon: "assets/images/user.png",
                                     ),
                                     obscureText: false,
-                                    hintText: "enter your name",
+                                    hintText: localization.registerEnterName,
                                   ),
 
                                   Text(
-                                    'EMAIL ADDRESS',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: AppColors.textPrimary,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    localization.registerEmailAddress,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
                                   AuthTextField(
                                     controller: emailController,
                                     keyboardType: TextInputType.emailAddress,
 
                                     validator: (value) {
-                                      if (value!.isEmpty || value == null) {
-                                        return "Enter your email";
+                                      if (value == null || value.isEmpty) {
+                                        return localization.registerEnterEmail;
                                       }
+
                                       if (!RegExp(
                                         r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                                       ).hasMatch(value)) {
-                                        return "Enter valid email";
+                                        return localization.registerValidEmail;
                                       }
-
                                       return null;
                                     },
 
@@ -233,19 +221,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   SizedBox(height: 4),
                                   Text(
-                                    'PASSWORD',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: AppColors.textPrimary,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    localization.registerPassword,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
 
                                   AuthTextField(
                                     controller: passwordController,
-                                    hintText: "Min 8 characters",
+                                    hintText:
+                                        localization.registerMinCharacters,
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: isObscure,
                                     prefix: ContainerIcons(
@@ -253,6 +238,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
 
                                     suffix: InkWell(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      splashFactory: NoSplash.splashFactory,
                                       onTap: () {
                                         setState(() {
                                           isObscure = !isObscure;
@@ -266,31 +256,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                     ),
                                     validator: (value) {
-                                      if (value == null ||
-                                          value.isEmpty ||
-                                          value.length < 8) {
-                                        if (value!.length < 8) {
-                                          return 'Password must be at least 8 characters';
-                                        }
-                                        return 'Please enter your password';
+                                      if (value == null || value.isEmpty) {
+                                        return localization
+                                            .registerPleaseEnterPassword;
+                                      }
+
+                                      if (value.length < 8) {
+                                        return localization
+                                            .registerPasswordMinLength;
                                       }
                                       return null;
                                     },
                                   ),
                                   Text(
-                                    'CONFIRM PASSWORD',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: AppColors.textPrimary,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    localization.registerConfirmPassword,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
 
                                   AuthTextField(
                                     controller: confirmPasswordController,
-                                    hintText: "confirm password",
+                                    hintText: localization
+                                        .registerConfirmPasswordHint,
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: isObscure2,
                                     prefix: ContainerIcons(
@@ -298,6 +286,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
 
                                     suffix: InkWell(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      splashFactory: NoSplash.splashFactory,
                                       onTap: () {
                                         setState(() {
                                           isObscure2 = !isObscure2;
@@ -311,17 +304,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                     ),
                                     validator: (value) {
-                                      if (value == null ||
-                                          value.isEmpty ||
-                                          value.length < 8 ||
-                                          value != passwordController.text) {
-                                        if (value!.length < 8) {
-                                          return 'Password must be at least 8 characters';
-                                        }
-                                        if (value != passwordController.text) {
-                                          return 'Passwords do not match';
-                                        }
-                                        return 'Please enter your password';
+                                      if (value == null || value.isEmpty) {
+                                        return localization
+                                            .registerPleaseEnterPassword;
+                                      }
+
+                                      if (value.length < 8) {
+                                        return localization
+                                            .registerPasswordMinLength;
+                                      }
+
+                                      if (value != passwordController.text) {
+                                        return localization
+                                            .registerPasswordsNotMatch;
                                       }
                                       return null;
                                     },
@@ -362,16 +357,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               context,
                                             ).textTheme.bodyMedium,
                                             children: [
-                                              const TextSpan(
-                                                text:
-                                                    "By creating an account, you agree to our ",
+                                              TextSpan(
+                                                text: localization
+                                                    .registerTermsText,
                                               ),
                                               TextSpan(
-                                                text: "Terms of Service",
-                                                style: const TextStyle(
-                                                  color: AppColors.textPrimary,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
+                                                text: localization
+                                                    .registerTermsOfService,
+
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                      color:
+                                                          AppColors.secondary,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                    ),
                                                 recognizer:
                                                     TapGestureRecognizer()
                                                       ..onTap = () {
@@ -384,13 +386,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                         );
                                                       },
                                               ),
-                                              const TextSpan(text: " and "),
                                               TextSpan(
-                                                text: "Privacy Policy",
-                                                style: const TextStyle(
-                                                  color: AppColors.textPrimary,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
+                                                text:
+                                                    ' ${localization.registerAnd} ',
+                                              ),
+                                              TextSpan(
+                                                text: localization
+                                                    .registerPrivacyPolicy,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                      color:
+                                                          AppColors.secondary,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                    ),
+
                                                 recognizer:
                                                     TapGestureRecognizer()
                                                       ..onTap = () {
@@ -417,8 +429,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                                       return MainButton(
                                         content: isLoading
-                                            ? "Signing Up..."
-                                            : "Sign Up",
+                                            ? localization.registerSigningUp
+                                            : localization.registerSignUp,
 
                                         icon: isLoading
                                             ? SpinKitDualRing(
@@ -460,13 +472,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                                         mainAxisSize: MainAxisSize.max,
 
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall
-                                            ?.copyWith(
-                                              color: AppColors.textPrimary,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                        textStyle: Theme.of(
+                                          context,
+                                        ).textTheme.headlineSmall,
 
                                         buttonStyle: AppButtonTheme.theme.style!
                                             .copyWith(),
@@ -487,7 +495,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                                 Text(
-                                  "Or continue with",
+                                    localization.registerOrContinueWith,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 Expanded(
@@ -540,25 +548,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Text("Don't have an account?"),
+                                Text(localization.registerAlreadyHaveAccount),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       CupertinoPageRoute(
-                                        builder: (_) => RegisterScreen(),
+                                        builder: (_) => LoginScreen(),
                                       ),
                                     );
                                   },
                                   child: Text(
-                                    "Sign Up Free",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: AppColors.textPrimary,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                    localization.registerSignIn,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
                                 ),
                               ],

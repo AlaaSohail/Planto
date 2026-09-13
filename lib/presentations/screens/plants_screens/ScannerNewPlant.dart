@@ -1,27 +1,25 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:plant_care/controllers/cubit/plant_cubit/plant_cubit.dart';
-import 'package:plant_care/controllers/models/ai_model.dart';
 import 'package:plant_care/presentations/themes/app_colors.dart';
 import 'package:plant_care/presentations/widgets/BadgeContainer.dart';
 import 'package:plant_care/presentations/widgets/MainButton.dart';
 import 'package:plant_care/presentations/widgets/ModalBottomSheet.dart';
-import 'package:plant_care/presentations/widgets/PlantCard.dart';
 import 'package:plant_care/presentations/widgets/QuickActionsCard.dart';
 
 import '../../../controllers/cubit/ai_cubit/ai_cubit.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
 import '../../themes/app_theme.dart';
 
 class ScannerNewPlant extends StatefulWidget {
-  ScannerNewPlant({super.key});
+  const ScannerNewPlant({super.key});
 
   @override
   State<ScannerNewPlant> createState() => _ScannerNewPlantState();
@@ -30,8 +28,9 @@ class ScannerNewPlant extends StatefulWidget {
 class _ScannerNewPlantState extends State<ScannerNewPlant> {
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return Scaffold(
-      backgroundColor: Color(0xfff7fbf5),
       extendBodyBehindAppBar: true,
 
       appBar: AppBar(
@@ -39,6 +38,7 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -53,13 +53,11 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                           width: MediaQuery.of(context).size.width * 0.5,
                           height: MediaQuery.of(context).size.height * 0.5,
                         ),
+
                         Text(
-                          'Analyzing Your Plant with AI ...',
-                          style: Theme.of(context).textTheme.headlineSmall
-                              ?.copyWith(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          localization.analyzingPlantWithAI,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       ],
                     ),
@@ -82,57 +80,61 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                         height: 250.h,
                         fit: BoxFit.cover,
                       ),
+
                       Container(
                         width: double.infinity,
-
                         padding: EdgeInsets.all(16.r),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(14.r),
                           color: Colors.white,
                         ),
-
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      result.plantName,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall
-                                          ?.copyWith(
-                                            color: Theme.of(
-                                              context,
-                                            ).primaryColor,
-                                          ),
-                                    ),
-                                    Text(
-                                      result.species,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge,
-                                    ),
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        result.plantName,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.headlineSmall,
+                                      ),
+
+                                      Text(
+                                        result.species,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyLarge,
+                                      ),
+                                    ],
+                                  ),
                                 ),
+
+                                SizedBox(width: 8.w),
 
                                 BadgeContainer(
                                   textStyle: Theme.of(
                                     context,
                                   ).textTheme.bodyMedium,
                                   color: AppColors.primary,
-                                  content:
-                                      '${result.confidence * 100}% Confidence',
+                                  content: localization.confidencePercent(
+                                    (result.confidence * 100).toStringAsFixed(
+                                      1,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
+
                             SizedBox(height: 16.h),
+
                             Divider(
                               color: Colors.grey.withOpacity(0.3),
                               thickness: 1.h,
@@ -140,46 +142,38 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                               indent: 16.w,
                               endIndent: 16.w,
                             ),
+
                             SizedBox(height: 16.h),
+
                             Align(
-                              alignment: Alignment.centerLeft,
+                              alignment: AlignmentDirectional.centerStart,
                               child: Text(
-                                'Health Score',
-                                style: Theme.of(context).textTheme.bodyLarge
-                                    ?.copyWith(
-                                      color: AppColors.textPrimary,
-                                      fontWeight: FontWeight.w900,
-                                    ),
+                                localization.healthScore,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
                             ),
+
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-
                               children: [
                                 CircularPercentIndicator(
                                   radius: 40.r,
                                   backgroundColor: AppColors.primary
                                       .withOpacity(0.1),
-
-                                  lineWidth: 8.0.w,
-
+                                  lineWidth: 8.w,
                                   percent: result.healthScore / 100,
                                   circularStrokeCap: CircularStrokeCap.round,
                                   center: Text(
-                                    '${(result.healthScore).toStringAsFixed(0)}%',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall
-                                        ?.copyWith(
-                                          color: AppColors.textPrimary,
-                                        ),
+                                    '${result.healthScore.toStringAsFixed(0)}%',
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.headlineSmall,
                                   ),
-
                                   progressColor: AppColors.secondary,
-
                                   animation: true,
                                   animationDuration: 1000,
                                 ),
+
                                 SizedBox(width: 32.w),
 
                                 Expanded(
@@ -188,23 +182,15 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                       children: [
                                         TextSpan(
                                           text: '${result.healthStatus}\n\n',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineSmall
-                                              ?.copyWith(
-                                                color: AppColors.textPrimary,
-                                              ),
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.headlineSmall,
                                         ),
-
                                         TextSpan(
                                           text: result.recommendation,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith(
-                                                color: AppColors.textSecondary,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyMedium,
                                         ),
                                       ],
                                     ),
@@ -212,15 +198,16 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                 ),
                               ],
                             ),
+
                             SizedBox(height: 16.h),
 
                             Divider(
                               color: Colors.grey.withOpacity(0.3),
                               thickness: 1.h,
                               height: 1.h,
-
                               endIndent: 16.w,
                             ),
+
                             SizedBox(height: 12.h),
 
                             SizedBox(
@@ -228,11 +215,10 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                padding: EdgeInsets.all(0),
-
+                                padding: EdgeInsets.zero,
                                 children: [
                                   QuickActionsCard(
-                                    title: 'Disease',
+                                    title: localization.disease,
                                     onTap: () {
                                       showModalBottomSheet(
                                         context: context,
@@ -241,7 +227,7 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                             hintText: result.disease,
                                             actionText: '',
                                             onPress: () {},
-                                            title: 'Disease',
+                                            title: localization.disease,
                                             child: null,
                                           );
                                         },
@@ -250,8 +236,9 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                     icon: 'assets/images/virus.png',
                                     color: Colors.white,
                                   ),
+
                                   QuickActionsCard(
-                                    title: 'Fertilize',
+                                    title: localization.fertilize,
                                     onTap: () {
                                       showModalBottomSheet(
                                         context: context,
@@ -260,7 +247,7 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                             hintText: result.fertilizerAdvice,
                                             actionText: '',
                                             onPress: () {},
-                                            title: 'Fertilize',
+                                            title: localization.fertilize,
                                             child: null,
                                           );
                                         },
@@ -271,7 +258,7 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                   ),
 
                                   QuickActionsCard(
-                                    title: 'Water',
+                                    title: localization.water,
                                     onTap: () {
                                       showModalBottomSheet(
                                         context: context,
@@ -280,7 +267,8 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                             hintText: result.wateringAdvice,
                                             actionText: '',
                                             onPress: () {},
-                                            title: 'Watering Instructions',
+                                            title: localization
+                                                .wateringInstructions,
                                             child: null,
                                           );
                                         },
@@ -289,8 +277,9 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                     icon: 'assets/images/watering.png',
                                     color: Colors.white,
                                   ),
+
                                   QuickActionsCard(
-                                    title: 'Sunlight',
+                                    title: localization.sunlight,
                                     onTap: () {
                                       showModalBottomSheet(
                                         context: context,
@@ -299,7 +288,8 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                             hintText: result.sunlightAdvice,
                                             actionText: '',
                                             onPress: () {},
-                                            title: 'Sunlight Instructions',
+                                            title: localization
+                                                .sunlightInstructions,
                                             child: null,
                                           );
                                         },
@@ -311,10 +301,11 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                 ],
                               ),
                             ),
+
                             SizedBox(height: 12.h),
 
                             MainButton(
-                              content: 'Save Plant',
+                              content: localization.savePlant,
                               onPressed: () async {
                                 await context.read<PlantCubit>().addPlant(
                                   result.plantName,
@@ -332,14 +323,9 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                 );
                               },
                               mainAxisSize: MainAxisSize.max,
-                              textStyle: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.copyWith(
-                                    color: AppColors.textPrimary,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-
+                              textStyle: Theme.of(
+                                context,
+                              ).textTheme.headlineSmall,
                               buttonStyle: AppButtonTheme.theme.style!
                                   .copyWith(),
                             ),
@@ -361,16 +347,5 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<PlantCubit>();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

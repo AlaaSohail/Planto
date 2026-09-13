@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import 'package:plant_care/controllers/cubit/plant_cubit/plant_cubit.dart';
 import 'package:plant_care/presentations/screens/plants_screens/AddPlantManualScreen.dart';
 import 'package:plant_care/presentations/widgets/PlantCard.dart';
-import 'package:plant_care/presentations/widgets/QuickActionsCard.dart';
-import '../../../controllers/models/plant_model.dart';
-import '../../themes/app_colors.dart';
+
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/ContainerIcons.dart';
 import '../../widgets/PlantStatistics.dart';
@@ -16,7 +16,10 @@ import '../../widgets/SearchTextField.dart';
 import 'PlantDetailsScreen.dart';
 
 class GetPlantScreen extends StatefulWidget {
-  const GetPlantScreen({super.key, required this.onBackToHome});
+  const GetPlantScreen({
+    super.key,
+    required this.onBackToHome,
+  });
 
   final VoidCallback onBackToHome;
 
@@ -35,9 +38,10 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xfff7fbf5),
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -57,92 +61,108 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: "Your Collection\n",
+                  text: "${localization.yourCollection}\n",
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 TextSpan(
-                  text: "My Plants",
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  text: localization.myPlants,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ],
             ),
           ),
-
           actions: [
             Padding(
-              padding: EdgeInsets.only(right: 16.w),
+              padding: EdgeInsetsDirectional.only(end: 16.w),
               child: InkWell(
                 focusColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 hoverColor: Colors.transparent,
-
-                child: ContainerIcons(icon: 'assets/images/plus.png'),
+                child: ContainerIcons(
+                  icon: 'assets/images/plus.png',
+                ),
                 onTap: () {
                   Navigator.push(
                     context,
-                    CupertinoPageRoute(builder: (_) => AddPlantManualScreen()),
+                    CupertinoPageRoute(
+                      builder: (_) =>
+                      const AddPlantManualScreen(),
+                    ),
                   );
                 },
               ),
             ),
           ],
         ),
+
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-
                 children: [
                   SizedBox(height: 8.h),
+
                   SearchTextField(
-                    hintText: "Search plants ...",
-                    prefix: Icon(Icons.search_rounded, color: Colors.grey),
+                    hintText: localization.searchPlants,
+                    prefix: const Icon(
+                      Icons.search_rounded,
+                      color: Colors.grey,
+                    ),
                     controller: _searchController,
                     onChange: (value) {
-                      context.read<PlantCubit>().searchPlants(value!);
+                      context
+                          .read<PlantCubit>()
+                          .searchPlants(value ?? '');
                     },
                   ),
+
                   SizedBox(height: 8.h),
+
                   BlocConsumer<PlantCubit, PlantState>(
                     listener: (context, state) {
                       if (state is PlantError) {
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(SnackBar(content: Text(state.message)));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.message),
+                          ),
+                        );
                       }
                     },
                     builder: (context, state) {
                       if (state is PlantLoading) {
                         return Center(
                           child: SpinKitSpinningLines(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .color!,
                             size: 30.sp,
                           ),
                         );
-                      } else if (state is GetALLPlantSuccess) {
+                      }
+
+                      if (state is GetALLPlantSuccess) {
                         final plants = state.plants;
+
                         if (plants.isEmpty) {
-                          final isSearching = _searchController.text
-                              .trim()
-                              .isNotEmpty;
+                          final isSearching =
+                              _searchController.text.trim().isNotEmpty;
 
                           return SizedBox(
                             height: 190.h,
                             width: double.infinity,
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
                               children: [
                                 Text(
                                   isSearching
-                                      ? "No plants match your search"
-                                      : "No Plants Found",
+                                      ? localization.noPlantsMatchSearch
+                                      : localization.noPlantsFound,
+                                  textAlign: TextAlign.center,
                                 ),
 
                                 if (!isSearching)
@@ -152,53 +172,65 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                                         context,
                                         CupertinoPageRoute(
                                           builder: (_) =>
-                                              AddPlantManualScreen(),
+                                          const AddPlantManualScreen(),
                                         ),
                                       );
                                     },
-                                    child: const Text("Add Plant"),
+                                    child: Text(
+                                      localization.addPlant,
+                                    ),
                                   ),
                               ],
                             ),
                           );
                         }
+
                         final healthyCount = plants
-                            .where((plant) => plant.healthStatus == 'Healthy')
+                            .where(
+                              (plant) =>
+                          plant.healthStatus == 'Healthy',
+                        )
                             .length;
+
                         final diseasedCount = plants
-                            .where((plant) => plant.disease != 'None detected')
+                            .where(
+                              (plant) =>
+                          plant.disease != 'None detected',
+                        )
                             .length;
+
                         final notAnalyzedCount = plants
                             .where(
                               (plant) =>
-                                  plant.confidence == 0 ||
-                                  plant.confidence == null ||
-                                  plant.healthStatus == null,
-                            )
+                          plant.confidence == 0 ||
+                              plant.confidence == null ||
+                              plant.healthStatus == null,
+                        )
                             .length;
 
                         final actions = [
                           (
-                            title: 'Total',
-                            count: plants.length.toString(),
-                            icon: 'assets/images/3d_leaf.png',
+                          title: localization.total,
+                          count: plants.length.toString(),
+                          icon: 'assets/images/3d_leaf.png',
                           ),
                           (
-                            title: 'Healthy',
-                            count: healthyCount.toString(),
-                            icon: 'assets/images/healthy_plant.png',
+                          title: localization.healthy,
+                          count: healthyCount.toString(),
+                          icon: 'assets/images/healthy_plant.png',
                           ),
                           (
-                            title: 'Not Analyzed',
-                            count: notAnalyzedCount.toString(),
-                            icon: 'assets/images/analyze_plant.png',
+                          title: localization.notAnalyzed,
+                          count: notAnalyzedCount.toString(),
+                          icon: 'assets/images/analyze_plant.png',
                           ),
                           (
-                            title: 'Diseased',
-                            count: diseasedCount.toString(),
-                            icon: 'assets/images/virus.png',
+                          title: localization.diseased,
+                          count: diseasedCount.toString(),
+                          icon: 'assets/images/virus.png',
                           ),
                         ];
+
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -207,57 +239,66 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                             SizedBox(
                               height: 120.h,
                               child: Card(
+                                elevation: 2,
+                                color: const Color(0xffA7E39A)
+                                    .withOpacity(0.2),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.r),
+                                  borderRadius:
+                                  BorderRadius.circular(20.r),
                                 ),
-                                color: Colors.white,
-                                elevation: 4,
-
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: actions.length,
-                                  physics: NeverScrollableScrollPhysics(),
-
+                                child: Padding(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 8.w,
-                                    vertical: 8.h,
                                   ),
-                                  itemBuilder: (context, index) {
-                                    final action = actions[index];
-                                    return PlantStatistics(
-                                      title: action.title,
-                                      count: action.count,
-                                      icon: action.icon,
-                                    );
-                                  },
+                                  child: Row(
+                                    children: actions.map((action) {
+                                      return Expanded(
+                                        child: PlantStatistics(
+                                          title: action.title,
+                                          count: action.count,
+                                          icon: action.icon,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
                                 ),
                               ),
                             ),
+
+                            SizedBox(height: 8.h),
+
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 1,
+                              height:
+                              MediaQuery.of(context).size.height,
                               child: GridView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics:
+                                const NeverScrollableScrollPhysics(),
                                 itemCount: plants.length,
                                 gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 12,
-                                      mainAxisSpacing: 12,
-                                      childAspectRatio: 0.75,
-                                    ),
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio: 0.75,
+                                ),
                                 itemBuilder: (context, index) {
                                   final plant = plants[index];
+
                                   return InkWell(
                                     focusColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
+                                    highlightColor:
+                                    Colors.transparent,
                                     splashColor: Colors.transparent,
                                     hoverColor: Colors.transparent,
-
                                     onTap: () {
                                       Navigator.push(
                                         context,
                                         CupertinoPageRoute(
                                           builder: (context) =>
-                                              PlantDetailsScreen(plant: plant),
+                                              PlantDetailsScreen(
+                                                plant: plant,
+                                              ),
                                         ),
                                       );
                                     },
@@ -275,7 +316,8 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                           ],
                         );
                       }
-                      return SizedBox();
+
+                      return const SizedBox();
                     },
                   ),
                 ],

@@ -5,28 +5,26 @@ import '../../controllers/core/functions/IsArabic.dart';
 import '../themes/app_colors.dart';
 
 class AuthTextField extends StatefulWidget {
-  AuthTextField({
+  const AuthTextField({
     super.key,
     required this.controller,
     required this.hintText,
+    required this.keyboardType,
     this.suffix,
     this.prefix,
-    this.obscureText,
+    this.obscureText = false,
     this.validator,
-    this.readOnly,
-    this.initialValue,
-    required TextInputType keyboardType,
+    this.readOnly = false,
   });
 
-  InkWell? suffix;
-  Widget? prefix;
-  String hintText;
-  bool? obscureText;
-  String? Function(String?)? validator;
-  TextEditingController controller;
-  TextInputType? keyboardType;
-  bool? readOnly;
-  String? initialValue;
+  final TextEditingController controller;
+  final String hintText;
+  final TextInputType keyboardType;
+  final Widget? suffix;
+  final Widget? prefix;
+  final bool obscureText;
+  final String? Function(String?)? validator;
+  final bool readOnly;
 
   @override
   State<AuthTextField> createState() => _AuthTextFieldState();
@@ -34,54 +32,54 @@ class AuthTextField extends StatefulWidget {
 
 class _AuthTextFieldState extends State<AuthTextField> {
   @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_onTextChanged);
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_onTextChanged);
+    super.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return TextFormField(
       controller: widget.controller,
-      readOnly: widget.readOnly ?? false,
-      initialValue: widget.initialValue,
+      readOnly: widget.readOnly,
       keyboardType: widget.keyboardType,
+      obscureText: widget.obscureText,
+
       textDirection: isArabic(widget.controller.text)
           ? TextDirection.rtl
           : TextDirection.ltr,
 
-      obscureText: widget.obscureText ?? false,
       validator: widget.validator,
+
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
         hintText: widget.hintText,
-        hintStyle: Theme.of(context).textTheme.bodyMedium,
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: AppColors.primary, width: 0.5.w),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 0.5.w, color: Colors.red),
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 0.5.w, color: Colors.red),
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: AppColors.primary, width: 1.w),
-        ),
+        suffixIcon: widget.suffix,
+        prefixIcon: widget.prefix,
         errorStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
           color: Colors.red,
           fontWeight: FontWeight.w600,
           fontSize: 12.sp,
         ),
-        suffixIcon: widget.suffix,
-
-        prefixIcon: widget.prefix,
       ),
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-        color: Colors.black,
+      style: textTheme.bodyMedium?.copyWith(
+        color: isDark ? Colors.white : Colors.black,
         fontWeight: FontWeight.w500,
-        fontSize: 18.sp,
+        fontSize: 16.sp,
       ),
+
       cursorColor: AppColors.primary,
       textInputAction: TextInputAction.next,
       autovalidateMode: AutovalidateMode.onUserInteraction,

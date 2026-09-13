@@ -7,6 +7,7 @@ import 'package:plant_care/controllers/cubit/user_cubit/user_cubit.dart';
 import 'package:plant_care/presentations/screens/nav_bar_screens/NavBarScreen.dart';
 import 'package:plant_care/presentations/widgets/AuthTextField.dart';
 import 'package:simple_icons/simple_icons.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
 import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
@@ -44,6 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final userCubit = context.read<UserCubit>();
+    final localization = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
@@ -60,15 +63,13 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: Color(0xfff7fbf5),
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.transparent,
               shadowColor: Colors.transparent,
               elevation: 0,
-              title: AppTheme.plantCareAILogo(),
-              leadingWidth: 55.w,
-              leading: AppTheme.backButton(context),
+              title: AppTheme.plantCareAILogo(context),
+              leadingWidth: 16.w,
             ),
             body: LayoutBuilder(
               builder: (context, constraints) {
@@ -88,14 +89,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             Text(
-                              "Welcome back",
-                              style: Theme.of(context).textTheme.headlineLarge
-                                  ?.copyWith(color: AppColors.textPrimary),
+                              localization.loginWelcomeBack,
+                              style: Theme.of(context).textTheme.headlineLarge,
                             ),
                             SizedBox(height: 4.h),
 
                             Text(
-                              'Sign in to continue growing',
+                              localization.loginSubtitle,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             SizedBox(height: 20.h),
@@ -106,13 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'EMAIL ADDRESS',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: AppColors.textPrimary,
-                                        ),
+                                    localization.loginEmailAddress,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
                                   SizedBox(height: 4.h),
                                   AuthTextField(
@@ -121,13 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return "Enter your email";
+                                        return localization.loginEnterEmail;
                                       }
 
                                       if (!RegExp(
                                         r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                                       ).hasMatch(value)) {
-                                        return "Enter valid email";
+                                        return localization.loginValidEmail;
                                       }
 
                                       return null;
@@ -137,22 +134,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                       icon: "assets/images/at.png",
                                     ),
                                     obscureText: false,
-                                    hintText: "example@alaasohail.com",
+                                    hintText: localization.loginEnterEmail,
                                   ),
                                   SizedBox(height: 8.h),
                                   Text(
-                                    'PASSWORD',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: AppColors.textPrimary,
-                                        ),
+                                    localization.loginPassword,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
                                   SizedBox(height: 4.h),
                                   AuthTextField(
                                     controller: passwordController,
-                                    hintText: "Enter your password",
+                                    hintText: localization.loginEnterPassword,
                                     keyboardType: TextInputType.visiblePassword,
                                     obscureText: isObscure,
                                     prefix: ContainerIcons(
@@ -160,6 +154,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
 
                                     suffix: InkWell(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      splashFactory: NoSplash.splashFactory,
+
                                       onTap: () {
                                         setState(() {
                                           isObscure = !isObscure;
@@ -175,11 +175,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please enter your password';
+                                        return localization
+                                            .loginPleaseEnterPassword;
                                       }
 
                                       if (value.length < 8) {
-                                        return 'Password must be at least 8 characters';
+                                        return localization
+                                            .loginPasswordMinLength;
                                       }
 
                                       return null;
@@ -215,14 +217,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                         }
                                       },
                                       child: Text(
-                                        "Forgot Password?",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: AppColors.textPrimary,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                        localization.loginForgotPassword,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium,
                                       ),
                                     ),
                                   ),
@@ -233,8 +231,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                       return MainButton(
                                         content: isLoading
-                                            ? "Signing in..."
-                                            : "Sign In",
+                                            ? localization.loginSigningIn
+                                            : localization.loginSignIn,
 
                                         icon: isLoading
                                             ? SpinKitDualRing(
@@ -263,13 +261,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                         mainAxisSize: MainAxisSize.max,
 
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall
-                                            ?.copyWith(
-                                              color: AppColors.textPrimary,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                        textStyle: Theme.of(
+                                          context,
+                                        ).textTheme.headlineSmall,
 
                                         buttonStyle: AppButtonTheme.theme.style!
                                             .copyWith(),
@@ -290,7 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 Text(
-                                  "Or continue with",
+                                  localization.loginOrContinueWith,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 Expanded(
@@ -342,7 +336,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                Text("Don't have an account?"),
+                                Text(localization.loginNoAccount),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.push(
@@ -353,14 +347,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     );
                                   },
                                   child: Text(
-                                    "Sign Up Free",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: AppColors.textPrimary,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                    localization.loginSignUpFree,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
                                 ),
                               ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../l10n/app_localizations.dart';
 
+import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/PlantProCard.dart';
 
@@ -14,17 +16,17 @@ class UpgradePlanScreen extends StatefulWidget {
 class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Color(0xfff7fbf5),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         elevation: 0,
-
         title: Text(
-          "Upgrade Plan",
+          localization.upgradePlan,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         leading: AppTheme.backButton(context),
@@ -33,73 +35,81 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16.0.r),
+            padding: EdgeInsets.all(16.r),
             child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-
                 children: [
-                  Image.asset("assets/images/pro-member.png", height: 100.h),
+                  Image.asset(
+                    "assets/images/pro-member.png",
+                    height: 100.h,
+                  ),
 
                   SizedBox(height: 16.h),
 
                   RichText(
+                    textAlign: TextAlign.center,
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "Unlock Your Full ",
-                          style: Theme.of(context).textTheme.headlineSmall
-                              ?.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          text: localization.unlockYourFull,
+                          style:
+                          Theme.of(context).textTheme.headlineSmall,
                         ),
                         TextSpan(
-                          text: "Garden Potential",
-                          style: Theme.of(context).textTheme.headlineSmall
+                          text: localization.gardenPotential,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
                               ?.copyWith(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            color: AppColors.secondary,
+                          ),
                         ),
                       ],
                     ),
                   ),
+
                   SizedBox(height: 8.h),
+
                   Text(
-                    'Join 50,000+ plant lovers who upgraded to Pro',
+                    localization.joinPlantLoversPro,
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
+
                   SizedBox(height: 16.h),
+
                   PlantProCard(
                     price: 0,
                     color: Colors.grey,
-                    title: "Free",
-                    buttonContent: "Current Plan",
-                    duration: "forever",
+                    title: localization.free,
+                    buttonContent: localization.currentPlan,
+                    duration: localization.forever,
                     image: 'assets/images/free.png',
                     feature: [
-                      "5 plant identifications/month",
-                      "Basic care reminders",
-                      "Plant library access",
-                      "Community access",
+                      localization.fivePlantIdentificationsPerMonth,
+                      localization.basicCareReminders,
+                      localization.plantLibraryAccess,
+                      localization.communityAccess,
                     ],
                   ),
+
                   SizedBox(height: 8.h),
 
                   PlantProCard(
                     price: 4.99,
-                    color: Color(0xfffff454),
-                    title: "Premium",
-                    buttonContent: "Start Free Trial",
-                    duration: "per month",
+                    color: const Color(0xfffff454),
+                    title: localization.premium,
+                    buttonContent: localization.startFreeTrial,
+                    duration: localization.perMonth,
                     image: 'assets/images/pro.png',
                     feature: [
-                      "Unlimited AI identifications",
-                      "AI Plant Doctor unlimited",
-                      "Smart care schedules",
-                      "Advanced plant analytics",
-                      "Priority support",
+                      localization.unlimitedAIIdentifications,
+                      localization.aiPlantDoctorUnlimited,
+                      localization.smartCareSchedules,
+                      localization.advancedPlantAnalytics,
+                      localization.prioritySupport,
+                      localization.noAds,
                     ],
                   ),
                 ],
@@ -109,15 +119,5 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

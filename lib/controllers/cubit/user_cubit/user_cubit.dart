@@ -400,8 +400,11 @@ class UserCubit extends Cubit<UserState> {
       emit(LoginSuccess());
     } on ServerException catch (e) {
       emit(LoginError(e.errorModel.errorMessage));
-    } catch (e) {
-      emit(LoginError(e.toString()));
+    } on GoogleSignInException catch (e) {
+      print('Google Error Code: ${e.code}');
+      print('Google Error Description: ${e.description}');
+
+      emit(LoginError('Google: ${e.code} - ${e.description}'));
     }
   }
 

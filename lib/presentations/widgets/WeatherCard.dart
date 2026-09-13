@@ -79,7 +79,8 @@ class WeatherCard extends StatelessWidget {
                         ),
                         TextSpan(
                           text: description!,
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(color: AppColors.textPrimary),
                         ),
                       ],
                     ),
@@ -109,7 +110,8 @@ class WeatherCard extends StatelessWidget {
                         ),
                         TextSpan(
                           text: 'Humidity',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Theme.of(context).primaryColor),
                         ),
                       ],
                     ),
@@ -143,7 +145,8 @@ class WeatherCard extends StatelessWidget {
                         ),
                         TextSpan(
                           text: 'Wind',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Theme.of(context).primaryColor),
                         ),
                       ],
                     ),

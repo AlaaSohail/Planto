@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
+import 'package:plant_care/controllers/core/functions/IsArabic.dart';
 
 import '../themes/app_colors.dart';
 
@@ -26,10 +27,17 @@ class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shadowColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-      color: widget.isChecked! ? Colors.grey.shade100 : Colors.white,
+      color: isDark(context)
+          ? widget.isChecked!
+                ? Color(0xffA7E39A).withOpacity(0.7)
+                : Color(0xffA7E39A).withOpacity(0.2)
+          : widget.isChecked!
+          ? Colors.grey.shade300
+          : Color(0xffA7E39A).withOpacity(0.1),
       child: Padding(
-        padding:  EdgeInsets.all(12.0.r),
+        padding: EdgeInsets.all(12.0.r),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +48,7 @@ class _TaskCardState extends State<TaskCard> {
               height: 40,
               decoration: BoxDecoration(
                 color: AppColors.primary,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
               child: Icon(widget.icon, color: Colors.white),
             ),
@@ -53,7 +61,6 @@ class _TaskCardState extends State<TaskCard> {
                 Text(
                   widget.title!,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppColors.textPrimary,
                     decoration: widget.isChecked!
                         ? TextDecoration.lineThrough
                         : null,

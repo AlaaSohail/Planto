@@ -12,12 +12,12 @@ class DioConsumer extends ApiConsumer {
     dio.options.baseUrl = ApiEndpoints.baseUrl;
     dio.interceptors.add(
       LogInterceptor(
-        request: true,
-        requestBody: true,
-        requestHeader: true,
-        responseBody: true,
-        responseHeader: true,
-        error: true,
+        request: false,
+        requestBody: false,
+        requestHeader: false,
+        responseBody: false,
+        responseHeader: false,
+        error: false,
       ),
     );
   }
@@ -91,7 +91,7 @@ class DioConsumer extends ApiConsumer {
         path,
         data: isFormData ? FormData.fromMap(data) : data,
         queryParameters: queryParameters,
-        options: options
+        options: options,
       );
       return response.data;
     } on DioException catch (e) {

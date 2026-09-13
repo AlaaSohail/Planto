@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:plant_care/controllers/core/functions/IsArabic.dart';
 import 'package:plant_care/presentations/screens/welcome_screens/BoardingScreen.dart';
 
 import '../../../controllers/cache/cache_helper.dart';
@@ -117,7 +118,6 @@ class _SplashScreenState extends State<SplashScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Color(0xfff7fbf5),
 
       body: Stack(
         children: [
@@ -141,7 +141,7 @@ class _SplashScreenState extends State<SplashScreen> {
             right: 0,
             child: Center(
               child: SpinKitSpinningLines(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).textTheme.headlineSmall!.color!,
                 size: 30.sp,
               ).animate().fadeIn(delay: 1200.ms).scale(),
             ),
@@ -164,26 +164,17 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Text(
               "CARE  ",
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge
             ),
             _buildDot(context),
             Text(
               "  PROTECT  ",
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge
             ),
             _buildDot(context),
             Text(
               "  GROW",
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge
             ),
           ],
         )
@@ -198,7 +189,7 @@ class _SplashScreenState extends State<SplashScreen> {
       width: 4.w,
       margin: EdgeInsets.symmetric(horizontal: 4.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: isDark(context)?Colors.white:Colors.black,
         shape: BoxShape.circle,
       ),
     );

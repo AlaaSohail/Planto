@@ -55,14 +55,14 @@ class _DropdownmenuState extends State<Dropdownmenu> {
         widget.hint,
         style: TextStyle(
           color: Colors.grey,
-          fontFamily: "Gordita",
+          fontFamily: "Nunito",
           fontSize: 14,
         ),
       ),
       iconSize: 20,
       style: TextStyle(
         color: Colors.black,
-        fontFamily: "Gordita",
+        fontFamily: "Nunito",
         fontSize: 16,
         fontWeight: FontWeight.w500,
       ),

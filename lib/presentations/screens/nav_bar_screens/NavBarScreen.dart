@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+
 import 'package:plant_care/presentations/screens/nav_bar_screens/HomeScreen.dart';
 import 'package:plant_care/presentations/screens/nav_bar_screens/ProfileScreen.dart';
 import 'package:plant_care/presentations/screens/plants_screens/GetPlantScreen.dart';
 import 'package:plant_care/presentations/themes/app_colors.dart';
 
+import '../../../l10n/app_localizations.dart';
 import 'CommunityScreen.dart';
 
 class NavBarScreen extends StatefulWidget {
@@ -39,26 +41,33 @@ class _NavBarScreenState extends State<NavBarScreen> {
           });
         },
       ),
-      CommunityScreen(() {
-        setState(() {
-          _selectedIndex = 0;
-        });
-      }),
-      ProfileScreen(),
+      CommunityScreen(
+            () {
+          setState(() {
+            _selectedIndex = 0;
+          });
+        },
+      ),
+      const ProfileScreen(),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return Scaffold(
-      body: IndexedStack(index: _selectedIndex, children: _widgetOptions),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _widgetOptions,
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.r),
             topRight: Radius.circular(20.r),
           ),
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           boxShadow: [
             BoxShadow(
               blurRadius: 20.r,
@@ -68,19 +77,23 @@ class _NavBarScreenState extends State<NavBarScreen> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 8.h),
+            padding: EdgeInsets.symmetric(
+              horizontal: 15.w,
+              vertical: 8.h,
+            ),
             child: GNav(
               rippleColor: Colors.green[300]!,
               hoverColor: Colors.green[100]!,
-
               activeColor: Colors.black,
               iconSize: 24.sp,
               backgroundColor: Colors.transparent,
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              duration: Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.green[100]!,
-
-              color: Colors.black,
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 12.h,
+              ),
+              duration: const Duration(milliseconds: 400),
+              tabBackgroundColor:
+              AppColors.secondary.withOpacity(0.3),
               tabs: [
                 GButton(
                   leading: Image.asset(
@@ -88,60 +101,67 @@ class _NavBarScreenState extends State<NavBarScreen> {
                     width: 20.w,
                     height: 20.h,
                     fit: BoxFit.contain,
+                    color: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .color!,
                   ),
                   gap: 8,
-                  text: 'Home',
-                  textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
+                  text: localization.home,
+                  textStyle:
+                  Theme.of(context).textTheme.bodyLarge,
                   icon: Icons.home_rounded,
                 ),
                 GButton(
                   icon: Icons.nature,
-                  text: 'Plants',
-                  textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
+                  text: localization.plants,
+                  textStyle:
+                  Theme.of(context).textTheme.bodyLarge,
                   leading: Image.asset(
                     'assets/images/leafs.png',
                     width: 20.w,
                     height: 20.h,
                     fit: BoxFit.contain,
+                    color: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .color!,
                   ),
                 ),
                 GButton(
                   icon: Icons.camera_alt_outlined,
-                  text: 'Community',
-                  textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
+                  text: localization.community,
+                  textStyle:
+                  Theme.of(context).textTheme.bodyLarge,
                   leading: Image.asset(
                     'assets/images/world.png',
                     width: 20.w,
                     height: 20.h,
                     fit: BoxFit.contain,
+                    color: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .color!,
                   ),
                 ),
                 GButton(
                   icon: Icons.person,
-                  text: 'Profile',
-                  textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w900,
-                  ),
+                  text: localization.profile,
+                  textStyle:
+                  Theme.of(context).textTheme.bodyLarge,
                   leading: Image.asset(
                     'assets/images/user.png',
                     width: 20.w,
                     height: 20.h,
                     fit: BoxFit.contain,
+                    color: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .color!,
                   ),
                 ),
               ],
               selectedIndex: _selectedIndex,
-
               onTabChange: (index) {
                 setState(() {
                   _selectedIndex = index;
@@ -152,10 +172,5 @@ class _NavBarScreenState extends State<NavBarScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -16,11 +17,14 @@ import 'package:plant_care/presentations/widgets/BadgeContainer.dart';
 import 'package:plant_care/presentations/widgets/ModalBottomSheet.dart';
 import 'package:plant_care/presentations/widgets/TipCard.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import '../../../controllers/cache/ad_helper.dart';
 import '../../../controllers/cache/cache_helper.dart';
+import '../../../controllers/core/functions/IsArabic.dart';
 import '../../../controllers/cubit/plant_cubit/plant_cubit.dart';
 import '../../../controllers/cubit/user_cubit/user_cubit.dart';
 import '../../../controllers/paths/ApiEndpoints.dart';
 import '../../../controllers/services/location_service.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_colors.dart';
 import '../../widgets/ContainerIcons.dart' show ContainerIcons;
 import '../../widgets/PlantCard.dart';
@@ -43,16 +47,70 @@ class _HomeScreenState extends State<HomeScreen> {
   final _searchController = TextEditingController();
   final hour = DateTime.now().hour;
 
+  BannerAd? _bannerAd;
+
+  @override
+  // void initState() {
+  //   super.initState();
+  //  BannerAd(
+  //    adUnitId: AdHelper.bannerAdUnitId,
+  //    request: AdRequest(),
+  //    size: AdSize.banner,
+  //    listener: BannerAdListener(
+  //      onAdLoaded: (ad) {
+  //        setState(() {
+  //          _bannerAd = ad as BannerAd;
+  //        });
+  //      },
+  //      onAdFailedToLoad: (ad, error) {
+  //        ad.dispose();
+  //      },
+  //
+  //    ),
+  //
+  //  ).load();
+  //   context.read<PlantCubit>().getPlant();
+  //   context.read<UserCubit>().getUserProfile();
+  //   context.read<AiCubit>().getDailyTip();
+  //
+  //   _loadLocationData();
+  // }
   @override
   void initState() {
     super.initState();
 
+    final banner = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          debugPrint('✅ Banner Ad Loaded');
+
+          if (mounted) {
+            setState(() {
+              _bannerAd = ad as BannerAd;
+            });
+          }
+        },
+
+        onAdFailedToLoad: (ad, error) {
+          debugPrint('❌ Banner Ad Failed: $error');
+          debugPrint('Code: ${error.code}');
+          debugPrint('Message: ${error.message}');
+
+          ad.dispose();
+        },
+      ),
+    );
+
+    banner.load();
+
     context.read<PlantCubit>().getPlant();
     context.read<UserCubit>().getUserProfile();
+    context.read<AiCubit>().getDailyTip();
 
     _loadLocationData();
-
-    context.read<AiCubit>().getDailyTip();
   }
 
   Future<void> _loadLocationData() async {
@@ -94,113 +152,127 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  String getGreeting() {
+  String getGreeting(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     if (hour < 12) {
-      return "Good Morning";
+      return localization.goodMorning;
     } else if (hour < 18) {
-      return "Good Afternoon ️";
+      return localization.goodAfternoon;
     } else {
-      return "Good Evening";
+      return localization.goodEvening;
     }
   }
 
-  List<QuickAction> get quickActions => [
-    QuickAction(
-      title: 'Scan',
-      icon: 'assets/images/scan_plant.png',
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return ModalBottomSheet(
-              hintText: '',
-              actionText: '',
-              onPress: () {},
-              title: '',
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  List<QuickAction> getQuickActions(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
 
-                children: [
-                  IconButton(
-                    onPressed: () async {
-                      final value = await ImagePicker().pickImage(
-                        source: ImageSource.camera,
-                      );
+    return [
+      QuickAction(
+        title: localization.scan,
+        icon: 'assets/images/scan_plant.png',
+        onTap: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return ModalBottomSheet(
+                hintText: '',
+                actionText: '',
+                onPress: () {},
+                title: '',
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: () async {
+                        final value = await ImagePicker().pickImage(
+                          source: ImageSource.camera,
+                        );
 
-                      if (value == null) return;
+                        if (value == null) return;
+                        if (!mounted) return;
 
-                      if (!mounted) return;
+                        context.read<AiCubit>().analyzePlant(value);
 
-                      context.read<AiCubit>().analyzePlant(value);
-
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(builder: (_) => ScannerNewPlant()),
-                      );
-                    },
-                    icon: Image.asset(
-                      'assets/images/cameraa.png',
-                      width: 50.w,
-                      height: 50.h,
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (_) => ScannerNewPlant(),
+                          ),
+                        );
+                      },
+                      icon: Image.asset(
+                        'assets/images/cameraa.png',
+                        width: 50.w,
+                        height: 50.h,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      final value = await ImagePicker().pickImage(
-                        source: ImageSource.gallery,
-                      );
+                    IconButton(
+                      onPressed: () async {
+                        final value = await ImagePicker().pickImage(
+                          source: ImageSource.gallery,
+                        );
 
-                      if (value == null) return;
+                        if (value == null) return;
+                        if (!mounted) return;
 
-                      if (!mounted) return;
+                        context.read<AiCubit>().analyzePlant(value);
 
-                      context.read<AiCubit>().analyzePlant(value);
-
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(builder: (_) => ScannerNewPlant()),
-                      );
-                    },
-                    icon: Image.asset(
-                      'assets/images/picture.png',
-                      width: 50.w,
-                      height: 50.h,
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (_) => ScannerNewPlant(),
+                          ),
+                        );
+                      },
+                      icon: Image.asset(
+                        'assets/images/picture.png',
+                        width: 50.w,
+                        height: 50.h,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    ),
-    QuickAction(
-      title: 'Doctor AI',
-      icon: 'assets/images/aibot.png',
-      onTap: () {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(builder: (_) => AiChatScreen()),
-        );
-      },
-    ),
-    QuickAction(
-      title: 'Community',
-      icon: 'assets/images/plant_community.png',
-      onTap: () {},
-    ),
-    QuickAction(
-      title: 'Care Tips',
-      icon: 'assets/images/plant_tips.png',
-      onTap: () {},
-    ),
-  ];
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+
+      QuickAction(
+        title: localization.doctorAI,
+        icon: 'assets/images/aibot.png',
+        onTap: () {
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (_) => AiChatScreen(),
+            ),
+          );
+        },
+      ),
+
+      QuickAction(
+        title: localization.community,
+        icon: 'assets/images/plant_community.png',
+        onTap: () {},
+      ),
+
+      QuickAction(
+        title: localization.careTips,
+        icon: 'assets/images/plant_tips.png',
+        onTap: () {},
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    final quickActions = getQuickActions(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Color(0xfff7fbf5),
+
       appBar: AppBar(
         titleSpacing: 10.w,
         title: BlocBuilder<UserCubit, UserState>(
@@ -223,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     TextSpan(
                       text: isLoading
                           ? "Good Morning 🌞\n"
-                          : "${getGreeting()}\n",
+                          : "${getGreeting(context)}\n",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     TextSpan(
@@ -232,11 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           : state is UserSuccess
                           ? state.user.name
                           : "",
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   ],
                 ),
@@ -265,6 +333,16 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SizedBox(height: 8.h),
+                if (_bannerAd != null)
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      width: _bannerAd!.size.width.toDouble(),
+                      height: _bannerAd!.size.height.toDouble(),
+                      child: AdWidget(ad: _bannerAd!),
+                    ),
+                  ),
                 Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -292,8 +370,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     "assets/images/weather.png",
                                 location: weather != null
                                     ? city
-                                    : "Loading location",
-                                description: weather?.description ?? "loading",
+                                    : localization.loadingLocation,
+
+                                description: weather?.description ?? localization.loading,
                                 cTemperature:
                                     weather?.temperature.toStringAsFixed(0) ??
                                     "00",
@@ -325,15 +404,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             clipBehavior: Clip.antiAlias,
                             child: Container(
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Color(0xFFF1F1C9),
-                                    Color(0xFFe7f2e7),
-                                    Color(0xFFe7f2e7),
-                                  ],
-                                ),
+                                gradient: isDark(context)
+                                    ? LinearGradient(
+                                        begin: Alignment.topRight,
+                                        end: Alignment.bottomLeft,
+
+                                        colors: [
+                                          Color(0xFF254A2A),
+                                          Color(0xff254a2a),
+                                          Color(0xff387d3a),
+                                        ],
+                                      )
+                                    : LinearGradient(
+                                        begin: Alignment.topRight,
+                                        end: Alignment.bottomLeft,
+
+                                        colors: [
+                                          Color(0xFFF1F1C9),
+                                          Color(0xFFe7f2e7),
+                                          Color(0xFFe7f2e7),
+                                        ],
+                                      ),
                               ),
                               child: Padding(
                                 padding: EdgeInsets.all(8.0.r),
@@ -384,14 +475,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                             center: Text(
                                               '${health.toStringAsFixed(0)}%',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.copyWith(
-                                                    color:
-                                                        AppColors.textPrimary,
-                                                    fontWeight: FontWeight.w900,
-                                                  ),
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.bodyLarge,
                                             ),
 
                                             progressColor: AppColors.primary,
@@ -404,7 +490,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     SizedBox(height: 8.h),
                                     Text(
-                                      'Garden\nHealth',
+                                      localization.gardenHealth,
                                       style: Theme.of(
                                         context,
                                       ).textTheme.bodyMedium,
@@ -435,18 +521,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                   child:
-                      TipCard(
-                            color: AppColors.secondary,
-
-                            sub:
-                                "Your Fiddle Leaf Fig may need more light. Tap to learn more →",
-                            title: "AI Plant Doctor",
-                            image: Image.asset(
-                              'assets/images/aibot.png',
-                              width: 64.w,
-                              height: 64.h,
-                            ),
-                          )
+                  TipCard(
+                    color: AppColors.secondary,
+                    sub: localization.aiPlantDoctorDescription,
+                    title: localization.aiPlantDoctor,
+                    image: Image.asset(
+                      'assets/images/aibot.png',
+                      width: 64.w,
+                      height: 64.h,
+                    ),
+                  )
                           .animate()
                           .fadeIn(delay: 150.ms)
                           .slideY(begin: 0.5, end: 0, duration: 150.ms),
@@ -454,12 +538,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 4.h),
 
                 Text(
-                      "Quick Actions",
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppColors.textPrimary,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20.sp,
-                      ),
+                  localization.quickActions,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     )
                     .animate()
                     .fadeIn(delay: 120.ms)
@@ -479,8 +559,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: action.icon,
                             color: Colors.white,
                             onTap: action.onTap,
-                            iconWidth: 44.w,
-                            iconHeight: 44.h,
+                            iconWidth: 40.w,
+                            iconHeight: 40.h,
                           );
                         },
                       ),
@@ -493,14 +573,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                       children: [
                         Text(
-                          "My Plants",
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(
-                                color: AppColors.textPrimary,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 20.sp,
-                              ),
+                          localization.myPlants,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
+
                         Spacer(),
                         InkWell(
                           onTap: widget.onOpenPlants,
@@ -510,7 +586,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           hoverColor: Colors.transparent,
 
                           child: Text(
-                            "See all",
+                            localization.seeAll,
                             style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(
                                   color: AppColors.primary,
@@ -530,7 +606,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (state is PlantError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Plant Error: ${state.message}'),
+                                content: Text(
+                                  localization.plantError(state.message),
+                                )
                             ),
                           );
                         }
@@ -539,7 +617,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (state is PlantLoading) {
                           return Center(
                             child: SpinKitSpinningLines(
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(
+                                context,
+                              ).textTheme.headlineSmall!.color!,
                               size: 30.sp,
                             ),
                           );
@@ -552,7 +632,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("No Plants Found"),
+                                  Text(localization.noPlantsFound),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.push(
@@ -563,7 +643,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                     },
-                                    child: Text("Add Plant"),
+                                    child: Text(localization.addPlant),
                                   ),
                                 ],
                               ),
@@ -620,24 +700,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                       children: [
                         Text(
-                          "Today's Tasks",
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(
-                                color: AppColors.textPrimary,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 20.sp,
-                              ),
+                          localization.todaysTasks,
+
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         Spacer(),
                         BadgeContainer(
                           color: AppColors.primary.withOpacity(0.5),
-                          content: "4 Tasks",
-                          textStyle: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: AppColors.secondary,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 14.sp,
-                              ),
+                          content: localization.tasksCount(4),
+                          textStyle: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
                     )
@@ -681,11 +752,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 Text(
                       'Watering Progress',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppColors.textPrimary,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20.sp,
-                      ),
+                      style: Theme.of(context).textTheme.headlineSmall,
                     )
                     .animate()
                     .fadeIn(delay: 270.ms)
@@ -717,20 +784,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 8.h),
 
                 BlocBuilder<AiCubit, AiState>(
+                  buildWhen: (previous, current) {
+                    return current is AiDailyTipLoading ||
+                        current is AiDailyTipSuccess ||
+                        current is AiDailyTipError;
+                  },
                   builder: (context, state) {
-                    String tip = 'Loading...';
-
-                    if (state is AiChatSuccess) {
-                      tip = state.message;
+                    String tip = localization.loading;
+                    if (state is AiDailyTipSuccess) {
+                      tip = state.tip;
+                    } else if (state is AiDailyTipError) {
+                      tip = localization.unableToLoadDailyTip;
                     }
-
-                    if (state is AiChatError) {
-                      tip = 'Unable to load daily tip';
-                    }
-
                     return TipCard(
-                          title: "Daily Tips",
-
+                      title: localization.dailyTips,
                           image: Image.asset(
                             'assets/images/lamp.png',
                             width: 48.w,
@@ -755,6 +822,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _searchController.dispose();
+    _bannerAd?.dispose();
+
     super.dispose();
   }
 }

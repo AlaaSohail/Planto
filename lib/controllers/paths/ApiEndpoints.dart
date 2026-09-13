@@ -132,10 +132,3 @@ class CommunityApiKeys {
   static const String likedByMe = "liked_by_me";
   static const String createdAt = "created_at";
 }
-class PaymentApiKeys{
-  static const String amount="amount";
-  static const String currency="currency";
-
-
-
-}

@@ -1,18 +1,20 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:plant_care/presentations/screens/auth_screens/LoginScreen.dart';
 
 import '../../../controllers/cubit/user_cubit/user_cubit.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/MainButton.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
-  const VerifyEmailScreen({super.key, required this.email});
+  const VerifyEmailScreen({
+    super.key,
+    required this.email,
+  });
 
   final String email;
 
@@ -22,6 +24,7 @@ class VerifyEmailScreen extends StatefulWidget {
 
 class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   Timer? _timer;
+
   int _secondsRemaining = 60;
   bool _canResend = false;
 
@@ -34,38 +37,44 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   void _startResendTimer() {
     _timer?.cancel();
 
-    setState(() {
-      _secondsRemaining = 60;
-      _canResend = false;
-    });
+    if (mounted) {
+      setState(() {
+        _secondsRemaining = 60;
+        _canResend = false;
+      });
+    }
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_secondsRemaining > 0) {
-        setState(() {
-          _secondsRemaining--;
-        });
-      } else {
-        timer.cancel();
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+          (timer) {
+        if (!mounted) {
+          timer.cancel();
+          return;
+        }
 
-        setState(() {
-          _canResend = true;
-        });
-      }
-    });
-  }
+        if (_secondsRemaining > 1) {
+          setState(() {
+            _secondsRemaining--;
+          });
+        } else {
+          timer.cancel();
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
+          setState(() {
+            _secondsRemaining = 0;
+            _canResend = true;
+          });
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return Scaffold(
-      backgroundColor: Color(0xfff7fbf5),
       appBar: AppBar(
-        title: AppTheme.plantCareAILogo(),
+        title: AppTheme.plantCareAILogo(context),
         leading: AppTheme.backButton(context),
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.transparent,
@@ -75,7 +84,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         elevation: 0,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0.r),
+        padding: EdgeInsets.all(16.r),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,6 +97,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 height: 200.h,
               ),
             ),
+
             SizedBox(height: 20.h),
 
             RichText(
@@ -95,79 +105,81 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
                 children: [
                   TextSpan(
-                    text: "We've sent a verification link to ",
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: Theme.of(context).primaryColor,
-                    ),
+                    text: localization.verificationLinkSent,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   TextSpan(
                     text: widget.email,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
               ),
             ),
+
             SizedBox(height: 20.h),
+
             Text(
-              "Click the link in the email to verify your account and start growing with PlantCare AI.",
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.w500,
-              ),
+              localization.verifyEmailDescription,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
+
             SizedBox(height: 20.h),
 
             MainButton(
               onPressed: () {
-                // await context.read<UserCubit>().verifyEmail(widget.email);
-                // Navigator.pushReplacement(
-                //   context,
-                //   CupertinoPageRoute(builder: (context) => LoginScreen()),
-                // );
+                // يمكنك وضع التحقق من البريد هنا لاحقًا.
+                //
+                // context.read<UserCubit>().verifyEmail(widget.email);
               },
-              content: "Email Verified",
-              textStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
+              content: localization.emailVerified,
+              textStyle: Theme.of(context).textTheme.headlineSmall,
               buttonStyle: AppButtonTheme.theme.style!.copyWith(),
               mainAxisSize: MainAxisSize.max,
             ),
+
             SizedBox(height: 20.h),
 
             Row(
               children: [
                 TextButton(
-                  onPressed: _secondsRemaining == 0
+                  onPressed: _canResend
                       ? () {
-                          context.read<UserCubit>().resendVerificationEmail(
-                            widget.email,
-                          );
+                    context
+                        .read<UserCubit>()
+                        .resendVerificationEmail(
+                      widget.email,
+                    );
 
-                          _startResendTimer();
-                        }
+                    _startResendTimer();
+                  }
                       : null,
                   child: Text(
-                    _secondsRemaining == 0
-                        ? 'Didn\'t receive the email?'
-                        : 'Resend email',
+                    _canResend
+                        ? localization.didntReceiveEmail
+                        : localization.resendEmail,
                   ),
                 ),
 
-                if (_secondsRemaining > 0)
+                if (!_canResend) ...[
+                  SizedBox(width: 8.w),
                   Text(
-                    '$_secondsRemaining seconds',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).primaryColor,
+                    localization.secondsRemaining(
+                      _secondsRemaining,
                     ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
+                ],
               ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 }

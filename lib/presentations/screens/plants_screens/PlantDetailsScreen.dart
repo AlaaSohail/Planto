@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:plant_care/controllers/models/plant_model.dart';
 import 'package:plant_care/presentations/widgets/ModalBottomSheet.dart';
 
-import '../../../controllers/cubit/ai_cubit/ai_cubit.dart';
 import '../../../controllers/cubit/plant_cubit/plant_cubit.dart';
 import '../../../controllers/models/ai_model.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
 import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
@@ -18,9 +19,12 @@ import '../../widgets/MainButton.dart';
 import '../../widgets/QuickActionsCard.dart';
 
 class PlantDetailsScreen extends StatefulWidget {
-  PlantDetailsScreen({super.key, this.plant});
+  const PlantDetailsScreen({
+    super.key,
+    this.plant,
+  });
 
-  PlantModel? plant;
+  final PlantModel? plant;
 
   @override
   State<PlantDetailsScreen> createState() => _PlantDetailsScreenState();
@@ -28,9 +32,16 @@ class PlantDetailsScreen extends StatefulWidget {
 
 class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
   @override
+  void initState() {
+    super.initState();
+    context.read<PlantCubit>().getPlant();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return Scaffold(
-      backgroundColor: Color(0xfff7fbf5),
       extendBodyBehindAppBar: true,
 
       appBar: AppBar(
@@ -38,10 +49,14 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          ContainerIcons(icon: 'assets/images/share.png'),
+          ContainerIcons(
+            icon: 'assets/images/share.png',
+          ),
+
           SizedBox(width: 4.w),
+
           Padding(
-            padding: EdgeInsets.only(right: 16.w),
+            padding: EdgeInsetsDirectional.only(end: 16.w),
             child: InkWell(
               onTap: () async {
                 showModalBottomSheet(
@@ -55,14 +70,15 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                   backgroundColor: Colors.white,
                   builder: (sheetContext) {
                     return ModalBottomSheet(
-                      hintText: 'Are you sure you want to delete this plant?',
-                      actionText: "Delete",
+                      hintText:
+                      localization.areYouSureDeletePlant,
+                      actionText: localization.delete,
                       onPress: () async {
-                        // إغلاق BottomSheet
                         Navigator.pop(sheetContext);
 
-                        // استخدم Context الشاشة الأصلية
-                        await context.read<PlantCubit>().deletePlant(
+                        await context
+                            .read<PlantCubit>()
+                            .deletePlant(
                           widget.plant!.plantId!,
                         );
 
@@ -70,16 +86,19 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
 
                         Navigator.pop(context);
                       },
-                      title: 'Delete Plant',
+                      title: localization.deletePlant,
                     );
                   },
                 );
               },
-              child: ContainerIcons(icon: 'assets/images/delete.png'),
+              child: ContainerIcons(
+                icon: 'assets/images/delete.png',
+              ),
             ),
           ),
         ],
       ),
+
       body: Center(
         child: Column(
           children: [
@@ -89,52 +108,68 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
               height: 200.h,
               fit: BoxFit.cover,
             ),
+
             Container(
               width: double.infinity,
-
               padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14.r),
-                color: Colors.white,
+                color: Theme.of(context).scaffoldBackgroundColor,
               ),
-
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.plant!.name ?? 'Unknown plant',
-                            style: Theme.of(context).textTheme.headlineSmall
-                                ?.copyWith(
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                          ),
-                          Text(
-                            widget.plant!.species ?? 'Unknown species',
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.plant!.name?.isNotEmpty == true
+                                  ? widget.plant!.name!
+                                  : localization.unknownPlant,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall,
+                            ),
+
+                            Text(
+                              widget.plant!.species?.isNotEmpty == true
+                                  ? widget.plant!.species!
+                                  : localization.unknownSpecies,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge,
+                            ),
+                          ],
+                        ),
                       ),
 
+                      SizedBox(width: 8.w),
+
                       BadgeContainer(
-                        textStyle: Theme.of(context).textTheme.bodyMedium,
+                        textStyle:
+                        Theme.of(context).textTheme.bodyMedium,
                         color: AppColors.primary,
                         content:
-                            widget.plant!.confidence == null ||
-                                widget.plant!.confidence == 0
-                            ? 'Not Analyzed'
-                            : '${(widget.plant!.confidence! * 100).toStringAsFixed(1)}% Confidence',
+                        widget.plant!.confidence == null ||
+                            widget.plant!.confidence == 0
+                            ? localization.notAnalyzed
+                            : localization.confidencePercent(
+                          (widget.plant!.confidence! * 100)
+                              .toStringAsFixed(1),
+                        ),
                       ),
                     ],
                   ),
+
                   SizedBox(height: 16.h),
+
                   Divider(
                     color: Colors.grey.withOpacity(0.3),
                     thickness: 1.h,
@@ -142,43 +177,43 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                     indent: 16.w,
                     endIndent: 16.w,
                   ),
+
                   SizedBox(height: 16.h),
+
                   Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(
-                      'Health Score',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppColors.textPrimary,
-                        fontWeight: FontWeight.w900,
-                      ),
+                      localization.healthScore,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
+
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-
                     children: [
                       CircularPercentIndicator(
                         radius: 40.r,
-                        backgroundColor: AppColors.primary.withOpacity(0.1),
-
-                        lineWidth: 8.0.w,
-
-                        percent: (widget.plant!.healthScore ?? 0) / 100,
-                        circularStrokeCap: CircularStrokeCap.round,
+                        backgroundColor:
+                        AppColors.primary.withOpacity(0.1),
+                        lineWidth: 8.w,
+                        percent:
+                        (widget.plant!.healthScore ?? 0) / 100,
+                        circularStrokeCap:
+                        CircularStrokeCap.round,
                         center: Text(
                           widget.plant!.healthScore == null ||
-                                  widget.plant!.healthScore == 0
-                              ? 'N/A'
+                              widget.plant!.healthScore == 0
+                              ? localization.notAvailable
                               : '${widget.plant!.healthScore!.toStringAsFixed(0)}%',
-                          style: Theme.of(context).textTheme.headlineSmall
-                              ?.copyWith(color: AppColors.textPrimary),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall,
                         ),
-
                         progressColor: AppColors.secondary,
-
                         animation: true,
                         animationDuration: 1000,
                       ),
+
                       SizedBox(width: 32.w),
 
                       Expanded(
@@ -187,22 +222,27 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                             children: [
                               TextSpan(
                                 text:
-                                    '${(widget.plant!.healthStatus?.isNotEmpty ?? false) ? widget.plant!.healthStatus! : 'Not Analyzed'}\n\n',
-                                style: Theme.of(context).textTheme.headlineSmall
-                                    ?.copyWith(color: AppColors.textPrimary),
+                                '${(widget.plant!.healthStatus?.isNotEmpty ?? false) ? widget.plant!.healthStatus! : localization.notAnalyzed}\n\n',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall,
                               ),
-
                               TextSpan(
-                                text:
-                                    (widget.plant!.recommendation?.isNotEmpty ??
-                                        false)
+                                text: (widget
+                                    .plant!
+                                    .recommendation
+                                    ?.isNotEmpty ??
+                                    false)
                                     ? widget.plant!.recommendation
-                                    : 'No recommendation available',
-                                style: Theme.of(context).textTheme.bodyMedium
+                                    : localization
+                                    .noRecommendationAvailable,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
                                     ?.copyWith(
-                                      color: AppColors.textSecondary,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                  overflow:
+                                  TextOverflow.ellipsis,
+                                ),
                               ),
                             ],
                           ),
@@ -210,15 +250,16 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                       ),
                     ],
                   ),
+
                   SizedBox(height: 16.h),
 
                   Divider(
                     color: Colors.grey.withOpacity(0.3),
                     thickness: 1.h,
                     height: 1.h,
-
                     endIndent: 16.w,
                   ),
+
                   SizedBox(height: 12.h),
 
                   SizedBox(
@@ -226,24 +267,25 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      padding: EdgeInsets.all(0),
-
+                      padding: EdgeInsets.zero,
                       children: [
                         QuickActionsCard(
-                          title: 'Disease',
+                          title: localization.disease,
                           onTap: () {
                             showModalBottomSheet(
                               context: context,
                               builder: (context) {
                                 return ModalBottomSheet(
                                   hintText:
-                                      (widget.plant!.disease?.isNotEmpty ??
-                                          false)
+                                  (widget.plant!.disease
+                                      ?.isNotEmpty ??
+                                      false)
                                       ? widget.plant!.disease!
-                                      : 'No disease analysis available',
+                                      : localization
+                                      .noDiseaseAnalysisAvailable,
                                   actionText: '',
                                   onPress: () {},
-                                  title: 'Disease',
+                                  title: localization.disease,
                                   child: null,
                                 );
                               },
@@ -252,24 +294,27 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                           icon: 'assets/images/virus.png',
                           color: Colors.white,
                         ),
+
                         QuickActionsCard(
-                          title: 'Fertilize',
+                          title: localization.fertilize,
                           onTap: () {
                             showModalBottomSheet(
                               context: context,
                               builder: (context) {
                                 return ModalBottomSheet(
-                                  hintText:
-                                      (widget
-                                              .plant!
-                                              .fertilizerAdvice
-                                              ?.isNotEmpty ??
-                                          false)
-                                      ? widget.plant!.fertilizerAdvice!
-                                      : 'No fertilizer advice available',
+                                  hintText: (widget
+                                      .plant!
+                                      .fertilizerAdvice
+                                      ?.isNotEmpty ??
+                                      false)
+                                      ? widget
+                                      .plant!
+                                      .fertilizerAdvice!
+                                      : localization
+                                      .noFertilizerAdviceAvailable,
                                   actionText: '',
                                   onPress: () {},
-                                  title: 'Fertilize',
+                                  title: localization.fertilize,
                                   child: null,
                                 );
                               },
@@ -280,23 +325,26 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                         ),
 
                         QuickActionsCard(
-                          title: 'Water',
+                          title: localization.water,
                           onTap: () {
                             showModalBottomSheet(
                               context: context,
                               builder: (context) {
                                 return ModalBottomSheet(
-                                  hintText:
-                                      (widget
-                                              .plant!
-                                              .wateringAdvice
-                                              ?.isNotEmpty ??
-                                          false)
-                                      ? widget.plant!.wateringAdvice!
-                                      : 'No watering advice available',
+                                  hintText: (widget
+                                      .plant!
+                                      .wateringAdvice
+                                      ?.isNotEmpty ??
+                                      false)
+                                      ? widget
+                                      .plant!
+                                      .wateringAdvice!
+                                      : localization
+                                      .noWateringAdviceAvailable,
                                   actionText: '',
                                   onPress: () {},
-                                  title: 'Watering Instructions',
+                                  title:
+                                  localization.wateringInstructions,
                                   child: null,
                                 );
                               },
@@ -305,24 +353,28 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                           icon: 'assets/images/watering.png',
                           color: Colors.white,
                         ),
+
                         QuickActionsCard(
-                          title: 'Sunlight',
+                          title: localization.sunlight,
                           onTap: () {
                             showModalBottomSheet(
                               context: context,
                               builder: (context) {
                                 return ModalBottomSheet(
-                                  hintText:
-                                      (widget
-                                              .plant!
-                                              .sunlightAdvice
-                                              ?.isNotEmpty ??
-                                          false)
-                                      ? widget.plant!.sunlightAdvice!
-                                      : 'No sunlight advice available',
+                                  hintText: (widget
+                                      .plant!
+                                      .sunlightAdvice
+                                      ?.isNotEmpty ??
+                                      false)
+                                      ? widget
+                                      .plant!
+                                      .sunlightAdvice!
+                                      : localization
+                                      .noSunlightAdviceAvailable,
                                   actionText: '',
                                   onPress: () {},
-                                  title: 'Sunlight Instructions',
+                                  title:
+                                  localization.sunlightInstructions,
                                   child: null,
                                 );
                               },
@@ -334,10 +386,11 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                       ],
                     ),
                   ),
+
                   SizedBox(height: 12.h),
 
                   MainButton(
-                    content: 'Analyze Plant',
+                    content: localization.analyzePlant,
                     onPressed: () async {
                       context.read<PlantCubit>().updatePlantAI(
                         widget.plant!.plantId!,
@@ -356,13 +409,10 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
                       );
                     },
                     mainAxisSize: MainAxisSize.max,
-                    textStyle: Theme.of(context).textTheme.headlineSmall
-                        ?.copyWith(
-                          color: AppColors.textPrimary,
-                          fontWeight: FontWeight.w500,
-                        ),
-
-                    buttonStyle: AppButtonTheme.theme.style!.copyWith(),
+                    textStyle:
+                    Theme.of(context).textTheme.headlineSmall,
+                    buttonStyle:
+                    AppButtonTheme.theme.style!.copyWith(),
                   ),
                 ],
               ),
@@ -371,16 +421,5 @@ class _PlantDetailsScreenState extends State<PlantDetailsScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<PlantCubit>().getPlant();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

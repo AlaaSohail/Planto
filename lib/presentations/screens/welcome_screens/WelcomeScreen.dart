@@ -9,6 +9,7 @@ import 'package:plant_care/presentations/themes/app_theme.dart';
 import 'package:plant_care/presentations/widgets/BadgeContainer.dart';
 import 'package:plant_care/presentations/widgets/MainButton.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
 import '../../widgets/WelcomeStatistics.dart';
 import '../auth_screens/RegisterScreen.dart';
@@ -24,12 +25,12 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Color(0xfff7fbf5),
       appBar: AppBar(
         leadingWidth: 16.w,
-        title: AppTheme.plantCareAILogo(Colors.white),
+        title: AppTheme.plantCareAILogo(context),
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: Colors.transparent,
@@ -61,35 +62,41 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     children: [
                       BadgeContainer(
                         color: Colors.green,
-                        content: "🌿 Your garden, reimagined",
+                        content: l10n.welcomeGardenReimagined,
                         textStyle: Theme.of(
                           context,
                         ).textTheme.bodyMedium?.copyWith(color: Colors.white),
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        "Grow smarter",
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        l10n.welcomeGrowSmarter,
+                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
-                        'with AI',
-                        style: Theme.of(context).textTheme.headlineLarge
-                            ?.copyWith(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        l10n.welcomeWithAI,
+                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        "Identify, diagnose, and care for your plants with the power of artificial intelligence. Join 2M+ plant_cubit lovers.",
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        l10n.welcomeDescription,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Colors.grey,
+                        ),
                       ),
                       SizedBox(height: 4.h),
 
                       MainButton(
                         buttonStyle: AppButtonTheme.theme.style!.copyWith(),
-                        content: "Create Free Account",
-                        textStyle: Theme.of(context).textTheme.headlineSmall
+                        content: l10n.welcomeCreateFreeAccount,
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
                             ?.copyWith(color: Colors.black),
                         onPressed: () {
                           Navigator.push(
@@ -99,47 +106,32 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                           );
                         },
-                        icon: Icon(Icons.arrow_forward, color: Colors.black),
+                        icon: const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.black,
+                        ),
                         mainAxisSize: MainAxisSize.max,
                       ),
                       SizedBox(height: 20.h),
                       MainButton(
-                        buttonStyle: AppButtonTheme.themeSecondary.style!
-                            .copyWith(),
-                        content: "Sign In",
-                        textStyle: Theme.of(context).textTheme.headlineSmall
+                        buttonStyle: AppButtonTheme.themeSecondary.style!.copyWith(),
+                        content: l10n.welcomeSignIn,
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
                             ?.copyWith(color: Colors.white),
                         onPressed: () {
                           Navigator.push(
                             context,
-                            CupertinoPageRoute(builder: (_) => LoginScreen()),
+                            CupertinoPageRoute(
+                              builder: (_) => LoginScreen(),
+                            ),
                           );
                         },
                         mainAxisSize: MainAxisSize.max,
                       ),
                       SizedBox(height: 20.h),
-                      Center(
-                        child: InkWell(
-                          autofocus: true,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (_) => NavBarScreen(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Continue as Guest",
-                            style: Theme.of(context).textTheme.bodyLarge
-                                ?.copyWith(
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: AppColors.primary,
-                                  decorationThickness: 2,
-                                ),
-                          ),
-                        ),
-                      ),
+
                       SizedBox(height: 20.h),
 
                       Row(
@@ -147,19 +139,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           WelcomeStatistics(
-                            title: "Plants",
-                            value: "100",
-                            unit: "K+",
+                            title: l10n.welcomePlants,
+                            value: l10n.welcomePlantsValue,
+                            unit: l10n.welcomePlantsUnit,
                           ),
                           WelcomeStatistics(
-                            title: "Users",
-                            value: "2",
-                            unit: "M+",
+                            title: l10n.welcomeUsers,
+                            value: l10n.welcomeUsersValue,
+                            unit: l10n.welcomeUsersUnit,
                           ),
                           WelcomeStatistics(
-                            title: "Ratings",
-                            value: "4.9",
-                            unit: "⭐",
+                            title: l10n.welcomeRatings,
+                            value: l10n.welcomeRatingsValue,
+                            unit: l10n.welcomeRatingsUnit,
                           ),
                         ],
                       ),

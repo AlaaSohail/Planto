@@ -39,18 +39,12 @@ class TipCard extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Text(
                     title!,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   SizedBox(height: 8.h),
                   Text(
                     sub!,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                     softWrap: true,
                   ),
                 ],
