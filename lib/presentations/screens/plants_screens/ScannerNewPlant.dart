@@ -36,7 +36,8 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
       appBar: AppBar(
         leading: AppTheme.backButton(context),
         backgroundColor: Colors.transparent,
-        elevation: 0,
+        elevation: 0,        titleSpacing: 0,
+
       ),
 
       body: SingleChildScrollView(

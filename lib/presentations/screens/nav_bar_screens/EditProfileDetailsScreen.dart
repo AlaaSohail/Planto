@@ -44,9 +44,9 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         foregroundColor: Colors.transparent,
         title: AppTheme.plantCareAILogo(context),
-        leadingWidth: 32.w,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: AppTheme.backButton(context),
@@ -57,35 +57,28 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
           child: BlocConsumer<UserCubit, UserState>(
             listener: (context, state) {
               if (state is UserError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                  ),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
               }
 
               if (state is UpdateProfileDetailsSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                  ),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
               }
 
               if (state is UpdateProfileDetailsError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                  ),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
               }
             },
             builder: (context, state) {
               if (state is UserLoading) {
                 return Center(
                   child: SpinKitSpinningLines(
-                    color:
-                    Theme.of(context).textTheme.headlineSmall!.color!,
+                    color: Theme.of(context).textTheme.headlineSmall!.color!,
                     size: 30.sp,
                   ),
                 );
@@ -112,21 +105,21 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
                               title: '',
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   IconButton(
                                     onPressed: () async {
-                                      final value =
-                                      await ImagePicker().pickImage(
-                                        source: ImageSource.camera,
-                                      );
+                                      final value = await ImagePicker()
+                                          .pickImage(
+                                            source: ImageSource.camera,
+                                          );
 
                                       if (value == null) return;
                                       if (!mounted) return;
 
-                                      context
-                                          .read<UserCubit>()
-                                          .uploadUserImage(value);
+                                      context.read<UserCubit>().uploadUserImage(
+                                        value,
+                                      );
 
                                       if (mounted) {
                                         setState(() {});
@@ -144,17 +137,17 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () async {
-                                      final value =
-                                      await ImagePicker().pickImage(
-                                        source: ImageSource.gallery,
-                                      );
+                                      final value = await ImagePicker()
+                                          .pickImage(
+                                            source: ImageSource.gallery,
+                                          );
 
                                       if (value == null) return;
                                       if (!mounted) return;
 
-                                      context
-                                          .read<UserCubit>()
-                                          .uploadUserImage(value);
+                                      context.read<UserCubit>().uploadUserImage(
+                                        value,
+                                      );
 
                                       if (mounted) {
                                         setState(() {});
@@ -178,52 +171,41 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
                       },
                       behavior: HitTestBehavior.translucent,
                       child: ClipOval(
-                        child:
-                        context.read<UserCubit>().userImage != null
+                        child: context.read<UserCubit>().userImage != null
                             ? Image.file(
-                          File(
-                            context
-                                .read<UserCubit>()
-                                .userImage!
-                                .path,
-                          ),
-                          width: 180.r,
-                          height: 180.r,
-                          fit: BoxFit.cover,
-                        )
+                                File(context.read<UserCubit>().userImage!.path),
+                                width: 180.r,
+                                height: 180.r,
+                                fit: BoxFit.cover,
+                              )
                             : CachedNetworkImage(
-                          imageUrl:
-                          user.image ??
-                              'assets/images/farmer.png',
-                          width: 180.r,
-                          height: 180.r,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) {
-                            return Container(
-                              color: AppColors.primary
-                                  .withOpacity(0.1),
-                              child: Center(
-                                child:
-                                CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: AppColors.primary,
-                                ),
+                                imageUrl:
+                                    user.image ?? 'assets/images/farmer.png',
+                                width: 180.r,
+                                height: 180.r,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) {
+                                  return Container(
+                                    color: AppColors.primary.withOpacity(0.1),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                errorWidget: (context, url, error) {
+                                  return Container(
+                                    color: AppColors.primary.withOpacity(0.1),
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 45.sp,
+                                      color: AppColors.primary,
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                          errorWidget:
-                              (context, url, error) {
-                            return Container(
-                              color: AppColors.primary
-                                  .withOpacity(0.1),
-                              child: Icon(
-                                Icons.person,
-                                size: 45.sp,
-                                color: AppColors.primary,
-                              ),
-                            );
-                          },
-                        ),
                       ),
                     ),
 
@@ -240,8 +222,7 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
 
                           Text(
                             localization.fullName,
-                            style:
-                            Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
 
                           SizedBox(height: 8.h),
@@ -250,10 +231,8 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
                             controller: nameController,
                             keyboardType: TextInputType.name,
                             validator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty) {
-                                return localization
-                                    .pleaseEnterYourName;
+                              if (value == null || value.trim().isEmpty) {
+                                return localization.pleaseEnterYourName;
                               }
 
                               return null;
@@ -269,19 +248,16 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
 
                           Text(
                             localization.emailAddress,
-                            style:
-                            Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
 
                           SizedBox(height: 8.h),
 
                           AuthTextField(
                             controller: emailController,
-                            keyboardType:
-                            TextInputType.emailAddress,
+                            keyboardType: TextInputType.emailAddress,
                             validator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty) {
+                              if (value == null || value.trim().isEmpty) {
                                 return localization.enterYourEmail;
                               }
 
@@ -304,8 +280,7 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
 
                           Text(
                             localization.phoneNumber,
-                            style:
-                            Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
 
                           SizedBox(height: 8.h),
@@ -328,21 +303,15 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
                     MainButton(
                       mainAxisSize: MainAxisSize.max,
                       content: localization.saveChanges,
-                      textStyle:
-                      Theme.of(context).textTheme.headlineSmall,
-                      buttonStyle:
-                      Theme.of(context).elevatedButtonTheme.style,
+                      textStyle: Theme.of(context).textTheme.headlineSmall,
+                      buttonStyle: Theme.of(context).elevatedButtonTheme.style,
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await context
-                              .read<UserCubit>()
-                              .updateProfileDetails(
+                          await context.read<UserCubit>().updateProfileDetails(
                             nameController.text.trim(),
                             emailController.text.trim(),
                             phoneNumberController.text.trim(),
-                            userImage: context
-                                .read<UserCubit>()
-                                .userImage,
+                            userImage: context.read<UserCubit>().userImage,
                           );
                         }
                       },

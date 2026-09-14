@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../widgets/MainAppBar.dart';
 import 'app_button_theme.dart';
 import 'app_colors.dart';
@@ -78,19 +79,25 @@ class AppTheme {
       BuildContext context, [
         Color color = const Color(0xff1e3e24),
       ]) {
-    final isLight =
-        Theme.of(context).brightness == Brightness.light;
+    final isLight = Theme.of(context).brightness == Brightness.light;
+    final locale = Localizations.localeOf(context);
+    final localization = AppLocalizations.of(context)!;
+
 
     return MultiColorText(
       spans: [
         TextSpanConfig(
-          text: 'Planto.',
-          style: TextStyle(
+          text: localization.planto,
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
             color: isLight ? color : Colors.white,
-            fontSize: 22.sp,
             fontWeight: FontWeight.w900,
+            fontSize: 22.sp,
             letterSpacing: 1,
-            fontFamily: 'Inter',
+            fontFamily: locale.languageCode == 'ar'
+                ? 'cairo'
+                : locale.languageCode == 'he'
+                ? 'Inter'
+                : 'Inter',
           ),
         ),
       ],
@@ -101,18 +108,14 @@ class AppTheme {
   // Back Button
   // =========================
 
-  static Widget backButton(
-      BuildContext context, {
-        VoidCallback? onPressed,
-      }) {
+  static Widget backButton(BuildContext context, {VoidCallback? onPressed}) {
     return IconButton(
       hoverColor: Colors.transparent,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       focusColor: Colors.transparent,
 
-      onPressed:
-      onPressed ?? () => Navigator.of(context).pop(),
+      onPressed: onPressed ?? () => Navigator.of(context).pop(),
 
       icon: Icon(
         Icons.arrow_back_ios_new_rounded,

@@ -258,5 +258,12 @@
   "km": "km",
   "hour": "h",
   "aiChatOnlineExpert": "Online · Expert botanist AI",
-  "aiChatHint": "Ask me anything..."
+  "aiChatHint": "Ask me anything...",
+  "planto": "Planto",
+  "appearance": "Appearance",
+  "chooseThemeDescription": "Choose how Planto looks on your device",
+  "lightMode": "Light Mode",
+  "lightModeDescription": "Bright and clean appearance",
+  "darkMode": "Dark Mode",
+  "darkModeDescription": "Comfortable for low-light environments"
 }

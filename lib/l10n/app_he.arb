@@ -258,5 +258,13 @@
   "km": "כמה",
   "hour": "ס",
   "aiChatOnlineExpert": "מחובר · מומחה בוטני מבוסס AI",
-  "aiChatHint": "שאל אותי כל דבר..."
+  "aiChatHint": "שאל אותי כל דבר...",
+  "planto": "Planto",
+  "appearance": "מראה",
+  "chooseThemeDescription": "בחר כיצד Planto יוצג במכשיר שלך",
+  "lightMode": "מצב בהיר",
+  "lightModeDescription": "מראה בהיר ונקי",
+  "darkMode": "מצב כהה",
+  "darkModeDescription": "נוח לשימוש בתאורה חלשה"
+
 }

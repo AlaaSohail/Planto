@@ -81,7 +81,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         shadowColor: Colors.transparent,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
-        elevation: 0,
+        elevation: 0,        titleSpacing: 0,
+
       ),
       body: Padding(
         padding: EdgeInsets.all(16.r),

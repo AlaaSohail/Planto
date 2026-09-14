@@ -727,4 +727,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get aiChatHint => 'اسألني عن أي شيء...';
+
+  @override
+  String get planto => 'بلانتو.';
+
+  @override
+  String get appearance => 'المظهر';
+
+  @override
+  String get chooseThemeDescription => 'اختر مظهر Planto على جهازك';
+
+  @override
+  String get lightMode => 'الوضع الفاتح';
+
+  @override
+  String get lightModeDescription => 'مظهر فاتح وواضح';
+
+  @override
+  String get darkMode => 'الوضع الداكن';
+
+  @override
+  String get darkModeDescription => 'مريح للاستخدام في الإضاءة المنخفضة';
 }

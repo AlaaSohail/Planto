@@ -72,7 +72,8 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
           appBar: AppBar(
             title: AppTheme.plantCareAILogo(context),
             leading: AppTheme.backButton(context),
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,        titleSpacing: 0,
+
             elevation: 0,
           ),
           body: SingleChildScrollView(

@@ -196,9 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         Navigator.push(
                           context,
-                          CupertinoPageRoute(
-                            builder: (_) => ScannerNewPlant(),
-                          ),
+                          CupertinoPageRoute(builder: (_) => ScannerNewPlant()),
                         );
                       },
                       icon: Image.asset(
@@ -220,9 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         Navigator.push(
                           context,
-                          CupertinoPageRoute(
-                            builder: (_) => ScannerNewPlant(),
-                          ),
+                          CupertinoPageRoute(builder: (_) => ScannerNewPlant()),
                         );
                       },
                       icon: Image.asset(
@@ -245,9 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: () {
           Navigator.push(
             context,
-            CupertinoPageRoute(
-              builder: (_) => AiChatScreen(),
-            ),
+            CupertinoPageRoute(builder: (_) => AiChatScreen()),
           );
         },
       ),
@@ -274,17 +268,16 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: true,
 
       appBar: AppBar(
-        titleSpacing: 10.w,
         title: BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
             final isLoading = state is UserLoading;
             if (state is UserSuccess) {
-              final city = getIt<CacheHelper>().getDataString(
-                key: ApiKeys.city,
-              );
-              final country = getIt<CacheHelper>().getDataString(
-                key: ApiKeys.country,
-              );
+              // final city = getIt<CacheHelper>().getDataString(
+              //   key: ApiKeys.city,
+              // );
+              // final country = getIt<CacheHelper>().getDataString(
+              //   key: ApiKeys.country,
+              // );
             }
 
             return Skeletonizer(
@@ -315,12 +308,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 16.w),
+            padding: EdgeInsets.only(right: 16.w, left: 16.w),
             child: ContainerIcons(icon: 'assets/images/notification.png'),
           ),
         ],
-        leading: Text(''),
-        leadingWidth: 16.w,
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: Colors.transparent,
@@ -372,7 +363,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ? city
                                     : localization.loadingLocation,
 
-                                description: weather?.description(context) ?? localization.loading,
+                                description:
+                                    weather?.description(context) ??
+                                    localization.loading,
                                 cTemperature:
                                     weather?.temperature.toStringAsFixed(0) ??
                                     "00",
@@ -521,16 +514,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                   child:
-                  TipCard(
-                    color: AppColors.secondary,
-                    sub: localization.aiPlantDoctorDescription,
-                    title: localization.aiPlantDoctor,
-                    image: Image.asset(
-                      'assets/images/aibot.png',
-                      width: 64.w,
-                      height: 64.h,
-                    ),
-                  )
+                      TipCard(
+                            color: AppColors.secondary,
+                            sub: localization.aiPlantDoctorDescription,
+                            title: localization.aiPlantDoctor,
+                            image: Image.asset(
+                              'assets/images/aibot.png',
+                              width: 64.w,
+                              height: 64.h,
+                            ),
+                          )
                           .animate()
                           .fadeIn(delay: 150.ms)
                           .slideY(begin: 0.5, end: 0, duration: 150.ms),
@@ -538,7 +531,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 4.h),
 
                 Text(
-                  localization.quickActions,
+                      localization.quickActions,
                       style: Theme.of(context).textTheme.headlineSmall,
                     )
                     .animate()
@@ -606,9 +599,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (state is PlantError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                                content: Text(
-                                  localization.plantError(state.message),
-                                )
+                              content: Text(
+                                localization.plantError(state.message),
+                              ),
                             ),
                           );
                         }
@@ -797,7 +790,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       tip = localization.unableToLoadDailyTip;
                     }
                     return TipCard(
-                      title: localization.dailyTips,
+                          title: localization.dailyTips,
                           image: Image.asset(
                             'assets/images/lamp.png',
                             width: 48.w,

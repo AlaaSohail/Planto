@@ -722,4 +722,25 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get aiChatHint => 'שאל אותי כל דבר...';
+
+  @override
+  String get planto => 'Planto';
+
+  @override
+  String get appearance => 'מראה';
+
+  @override
+  String get chooseThemeDescription => 'בחר כיצד Planto יוצג במכשיר שלך';
+
+  @override
+  String get lightMode => 'מצב בהיר';
+
+  @override
+  String get lightModeDescription => 'מראה בהיר ונקי';
+
+  @override
+  String get darkMode => 'מצב כהה';
+
+  @override
+  String get darkModeDescription => 'נוח לשימוש בתאורה חלשה';
 }

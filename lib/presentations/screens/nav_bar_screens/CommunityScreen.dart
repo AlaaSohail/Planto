@@ -39,15 +39,15 @@ class _CommunityScreenState extends State<CommunityScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        leadingWidth: 55.w,
+        titleSpacing: 0,
         leading: AppTheme.backButton(
           context,
           onPressed: widget.onBackToHome,
         ),
-        titleSpacing: 10.w,
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 16.w),
+            padding: EdgeInsets.only(right: 16.w, left: 16.w),
+
             child: InkWell(
               focusColor: Colors.transparent,
               highlightColor: Colors.transparent,

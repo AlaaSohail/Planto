@@ -91,7 +91,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               title: AppTheme.plantCareAILogo(context),
               leading: AppTheme.backButton(context),
               backgroundColor: Colors.transparent,
-              elevation: 0,
+              elevation: 0,        titleSpacing: 0,
+
             ),
             body: Center(
               child: Padding(

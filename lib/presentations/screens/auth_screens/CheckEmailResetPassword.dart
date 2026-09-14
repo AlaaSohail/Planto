@@ -46,6 +46,7 @@ class _CheckEmailResetPasswordState
 
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
         title: AppTheme.plantCareAILogo(context),
         leading: AppTheme.backButton(context),
         backgroundColor: Colors.transparent,

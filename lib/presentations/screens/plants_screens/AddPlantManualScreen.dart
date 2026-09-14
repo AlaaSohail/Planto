@@ -37,7 +37,8 @@ class _AddPlantManualScreenState extends State<AddPlantManualScreen> {
           foregroundColor: Colors.transparent,
           title: AppTheme.plantCareAILogo(context),
           backgroundColor: Colors.transparent,
-          elevation: 0,
+          elevation: 0,        titleSpacing: 0,
+
           leading: AppTheme.backButton(context),
         ),
         body: BlocConsumer<PlantCubit, PlantState>(

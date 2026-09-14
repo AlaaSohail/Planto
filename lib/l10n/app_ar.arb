@@ -258,6 +258,12 @@
   "km": "كم",
   "hour": "س",
   "aiChatOnlineExpert": "متصل · خبير نباتات بالذكاء الاصطناعي",
-  "aiChatHint": "اسألني عن أي شيء..."
-
+  "aiChatHint": "اسألني عن أي شيء...",
+  "planto": "بلانتو.",
+  "appearance": "المظهر",
+  "chooseThemeDescription": "اختر مظهر Planto على جهازك",
+  "lightMode": "الوضع الفاتح",
+  "lightModeDescription": "مظهر فاتح وواضح",
+  "darkMode": "الوضع الداكن",
+  "darkModeDescription": "مريح للاستخدام في الإضاءة المنخفضة"
 }

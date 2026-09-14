@@ -44,9 +44,9 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
       appBar: AppBar(
         foregroundColor: Colors.transparent,
         title: AppTheme.plantCareAILogo(context),
-        leadingWidth: 32.w,
         backgroundColor: Colors.transparent,
-        elevation: 0,
+        elevation: 0,        titleSpacing: 0,
+
         leading: AppTheme.backButton(context),
       ),
       body: SingleChildScrollView(

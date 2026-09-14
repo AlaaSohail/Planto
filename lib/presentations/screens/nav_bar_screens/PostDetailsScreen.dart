@@ -51,6 +51,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
         leading: AppTheme.backButton(context),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        titleSpacing: 0,
+
         actions: [
           ContainerIcons(
             icon: 'assets/images/share.png',

@@ -25,12 +25,13 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
         foregroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         elevation: 0,
+        titleSpacing: 0,
+
         title: Text(
           localization.upgradePlan,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         leading: AppTheme.backButton(context),
-        leadingWidth: 55.w,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -40,10 +41,7 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    "assets/images/pro-member.png",
-                    height: 100.h,
-                  ),
+                  Image.asset("assets/images/pro-member.png", height: 100.h),
 
                   SizedBox(height: 16.h),
 
@@ -53,17 +51,12 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
                       children: [
                         TextSpan(
                           text: localization.unlockYourFull,
-                          style:
-                          Theme.of(context).textTheme.headlineSmall,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         TextSpan(
                           text: localization.gardenPotential,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(
-                            color: AppColors.secondary,
-                          ),
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(color: AppColors.secondary),
                         ),
                       ],
                     ),

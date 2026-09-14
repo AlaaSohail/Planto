@@ -130,7 +130,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           return Scaffold(
             appBar: AppBar(
               title: AppTheme.plantCareAILogo(context),
-              leadingWidth: 55.w,
+              titleSpacing: 0,
+
               leading: AppTheme.backButton(context),
             ),
             body: LayoutBuilder(
@@ -495,7 +496,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                                 Text(
-                                    localization.registerOrContinueWith,
+                                  localization.registerOrContinueWith,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 Expanded(

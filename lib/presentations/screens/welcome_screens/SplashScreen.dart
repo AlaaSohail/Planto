@@ -29,12 +29,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // context.read<PlantCubit>().getPlant();
-    // context.read<UserCubit>().getUserProfile();
-    //
-    // _loadLocationData();
-    //
-    // context.read<AiCubit>().getDailyTip();
 
     _navigate();
   }
@@ -92,7 +86,6 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         CupertinoPageRoute(builder: (_) => const NavBarScreen()),
-
       );
       context.read<PlantCubit>().getPlant();
       context.read<UserCubit>().getUserProfile();
@@ -118,19 +111,26 @@ class _SplashScreenState extends State<SplashScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-
       body: Stack(
         children: [
           // المحتوى الرئيسي
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildSplashImage(size),
-                SizedBox(height: 24.h),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/back_ground_image.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildSplashImage(size),
+                  SizedBox(height: 24.h),
 
-                _buildSubtitle(context),
-              ],
+                  _buildSubtitle(context),
+                ],
+              ),
             ),
           ),
 
@@ -141,7 +141,7 @@ class _SplashScreenState extends State<SplashScreen> {
             right: 0,
             child: Center(
               child: SpinKitSpinningLines(
-                color: Theme.of(context).textTheme.headlineSmall!.color!,
+                color: Colors.white,
                 size: 30.sp,
               ).animate().fadeIn(delay: 1200.ms).scale(),
             ),
@@ -154,44 +154,37 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _buildSplashImage(Size size) {
     return Image.asset("assets/images/logo.png", width: size.width * 0.6)
         .animate()
-        .fadeIn(duration: 700.ms)
-        .slideY(begin: 0.5, end: 0, duration: 700.ms);
+        .fadeIn(duration: 1500.ms)
+        .slideY(begin: 0.2, end: 0, duration: 700.ms);
   }
 
   Widget _buildSubtitle(BuildContext context) {
     return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "CARE  ",
-              style: Theme.of(context).textTheme.bodyLarge
-            ),
-            _buildDot(context),
-            Text(
-              "  PROTECT  ",
-              style: Theme.of(context).textTheme.bodyLarge
-            ),
-            _buildDot(context),
-            Text(
-              "  GROW",
-              style: Theme.of(context).textTheme.bodyLarge
-            ),
-          ],
-        )
-        .animate()
-        .fadeIn(delay: 1000.ms)
-        .slideY(begin: 0.5, end: 0, duration: 700.ms);
-  }
-
-  Widget _buildDot(BuildContext context) {
-    return Container(
-      height: 4.h,
-      width: 4.w,
-      margin: EdgeInsets.symmetric(horizontal: 4.w),
-      decoration: BoxDecoration(
-        color: isDark(context)?Colors.white:Colors.black,
-        shape: BoxShape.circle,
-      ),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+              "CARE TODAY,",
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Colors.white,
+                letterSpacing: 2,
+                fontWeight: FontWeight.w300,
+              ),
+            )
+            .animate()
+            .fadeIn(delay: 1100.ms)
+            .slideY(begin: 0.5, end: 0, duration: 700.ms),
+        Text(
+              " GREENER TOMORROW",
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Colors.white,
+                letterSpacing: 2,
+                fontWeight: FontWeight.w300,
+              ),
+            )
+            .animate()
+            .fadeIn(delay: 1800.ms)
+            .slideY(begin: 0.9, end: 0, duration: 700.ms),
+      ],
     );
   }
 }

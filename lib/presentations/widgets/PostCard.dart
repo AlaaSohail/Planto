@@ -53,13 +53,17 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      elevation: 4,
-      color: Color(0xffA7E39A).withOpacity(0.2),
-      clipBehavior: Clip.antiAlias,
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
 
+      // color: Color(0xffA7E39A).withOpacity(0.2),
+      // clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Color(0xffA7E39A).withOpacity(0.2),
+        borderRadius: BorderRadius.circular(16.r),
+
+        border: Border.all(color: Color(0xffA7E39A).withOpacity(0.1), width: 1),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

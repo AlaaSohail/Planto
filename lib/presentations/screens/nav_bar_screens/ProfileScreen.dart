@@ -23,6 +23,7 @@ import 'LanguageScreen.dart';
 import 'NotificationScreen.dart';
 import 'PasswordChangeScreen.dart';
 import 'SettingScreen.dart';
+import 'ThemeModeScreen.dart' show ThemeModeScreen;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -46,11 +47,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
           if (state is UserError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         builder: (context, state) {
@@ -58,13 +57,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              leading: const SizedBox.shrink(),
-              leadingWidth: 16.w,
               foregroundColor: Colors.transparent,
+              centerTitle: true,
               title: AppTheme.plantCareAILogo(context),
               actions: [
                 Padding(
-                  padding: EdgeInsets.only(right: 16.w),
+                  padding: EdgeInsets.only(right: 16.w, left: 16.w),
                   child: InkWell(
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
@@ -74,14 +72,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (_) =>
-                          const EditProfileDetailsScreen(),
+                          builder: (_) => const EditProfileDetailsScreen(),
                         ),
                       );
                     },
-                    child: ContainerIcons(
-                      icon: 'assets/images/edit.png',
-                    ),
+                    child: ContainerIcons(icon: 'assets/images/edit.png'),
                   ),
                 ),
               ],
@@ -89,282 +84,246 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             body: state is UserLoading
                 ? Center(
-              child: SpinKitSpinningLines(
-                color: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .color!,
-                size: 30.sp,
-              ),
-            )
+                    child: SpinKitSpinningLines(
+                      color: Theme.of(context).textTheme.headlineSmall!.color!,
+                      size: 30.sp,
+                    ),
+                  )
                 : state is UserSuccess
                 ? SingleChildScrollView(
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16.r),
-                  child: Column(
-                    children: [
-                      ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl: state.user.image ??
-                              'https://res.cloudinary.com/n4qtd6co/image/upload/v1788421140/farmer_hw0ugv.png',
-                          width: 100.r,
-                          height: 100.r,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) {
-                            return Container(
-                              color: AppColors.primary
-                                  .withOpacity(0.1),
-                              child: Center(
-                                child:
-                                SpinKitSpinningLines(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall!
-                                      .color!,
-                                  size: 30.sp,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.r),
+                        child: Column(
+                          children: [
+                            ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    state.user.image ??
+                                    'https://res.cloudinary.com/n4qtd6co/image/upload/v1788421140/farmer_hw0ugv.png',
+                                width: 100.r,
+                                height: 100.r,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) {
+                                  return Container(
+                                    color: AppColors.primary.withOpacity(0.1),
+                                    child: Center(
+                                      child: SpinKitSpinningLines(
+                                        color: Theme.of(
+                                          context,
+                                        ).textTheme.headlineSmall!.color!,
+                                        size: 30.sp,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                errorWidget: (context, url, error) {
+                                  return Container(
+                                    color: AppColors.primary.withOpacity(0.1),
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 45.sp,
+                                      color: AppColors.primary,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+
+                            SizedBox(height: 16.h),
+
+                            Text(
+                              state.user.name,
+                              style: Theme.of(context).textTheme.headlineMedium,
+                            ),
+
+                            SizedBox(height: 8.h),
+
+                            BadgeContainer(
+                              color: Colors.yellowAccent.withOpacity(0.3),
+                              content: "  ${localization.proMember}  ",
+                              textStyle: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 12.sp,
+                                  ),
+                            ),
+
+                            SizedBox(height: 12.h),
+
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (_) => const UpgradePlanScreen(),
+                                  ),
+                                );
+                              },
+                              child: TipCard(
+                                title: localization.plantoPro,
+                                image: Image.asset(
+                                  'assets/images/plantBot.png',
+                                  width: 60.w,
+                                  height: 60.h,
+                                ),
+                                color: AppColors.primary,
+                                sub: localization
+                                    .unlimitedAIScansAdvancedAnalytics,
+                              ),
+                            ),
+
+                            SizedBox(height: 16.h),
+
+                            Align(
+                              alignment: AlignmentDirectional.centerStart,
+                              child: Text(
+                                localization.account,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ),
+
+                            SizedBox(height: 16.h),
+
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: const Color(0xffA7E39A).withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(16.r),
+                                border: Border.all(
+                                  color: Colors.grey.shade300,
+                                  width: 0.5.w,
                                 ),
                               ),
-                            );
-                          },
-                          errorWidget:
-                              (context, url, error) {
-                            return Container(
-                              color: AppColors.primary
-                                  .withOpacity(0.1),
-                              child: Icon(
-                                Icons.person,
-                                size: 45.sp,
-                                color: AppColors.primary,
+                              child: Column(
+                                children: [
+                                  ProfileCard(
+                                    icon: 'assets/images/notification.png',
+                                    title: localization.notifications,
+                                    page: const NotificationScreen(),
+                                  ),
+
+                                  Divider(
+                                    height: 0.5.h,
+                                    thickness: 0.5,
+                                    color: Colors.grey.shade300,
+                                  ),
+
+                                  ProfileCard(
+                                    icon: 'assets/images/dark.png',
+                                    title: localization.darkMode,
+                                    page: ThemeModeScreen(),
+                                  ),
+
+                                  Divider(
+                                    height: 0.5.h,
+                                    thickness: 0.5,
+                                    color: Colors.grey.shade300,
+                                  ),
+
+                                  ProfileCard(
+                                    icon: 'assets/images/internet.png',
+                                    title: localization.language,
+                                    page: const LanguageScreen(),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        ),
-                      ),
-
-                      SizedBox(height: 16.h),
-
-                      Text(
-                        state.user.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium,
-                      ),
-
-                      SizedBox(height: 8.h),
-
-                      BadgeContainer(
-                        color: Colors.yellowAccent
-                            .withOpacity(0.3),
-                        content:
-                        "  ${localization.proMember}  ",
-                        textStyle: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(
-                          color: AppColors.primary,
-                          fontWeight:
-                          FontWeight.w900,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-
-                      SizedBox(height: 12.h),
-
-                      InkWell(
-                        splashColor: Colors.transparent,
-                        highlightColor:
-                        Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (_) =>
-                              const UpgradePlanScreen(),
-                            ),
-                          );
-                        },
-                        child: TipCard(
-                          title: localization.plantoPro,
-                          image: Image.asset(
-                            'assets/images/plantBot.png',
-                            width: 60.w,
-                            height: 60.h,
-                          ),
-                          color: AppColors.primary,
-                          sub: localization
-                              .unlimitedAIScansAdvancedAnalytics,
-                        ),
-                      ),
-
-                      SizedBox(height: 16.h),
-
-                      Align(
-                        alignment:
-                        AlignmentDirectional.centerStart,
-                        child: Text(
-                          localization.account,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge,
-                        ),
-                      ),
-
-                      SizedBox(height: 16.h),
-
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffA7E39A)
-                              .withOpacity(0.2),
-                          borderRadius:
-                          BorderRadius.circular(16.r),
-                          border: Border.all(
-                            color: Colors.grey.shade300,
-                            width: 0.5.w,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            ProfileCard(
-                              icon:
-                              'assets/images/notification.png',
-                              title: localization.notifications,
-                              page:
-                              const NotificationScreen(),
                             ),
 
-                            Divider(
-                              height: 0.5.h,
-                              thickness: 0.5,
-                              color: Colors.grey.shade300,
+                            SizedBox(height: 16.h),
+
+                            Align(
+                              alignment: AlignmentDirectional.centerStart,
+                              child: Text(
+                                localization.app,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                             ),
 
-                            ProfileCard(
-                              icon:
-                              'assets/images/privacy-policy.png',
-                              title: localization.password,
-                              page:
-                              const PasswordChangeScreen(),
+                            SizedBox(height: 16.h),
+
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: const Color(0xffA7E39A).withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(16.r),
+                                border: Border.all(
+                                  color: Colors.grey.shade300,
+                                  width: 0.5.w,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  ProfileCard(
+                                    icon: 'assets/images/premium.png',
+                                    title: localization.premiumPlan,
+                                    page: const UpgradePlanScreen(),
+                                  ),
+
+                                  Divider(
+                                    height: 0.5.h,
+                                    thickness: 0.5,
+                                    color: Colors.grey.shade300,
+                                  ),
+                                  ProfileCard(
+                                    icon: 'assets/images/privacy-policy.png',
+                                    title: localization.password,
+                                    page: const PasswordChangeScreen(),
+                                  ),
+                                  Divider(
+                                    height: 0.5.h,
+                                    thickness: 0.5,
+                                    color: Colors.grey.shade300,
+                                  ),
+                                  ProfileCard(
+                                    icon: 'assets/images/settings.png',
+                                    title: localization.preferences,
+                                    page: const SettingScreen(),
+                                  ),
+                                ],
+                              ),
                             ),
 
-                            Divider(
-                              height: 0.5.h,
-                              thickness: 0.5,
-                              color: Colors.grey.shade300,
-                            ),
+                            SizedBox(height: 16.h),
 
-                            ProfileCard(
-                              icon:
-                              'assets/images/internet.png',
-                              title: localization.language,
-                              page:
-                              const LanguageScreen(),
+                            MainButton(
+                              mainAxisSize: MainAxisSize.max,
+                              onPressed: () async {
+                                await context.read<UserCubit>().logout();
+
+                                if (!context.mounted) return;
+
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (_) => const LoginScreen(),
+                                  ),
+                                  (route) => false,
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.logout,
+                                color: Colors.redAccent,
+                              ),
+                              content: localization.signOut,
+                              buttonStyle: AppButtonTheme.themeTertiary.style,
+                              textStyle: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(
+                                    color: Colors.redAccent,
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 20.sp,
+                                  ),
                             ),
                           ],
                         ),
                       ),
-
-                      SizedBox(height: 16.h),
-
-                      Align(
-                        alignment:
-                        AlignmentDirectional.centerStart,
-                        child: Text(
-                          localization.app,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge,
-                        ),
-                      ),
-
-                      SizedBox(height: 16.h),
-
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffA7E39A)
-                              .withOpacity(0.2),
-                          borderRadius:
-                          BorderRadius.circular(16.r),
-                          border: Border.all(
-                            color: Colors.grey.shade300,
-                            width: 0.5.w,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            ProfileCard(
-                              icon:
-                              'assets/images/premium.png',
-                              title:
-                              localization.premiumPlan,
-                              page:
-                              const UpgradePlanScreen(),
-                            ),
-
-                            Divider(
-                              height: 0.5.h,
-                              thickness: 0.5,
-                              color: Colors.grey.shade300,
-                            ),
-
-                            ProfileCard(
-                              icon:
-                              'assets/images/settings.png',
-                              title:
-                              localization.preferences,
-                              page:
-                              const SettingScreen(),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      SizedBox(height: 16.h),
-
-                      MainButton(
-                        mainAxisSize: MainAxisSize.max,
-                        onPressed: () async {
-                          await context
-                              .read<UserCubit>()
-                              .logout();
-
-                          if (!context.mounted) return;
-
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (_) =>
-                              const LoginScreen(),
-                            ),
-                                (route) => false,
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.logout,
-                          color: Colors.redAccent,
-                        ),
-                        content: localization.signOut,
-                        buttonStyle: AppButtonTheme
-                            .themeTertiary.style,
-                        textStyle: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(
-                          color: Colors.redAccent,
-                          fontWeight:
-                          FontWeight.w900,
-                          fontSize: 20.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
+                    ),
+                  )
                 : Container(),
           );
         },

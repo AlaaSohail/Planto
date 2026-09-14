@@ -1491,6 +1491,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ask me anything...'**
   String get aiChatHint;
+
+  /// No description provided for @planto.
+  ///
+  /// In en, this message translates to:
+  /// **'Planto'**
+  String get planto;
+
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @chooseThemeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how Planto looks on your device'**
+  String get chooseThemeDescription;
+
+  /// No description provided for @lightMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get lightMode;
+
+  /// No description provided for @lightModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Bright and clean appearance'**
+  String get lightModeDescription;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
+
+  /// No description provided for @darkModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Comfortable for low-light environments'**
+  String get darkModeDescription;
 }
 
 class _AppLocalizationsDelegate

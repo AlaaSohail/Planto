@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:plant_care/controllers/cubit/plant_cubit/plant_cubit.dart';
 import 'package:plant_care/presentations/screens/plants_screens/AddPlantManualScreen.dart';
+import 'package:plant_care/presentations/themes/app_colors.dart';
 import 'package:plant_care/presentations/widgets/PlantCard.dart';
 
 import '../../../l10n/app_localizations.dart';
@@ -16,10 +17,7 @@ import '../../widgets/SearchTextField.dart';
 import 'PlantDetailsScreen.dart';
 
 class GetPlantScreen extends StatefulWidget {
-  const GetPlantScreen({
-    super.key,
-    required this.onBackToHome,
-  });
+  const GetPlantScreen({super.key, required this.onBackToHome});
 
   final VoidCallback onBackToHome;
 
@@ -45,7 +43,6 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leadingWidth: 55.w,
           leading: AppTheme.backButton(
             context,
             onPressed: () {
@@ -56,7 +53,7 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
               widget.onBackToHome();
             },
           ),
-          titleSpacing: 10.w,
+          titleSpacing: 0,
           title: RichText(
             text: TextSpan(
               children: [
@@ -79,15 +76,12 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 hoverColor: Colors.transparent,
-                child: ContainerIcons(
-                  icon: 'assets/images/plus.png',
-                ),
+                child: ContainerIcons(icon: 'assets/images/plus.png'),
                 onTap: () {
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
-                      builder: (_) =>
-                      const AddPlantManualScreen(),
+                      builder: (_) => const AddPlantManualScreen(),
                     ),
                   );
                 },
@@ -113,9 +107,7 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                     ),
                     controller: _searchController,
                     onChange: (value) {
-                      context
-                          .read<PlantCubit>()
-                          .searchPlants(value ?? '');
+                      context.read<PlantCubit>().searchPlants(value ?? '');
                     },
                   ),
 
@@ -124,21 +116,18 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                   BlocConsumer<PlantCubit, PlantState>(
                     listener: (context, state) {
                       if (state is PlantError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(state.message),
-                          ),
-                        );
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(state.message)));
                       }
                     },
                     builder: (context, state) {
                       if (state is PlantLoading) {
                         return Center(
                           child: SpinKitSpinningLines(
-                            color: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .color!,
+                            color: Theme.of(
+                              context,
+                            ).textTheme.headlineSmall!.color!,
                             size: 30.sp,
                           ),
                         );
@@ -148,15 +137,15 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                         final plants = state.plants;
 
                         if (plants.isEmpty) {
-                          final isSearching =
-                              _searchController.text.trim().isNotEmpty;
+                          final isSearching = _searchController.text
+                              .trim()
+                              .isNotEmpty;
 
                           return SizedBox(
                             height: 190.h,
                             width: double.infinity,
                             child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   isSearching
@@ -172,13 +161,11 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                                         context,
                                         CupertinoPageRoute(
                                           builder: (_) =>
-                                          const AddPlantManualScreen(),
+                                              const AddPlantManualScreen(),
                                         ),
                                       );
                                     },
-                                    child: Text(
-                                      localization.addPlant,
-                                    ),
+                                    child: Text(localization.addPlant),
                                   ),
                               ],
                             ),
@@ -186,48 +173,42 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                         }
 
                         final healthyCount = plants
-                            .where(
-                              (plant) =>
-                          plant.healthStatus == 'Healthy',
-                        )
+                            .where((plant) => plant.healthStatus == 'Healthy')
                             .length;
 
                         final diseasedCount = plants
-                            .where(
-                              (plant) =>
-                          plant.disease != 'None detected',
-                        )
+                            .where((plant) => plant.disease != 'None detected')
                             .length;
 
                         final notAnalyzedCount = plants
                             .where(
                               (plant) =>
-                          plant.confidence == 0 ||
-                              plant.confidence == null ||
-                              plant.healthStatus == null,
-                        )
+                                  plant.confidence == 0 ||
+                                  plant.confidence == null ||
+                                  plant.healthStatus == null,
+                            )
                             .length;
 
                         final actions = [
                           (
-                          title: localization.total,
-                          count: plants.length.toString(),
-                          icon: 'assets/images/3d_leaf.png',
+                            title: localization.total,
+                            count: plants.length.toString(),
+                            icon: 'assets/images/3d_leaf.png',
                           ),
                           (
-                          title: localization.healthy,
-                          count: healthyCount.toString(),
-                          icon: 'assets/images/healthy_plant.png',
+                            title: localization.healthy,
+                            count: healthyCount.toString(),
+                            icon: 'assets/images/healthy_plant.png',
                           ),
                           (
-                          title: localization.notAnalyzed,
-                          count: notAnalyzedCount.toString(),
-                          icon: 'assets/images/analyze_plant.png',
+                            title: localization.notAnalyzed,
+                            count: notAnalyzedCount.toString(),
+                            icon: 'assets/images/analyze_plant.png',
                           ),
                           (
-                          title: localization.diseased,
-                          count: diseasedCount.toString(),
-                          icon: 'assets/images/virus.png',
+                            title: localization.diseased,
+                            count: diseasedCount.toString(),
+                            icon: 'assets/images/virus.png',
                           ),
                         ];
 
@@ -238,14 +219,14 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                           children: [
                             SizedBox(
                               height: 120.h,
-                              child: Card(
-                                elevation: 2,
-                                color: const Color(0xffA7E39A)
-                                    .withOpacity(0.2),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(20.r),
-                                ),
+                              child: Container(
+                               decoration: BoxDecoration(
+                                 borderRadius: BorderRadius.circular(14.r),
+                                 color: AppColors.secondary.withOpacity(0.2),
+
+
+
+                               ),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 8.w,
@@ -268,27 +249,24 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                             SizedBox(height: 8.h),
 
                             SizedBox(
-                              height:
-                              MediaQuery.of(context).size.height,
+                              height: MediaQuery.of(context).size.height,
                               child: GridView.builder(
                                 scrollDirection: Axis.vertical,
-                                physics:
-                                const NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: plants.length,
                                 gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 12,
-                                  mainAxisSpacing: 12,
-                                  childAspectRatio: 0.75,
-                                ),
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 12,
+                                      mainAxisSpacing: 12,
+                                      childAspectRatio: 0.75,
+                                    ),
                                 itemBuilder: (context, index) {
                                   final plant = plants[index];
 
                                   return InkWell(
                                     focusColor: Colors.transparent,
-                                    highlightColor:
-                                    Colors.transparent,
+                                    highlightColor: Colors.transparent,
                                     splashColor: Colors.transparent,
                                     hoverColor: Colors.transparent,
                                     onTap: () {
@@ -296,9 +274,7 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                                         context,
                                         CupertinoPageRoute(
                                           builder: (context) =>
-                                              PlantDetailsScreen(
-                                                plant: plant,
-                                              ),
+                                              PlantDetailsScreen(plant: plant),
                                         ),
                                       );
                                     },
