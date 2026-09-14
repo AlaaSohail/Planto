@@ -117,7 +117,7 @@ class AppTheme {
       icon: Icon(
         Icons.arrow_back_ios_new_rounded,
         color: Theme.of(context).colorScheme.primary,
-        size: 28.sp,
+        size: 24.sp,
       ),
     );
   }

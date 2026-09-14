@@ -640,4 +640,88 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savePlant => 'Save Plant';
+
+  @override
+  String get weatherClearSky => 'Clear Sky';
+
+  @override
+  String get weatherMainlyClear => 'Mainly Clear';
+
+  @override
+  String get weatherMostlyClear => 'Mostly Clear';
+
+  @override
+  String get weatherOvercast => 'Overcast';
+
+  @override
+  String get weatherFog => 'Fog';
+
+  @override
+  String get weatherRimeFog => 'Depositing Rime Fog';
+
+  @override
+  String get weatherLightDrizzle => 'Light Drizzle';
+
+  @override
+  String get weatherModerateDrizzle => 'Moderate Drizzle';
+
+  @override
+  String get weatherDenseDrizzle => 'Dense Drizzle';
+
+  @override
+  String get weatherSlightRain => 'Light Rain';
+
+  @override
+  String get weatherModerateRain => 'Moderate Rain';
+
+  @override
+  String get weatherHeavyRain => 'Heavy Rain';
+
+  @override
+  String get weatherLightSnow => 'Light Snow';
+
+  @override
+  String get weatherModerateSnow => 'Moderate Snow';
+
+  @override
+  String get weatherHeavySnow => 'Heavy Snow';
+
+  @override
+  String get weatherSnowGrains => 'Snow Grains';
+
+  @override
+  String get weatherSlightShowers => 'Light Showers';
+
+  @override
+  String get weatherModerateShowers => 'Moderate Showers';
+
+  @override
+  String get weatherViolentShowers => 'Heavy Showers';
+
+  @override
+  String get weatherThunderstorm => 'Thunderstorm';
+
+  @override
+  String get weatherHail => 'Hail';
+
+  @override
+  String get weatherUnknown => 'Unknown';
+
+  @override
+  String get humidity => 'Humidity';
+
+  @override
+  String get wind => 'Wind';
+
+  @override
+  String get km => 'km';
+
+  @override
+  String get hour => 'h';
+
+  @override
+  String get aiChatOnlineExpert => 'Online · Expert botanist AI';
+
+  @override
+  String get aiChatHint => 'Ask me anything...';
 }

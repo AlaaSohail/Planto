@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:plant_care/controllers/cubit/ai_cubit/ai_cubit.dart';
 import 'package:plant_care/presentations/widgets/AuthTextField.dart';
 
-import '../../../controllers/cubit/user_cubit/user_cubit.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/ContainerIcons.dart';
@@ -18,85 +18,73 @@ class AiChatScreen extends StatefulWidget {
 }
 
 class _AiChatScreenState extends State<AiChatScreen> {
-  TextEditingController messageController = TextEditingController();
-  bool isUser = true;
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<AiCubit>();
-  }
+  final TextEditingController messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
+
       appBar: AppBar(
-        titleSpacing: 10.w,
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "Planto \n",
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              TextSpan(
-                text: "Online · Expert botanist AI",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.secondary,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ],
+        title: Text(
+          l10n.aiChatOnlineExpert,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: AppColors.secondary,
+            fontWeight: FontWeight.w700,
           ),
         ),
 
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 16.w),
-            child: ContainerIcons(icon: 'assets/images/star.png'),
-          ),
-        ],
-        leadingWidth: 56.w,
         leading: AppTheme.backButton(context),
+
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: Colors.transparent,
       ),
+
       body: SafeArea(
         child: BlocConsumer<AiCubit, AiState>(
           listener: (context, state) {},
+
           builder: (context, state) {
-            final isLoading = state is AiChatLoading;
             if (state is AiLoading) {
               return Center(
                 child: CircularProgressIndicator(color: AppColors.primary),
               );
             }
 
+            final cubit = context.read<AiCubit>();
+
             return Column(
               children: [
                 Expanded(
                   child: ListView.builder(
                     padding: EdgeInsets.all(16.r),
-                    itemCount: context.read<AiCubit>().messages.length,
+
+                    itemCount: cubit.messages.length,
+
                     itemBuilder: (context, index) {
-                      final message = context.read<AiCubit>().messages[index];
+                      final message = cubit.messages[index];
 
                       return Align(
                         alignment: message.isUser
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
+                            ? AlignmentDirectional.centerEnd
+                            : AlignmentDirectional.centerStart,
+
                         child: Container(
                           margin: EdgeInsets.only(bottom: 10.h),
+
                           padding: EdgeInsets.symmetric(
                             horizontal: 14.w,
                             vertical: 10.h,
                           ),
+
                           decoration: BoxDecoration(
                             color: message.isUser
                                 ? AppColors.primary
                                 : AppColors.secondary.withOpacity(0.5),
+
                             borderRadius: BorderRadius.circular(16.r),
                           ),
 
@@ -104,6 +92,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
                               ? SizedBox(
                                   width: 32.w,
                                   height: 32.h,
+
                                   child: SpinKitThreeBounce(
                                     color: AppColors.primary,
                                     size: 16.sp,
@@ -114,6 +103,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
                                 )
                               : Text(
                                   message.message,
+
                                   style: TextStyle(
                                     color: message.isUser
                                         ? Colors.white
@@ -129,17 +119,21 @@ class _AiChatScreenState extends State<AiChatScreen> {
                 Container(
                   decoration: BoxDecoration(
                     color: AppColors.secondary.withOpacity(0.15),
+
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(24.r),
                       topRight: Radius.circular(24.r),
                     ),
                   ),
+
                   padding: EdgeInsets.symmetric(
                     horizontal: 8.r,
                     vertical: 12.r,
                   ),
+
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
+
                     children: [
                       IconButton.filledTonal(
                         style: ButtonStyle(
@@ -149,6 +143,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
                         ),
 
                         onPressed: () {},
+
                         icon: Image.asset(
                           "assets/images/image.png",
                           height: 20.h,
@@ -161,9 +156,11 @@ class _AiChatScreenState extends State<AiChatScreen> {
                       Expanded(
                         child: AuthTextField(
                           controller: messageController,
-                          hintText: 'Ask me anything...',
+
+                          hintText: l10n.aiChatHint,
 
                           keyboardType: TextInputType.multiline,
+
                           obscureText: false,
                         ),
                       ),
@@ -178,15 +175,15 @@ class _AiChatScreenState extends State<AiChatScreen> {
                         ),
 
                         onPressed: () {
-                          if (messageController.text.trim().isNotEmpty &&
-                              messageController.text != "") {
-                            context.read<AiCubit>().chatAiBot(
-                              messageController.text,
-                            );
-                            messageController.clear();
-                            isUser = true;
-                          }
+                          final message = messageController.text.trim();
+
+                          if (message.isEmpty) return;
+
+                          context.read<AiCubit>().chatAiBot(message);
+
+                          messageController.clear();
                         },
+
                         icon: Image.asset(
                           "assets/images/send.png",
                           height: 20.h,

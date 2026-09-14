@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import '../../l10n/app_localizations.dart';
+
 class WeatherModel {
   final double temperature;
   final double humidity;
@@ -17,6 +21,7 @@ class WeatherModel {
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) {
     final current = json['current'];
+
     return WeatherModel(
       temperature: (current['temperature_2m'] as num).toDouble(),
       humidity: (current['relative_humidity_2m'] as num).toDouble(),
@@ -27,73 +32,84 @@ class WeatherModel {
     );
   }
 
-  String get description {
+  String description(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     switch (weatherCode) {
       case 0:
-        return "Clear Sky";
+        return l10n.weatherClearSky;
 
       case 1:
-        return "Mainly Clear";
+        return l10n.weatherMainlyClear;
+
       case 2:
-        return "Mostly Clear";
+        return l10n.weatherMostlyClear;
+
       case 3:
-        return "Overcast";
+        return l10n.weatherOvercast;
 
       case 45:
-        return "Fog";
+        return l10n.weatherFog;
+
       case 48:
-        return "Depositing Rime Fog";
+        return l10n.weatherRimeFog;
 
       case 51:
-        return "Light Drizzle";
+        return l10n.weatherLightDrizzle;
+
       case 53:
-        return "Moderate Drizzle";
+        return l10n.weatherModerateDrizzle;
+
       case 55:
-        return "Dense Drizzle";
+        return l10n.weatherDenseDrizzle;
 
       case 61:
-        return "Slight Rain";
+        return l10n.weatherSlightRain;
+
       case 63:
-        return "Moderate Rain";
+        return l10n.weatherModerateRain;
+
       case 65:
-        return "Heavy Rain";
+        return l10n.weatherHeavyRain;
 
       case 71:
-        return "Light Snow";
+        return l10n.weatherLightSnow;
+
       case 73:
-        return "Moderate Snow";
+        return l10n.weatherModerateSnow;
+
       case 75:
-        return "Heavy Snow";
+        return l10n.weatherHeavySnow;
 
       case 77:
-        return "Snow Grains";
+        return l10n.weatherSnowGrains;
 
       case 80:
-        return "Slight Showers";
+        return l10n.weatherSlightShowers;
+
       case 81:
-        return "Moderate Showers";
+        return l10n.weatherModerateShowers;
+
       case 82:
-        return "Violent Showers";
+        return l10n.weatherViolentShowers;
 
       case 95:
-        return "Thunderstorm";
+        return l10n.weatherThunderstorm;
 
       case 96:
       case 97:
       case 98:
       case 99:
-        return "Hail";
+        return l10n.weatherHail;
 
       default:
-        return "Unknown";
+        return l10n.weatherUnknown;
     }
   }
 
   String get icon {
     switch (weatherCode) {
       case 0:
-        return "assets/images/sun.png";
-
       case 1:
       case 2:
         return "assets/images/sun.png";
@@ -113,12 +129,14 @@ class WeatherModel {
       case 61:
       case 63:
         return "assets/images/rain.png";
+
       case 65:
         return "assets/images/heavy-rain.png";
 
       case 71:
       case 73:
       case 75:
+      case 77:
         return "assets/images/snow.png";
 
       case 80:
@@ -128,11 +146,13 @@ class WeatherModel {
 
       case 95:
         return "assets/images/thunder.png";
+
       case 96:
       case 97:
       case 98:
       case 99:
         return "assets/images/hail.png";
+
       default:
         return "assets/images/weather.png";
     }

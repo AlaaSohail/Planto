@@ -372,7 +372,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ? city
                                     : localization.loadingLocation,
 
-                                description: weather?.description ?? localization.loading,
+                                description: weather?.description(context) ?? localization.loading,
                                 cTemperature:
                                     weather?.temperature.toStringAsFixed(0) ??
                                     "00",

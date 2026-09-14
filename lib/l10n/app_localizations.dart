@@ -1323,6 +1323,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save Plant'**
   String get savePlant;
+
+  /// No description provided for @weatherClearSky.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Sky'**
+  String get weatherClearSky;
+
+  /// No description provided for @weatherMainlyClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Mainly Clear'**
+  String get weatherMainlyClear;
+
+  /// No description provided for @weatherMostlyClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Mostly Clear'**
+  String get weatherMostlyClear;
+
+  /// No description provided for @weatherOvercast.
+  ///
+  /// In en, this message translates to:
+  /// **'Overcast'**
+  String get weatherOvercast;
+
+  /// No description provided for @weatherFog.
+  ///
+  /// In en, this message translates to:
+  /// **'Fog'**
+  String get weatherFog;
+
+  /// No description provided for @weatherRimeFog.
+  ///
+  /// In en, this message translates to:
+  /// **'Depositing Rime Fog'**
+  String get weatherRimeFog;
+
+  /// No description provided for @weatherLightDrizzle.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Drizzle'**
+  String get weatherLightDrizzle;
+
+  /// No description provided for @weatherModerateDrizzle.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate Drizzle'**
+  String get weatherModerateDrizzle;
+
+  /// No description provided for @weatherDenseDrizzle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dense Drizzle'**
+  String get weatherDenseDrizzle;
+
+  /// No description provided for @weatherSlightRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Rain'**
+  String get weatherSlightRain;
+
+  /// No description provided for @weatherModerateRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate Rain'**
+  String get weatherModerateRain;
+
+  /// No description provided for @weatherHeavyRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Heavy Rain'**
+  String get weatherHeavyRain;
+
+  /// No description provided for @weatherLightSnow.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Snow'**
+  String get weatherLightSnow;
+
+  /// No description provided for @weatherModerateSnow.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate Snow'**
+  String get weatherModerateSnow;
+
+  /// No description provided for @weatherHeavySnow.
+  ///
+  /// In en, this message translates to:
+  /// **'Heavy Snow'**
+  String get weatherHeavySnow;
+
+  /// No description provided for @weatherSnowGrains.
+  ///
+  /// In en, this message translates to:
+  /// **'Snow Grains'**
+  String get weatherSnowGrains;
+
+  /// No description provided for @weatherSlightShowers.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Showers'**
+  String get weatherSlightShowers;
+
+  /// No description provided for @weatherModerateShowers.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate Showers'**
+  String get weatherModerateShowers;
+
+  /// No description provided for @weatherViolentShowers.
+  ///
+  /// In en, this message translates to:
+  /// **'Heavy Showers'**
+  String get weatherViolentShowers;
+
+  /// No description provided for @weatherThunderstorm.
+  ///
+  /// In en, this message translates to:
+  /// **'Thunderstorm'**
+  String get weatherThunderstorm;
+
+  /// No description provided for @weatherHail.
+  ///
+  /// In en, this message translates to:
+  /// **'Hail'**
+  String get weatherHail;
+
+  /// No description provided for @weatherUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get weatherUnknown;
+
+  /// No description provided for @humidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Humidity'**
+  String get humidity;
+
+  /// No description provided for @wind.
+  ///
+  /// In en, this message translates to:
+  /// **'Wind'**
+  String get wind;
+
+  /// No description provided for @km.
+  ///
+  /// In en, this message translates to:
+  /// **'km'**
+  String get km;
+
+  /// No description provided for @hour.
+  ///
+  /// In en, this message translates to:
+  /// **'h'**
+  String get hour;
+
+  /// No description provided for @aiChatOnlineExpert.
+  ///
+  /// In en, this message translates to:
+  /// **'Online · Expert botanist AI'**
+  String get aiChatOnlineExpert;
+
+  /// No description provided for @aiChatHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask me anything...'**
+  String get aiChatHint;
 }
 
 class _AppLocalizationsDelegate

@@ -198,7 +198,6 @@
   "yourCollection": "مجموعتك",
   "searchPlants": "ابحث عن النباتات...",
   "noPlantsMatchSearch": "لا توجد نباتات مطابقة لبحثك",
-
   "total": "الكل",
   "healthy": "سليمة",
   "notAnalyzed": "غير محللة",
@@ -206,10 +205,8 @@
   "areYouSureDeletePlant": "هل أنت متأكد من حذف هذا النبات؟",
   "delete": "حذف",
   "deletePlant": "حذف النبات",
-
   "unknownPlant": "نبات غير معروف",
   "unknownSpecies": "فصيلة غير معروفة",
-
   "confidencePercent": "نسبة الثقة {percent}%",
   "@confidencePercent": {
     "placeholders": {
@@ -218,25 +215,49 @@
       }
     }
   },
-
   "healthScore": "درجة صحة النبات",
   "notAvailable": "غير متوفر",
   "noRecommendationAvailable": "لا توجد توصيات متاحة",
-
   "disease": "المرض",
   "noDiseaseAnalysisAvailable": "لا يتوفر تحليل للأمراض",
-
   "fertilize": "التسميد",
   "noFertilizerAdviceAvailable": "لا توجد نصائح للتسميد",
-
   "water": "الري",
   "wateringInstructions": "تعليمات الري",
   "noWateringAdviceAvailable": "لا توجد نصائح للري",
-
   "sunlight": "ضوء الشمس",
   "sunlightInstructions": "تعليمات الإضاءة",
   "noSunlightAdviceAvailable": "لا توجد نصائح للإضاءة",
   "analyzingPlantWithAI": "جارٍ تحليل نباتك باستخدام الذكاء الاصطناعي...",
   "savePlant": "حفظ النبات",
-  "analyzePlant": "تحليل النبات"
+  "analyzePlant": "تحليل النبات",
+  "weatherClearSky": "سماء صافية",
+  "weatherMainlyClear": "صافي غالبًا",
+  "weatherMostlyClear": "صافي جزئيًا",
+  "weatherOvercast": "غائم",
+  "weatherFog": "ضباب",
+  "weatherRimeFog": "ضباب كثيف",
+  "weatherLightDrizzle": "رذاذ خفيف",
+  "weatherModerateDrizzle": "رذاذ متوسط",
+  "weatherDenseDrizzle": "رذاذ كثيف",
+  "weatherSlightRain": "أمطار خفيفة",
+  "weatherModerateRain": "أمطار متوسطة",
+  "weatherHeavyRain": "أمطار غزيرة",
+  "weatherLightSnow": "ثلوج خفيفة",
+  "weatherModerateSnow": "ثلوج متوسطة",
+  "weatherHeavySnow": "ثلوج كثيفة",
+  "weatherSnowGrains": "حبيبات ثلج",
+  "weatherSlightShowers": "زخات خفيفة",
+  "weatherModerateShowers": "زخات متوسطة",
+  "weatherViolentShowers": "زخات غزيرة",
+  "weatherThunderstorm": "عاصفة رعدية",
+  "weatherHail": "بَرَد",
+  "weatherUnknown": "غير معروف",
+  "humidity": "الرطوبة",
+  "wind": "الرياح",
+  "km": "كم",
+  "hour": "س",
+  "aiChatOnlineExpert": "متصل · خبير نباتات بالذكاء الاصطناعي",
+  "aiChatHint": "اسألني عن أي شيء..."
+
 }

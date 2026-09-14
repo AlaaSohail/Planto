@@ -9,32 +9,32 @@ class AppLocalizationsHe extends AppLocalizations {
   AppLocalizationsHe([String locale = 'he']) : super(locale);
 
   @override
-  String get welcomeGardenReimagined => '🌿 Your garden, reimagined';
+  String get welcomeGardenReimagined => '🌿 הגינה שלך, בדרך חכמה יותר';
 
   @override
-  String get welcomeGrowSmarter => 'Grow smarter';
+  String get welcomeGrowSmarter => 'מגדלים חכם יותר';
 
   @override
-  String get welcomeWithAI => 'with AI';
+  String get welcomeWithAI => 'בעזרת AI';
 
   @override
   String get welcomeDescription =>
-      'Identify, diagnose, and care for your plants with the power of artificial intelligence. Join 2M+ plant lovers.';
+      'זהו את הצמחים שלכם, אבחנו בעיות וקבלו המלצות טיפול חכמות בעזרת AI. הצטרפו ליותר מ-2 מיליון חובבי צמחים.';
 
   @override
-  String get welcomeCreateFreeAccount => 'Create Free Account';
+  String get welcomeCreateFreeAccount => 'פתיחת חשבון בחינם';
 
   @override
-  String get welcomeSignIn => 'Sign In';
+  String get welcomeSignIn => 'התחברות';
 
   @override
-  String get welcomePlants => 'Plants';
+  String get welcomePlants => 'צמחים';
 
   @override
-  String get welcomeUsers => 'Users';
+  String get welcomeUsers => 'משתמשים';
 
   @override
-  String get welcomeRatings => 'Ratings';
+  String get welcomeRatings => 'דירוגים';
 
   @override
   String get welcomePlantsValue => '100';
@@ -55,589 +55,671 @@ class AppLocalizationsHe extends AppLocalizations {
   String get welcomeRatingsUnit => '⭐';
 
   @override
-  String get onboardingSkip => 'Skip';
+  String get onboardingSkip => 'דלג';
 
   @override
-  String get onboardingIdentifyPlantsTitle => 'Identify Plants Instantly';
+  String get onboardingIdentifyPlantsTitle => 'מזהים כל צמח בשניות';
 
   @override
   String get onboardingIdentifyPlantsSubtitle =>
-      'Point your camera at any plant and get instant identification with detailed care instructions in seconds.';
+      'כוונו את המצלמה לצמח וקבלו זיהוי מהיר יחד עם מידע והוראות טיפול מפורטות.';
 
   @override
-  String get onboardingSmartCareTitle => 'Smart Plant Care';
+  String get onboardingSmartCareTitle => 'טיפול חכם ומותאם אישית';
 
   @override
   String get onboardingSmartCareSubtitle =>
-      'Get personalized care recommendations based on your plant and its needs.';
+      'קבלו המלצות טיפול מותאמות לפי סוג הצמח והצרכים שלו.';
 
   @override
-  String get onboardingAiDoctorTitle => 'AI Plant Doctor';
+  String get onboardingAiDoctorTitle => 'רופא צמחים מבוסס AI';
 
   @override
   String get onboardingAiDoctorSubtitle =>
-      'Diagnose diseases, pests, and deficiencies with our advanced AI and get expert treatment recommendations instantly.';
+      'זהו מחלות, מזיקים וחוסרים תזונתיים וקבלו המלצות טיפול מיידיות בעזרת AI מתקדם.';
 
   @override
-  String get onboardingGetStarted => 'Get Started';
+  String get onboardingGetStarted => 'מתחילים';
 
   @override
-  String get onboardingNext => 'Next';
+  String get onboardingNext => 'הבא';
 
   @override
-  String get loginWelcomeBack => 'Welcome back';
+  String get loginWelcomeBack => 'כיף שחזרתם';
 
   @override
-  String get loginSubtitle => 'Sign in to continue growing';
+  String get loginSubtitle => 'התחברו כדי להמשיך לטפל ולגדל את הצמחים שלכם';
 
   @override
-  String get loginEmailAddress => 'EMAIL ADDRESS';
+  String get loginEmailAddress => 'כתובת אימייל';
 
   @override
-  String get loginEnterEmail => 'Enter your email';
+  String get loginEnterEmail => 'הקלידו את כתובת האימייל';
 
   @override
-  String get loginValidEmail => 'Enter valid email';
+  String get loginValidEmail => 'הקלידו כתובת אימייל תקינה';
 
   @override
-  String get loginPassword => 'PASSWORD';
+  String get loginPassword => 'סיסמה';
 
   @override
-  String get loginEnterPassword => 'Enter your password';
+  String get loginEnterPassword => 'הקלידו סיסמה';
 
   @override
-  String get loginPleaseEnterPassword => 'Please enter your password';
+  String get loginPleaseEnterPassword => 'אנא הקלידו סיסמה';
 
   @override
-  String get loginPasswordMinLength => 'Password must be at least 8 characters';
+  String get loginPasswordMinLength => 'הסיסמה חייבת להכיל לפחות 8 תווים';
 
   @override
-  String get loginForgotPassword => 'Forgot Password?';
+  String get loginForgotPassword => 'שכחתם סיסמה?';
 
   @override
-  String get loginSigningIn => 'Signing in...';
+  String get loginSigningIn => 'מתחברים...';
 
   @override
-  String get loginSignIn => 'Sign In';
+  String get loginSignIn => 'התחברות';
 
   @override
-  String get loginOrContinueWith => 'Or continue with';
+  String get loginOrContinueWith => 'או המשיכו עם';
 
   @override
-  String get loginNoAccount => 'Don\'t have an account?';
+  String get loginNoAccount => 'עדיין אין לכם חשבון?';
 
   @override
-  String get loginSignUpFree => 'Sign Up Free';
+  String get loginSignUpFree => 'הרשמה בחינם';
 
   @override
-  String get registerJoinPlanto => 'Join Planto';
+  String get registerJoinPlanto => 'מצטרפים ל-Planto';
 
   @override
-  String get registerSubtitle => 'Create an account to start growing';
+  String get registerSubtitle =>
+      'צרו חשבון והתחילו לגדל את הצמחים שלכם בצורה חכמה יותר';
 
   @override
-  String get registerFullName => 'FULL NAME';
+  String get registerFullName => 'שם מלא';
 
   @override
-  String get registerEnterName => 'Enter your name';
+  String get registerEnterName => 'הקלידו שם מלא';
 
   @override
-  String get registerEmailAddress => 'EMAIL ADDRESS';
+  String get registerEmailAddress => 'כתובת אימייל';
 
   @override
-  String get registerEnterEmail => 'Enter your email';
+  String get registerEnterEmail => 'הקלידו כתובת אימייל';
 
   @override
-  String get registerValidEmail => 'Enter valid email';
+  String get registerValidEmail => 'הקלידו כתובת אימייל תקינה';
 
   @override
-  String get registerPassword => 'PASSWORD';
+  String get registerPassword => 'סיסמה';
 
   @override
-  String get registerMinCharacters => 'Min 8 characters';
+  String get registerMinCharacters => 'לפחות 8 תווים';
 
   @override
-  String get registerPasswordMinLength =>
-      'Password must be at least 8 characters';
+  String get registerPasswordMinLength => 'הסיסמה חייבת להכיל לפחות 8 תווים';
 
   @override
-  String get registerPleaseEnterPassword => 'Please enter your password';
+  String get registerPleaseEnterPassword => 'אנא הקלידו סיסמה';
 
   @override
-  String get registerConfirmPassword => 'CONFIRM PASSWORD';
+  String get registerConfirmPassword => 'אימות סיסמה';
 
   @override
-  String get registerConfirmPasswordHint => 'Confirm password';
+  String get registerConfirmPasswordHint => 'הקלידו שוב את הסיסמה';
 
   @override
-  String get registerPasswordsNotMatch => 'Passwords do not match';
+  String get registerPasswordsNotMatch => 'הסיסמאות אינן תואמות';
 
   @override
-  String get registerTermsText => 'By creating an account, you agree to our';
+  String get registerTermsText => 'ביצירת חשבון אתם מסכימים ל';
 
   @override
-  String get registerTermsOfService => 'Terms of Service';
+  String get registerTermsOfService => 'תנאי השימוש';
 
   @override
-  String get registerAnd => 'and';
+  String get registerAnd => 'ו';
 
   @override
-  String get registerPrivacyPolicy => 'Privacy Policy';
+  String get registerPrivacyPolicy => 'מדיניות הפרטיות';
 
   @override
-  String get registerSigningUp => 'Signing Up...';
+  String get registerSigningUp => 'יוצרים את החשבון...';
 
   @override
-  String get registerSignUp => 'Sign Up';
+  String get registerSignUp => 'יצירת חשבון';
 
   @override
-  String get registerOrContinueWith => 'Or continue with';
+  String get registerOrContinueWith => 'או המשיכו עם';
 
   @override
-  String get registerAlreadyHaveAccount => 'Already have an account?';
+  String get registerAlreadyHaveAccount => 'כבר יש לכם חשבון?';
 
   @override
-  String get registerSignIn => 'Sign In';
+  String get registerSignIn => 'התחברות';
 
   @override
-  String get registerSearch => 'Search';
+  String get registerSearch => 'חיפוש';
 
   @override
-  String get registerStartTyping => 'Start typing to search';
+  String get registerStartTyping => 'התחילו להקליד כדי לחפש';
 
   @override
-  String get registerFillAllFields => 'Please fill all fields';
+  String get registerFillAllFields => 'אנא מלאו את כל השדות';
 
   @override
   String get enterRegisteredEmailToResetPassword =>
-      'Enter your registered email to reset your password.';
+      'הזינו את כתובת האימייל שאיתה נרשמתם כדי לאפס את הסיסמה.';
 
   @override
   String get exampleEmail => 'example@alaasohail.com';
 
   @override
-  String get enterYourEmail => 'Enter your email';
+  String get enterYourEmail => 'הזינו את כתובת האימייל';
 
   @override
-  String get enterValidEmail => 'Enter valid email';
+  String get enterValidEmail => 'הזינו כתובת אימייל תקינה';
 
   @override
-  String get continueText => 'Continue';
+  String get continueText => 'המשך';
 
   @override
-  String get updatePassword => 'Update Password';
+  String get updatePassword => 'עדכון סיסמה';
 
   @override
-  String get password => 'Password';
+  String get password => 'סיסמה';
 
   @override
-  String get min8Characters => 'Min 8 characters';
+  String get min8Characters => 'לפחות 8 תווים';
 
   @override
-  String get pleaseEnterYourPassword => 'Please enter your password';
+  String get pleaseEnterYourPassword => 'אנא הזינו את הסיסמה';
 
   @override
   String get passwordMustBeAtLeast8Characters =>
-      'Password must be at least 8 characters';
+      'הסיסמה חייבת להכיל לפחות 8 תווים';
 
   @override
-  String get confirmPassword => 'Confirm Password';
+  String get confirmPassword => 'אימות סיסמה';
 
   @override
-  String get confirmPasswordHint => 'Confirm password';
+  String get confirmPasswordHint => 'הזינו שוב את הסיסמה';
 
   @override
-  String get passwordsDoNotMatch => 'Passwords do not match';
+  String get passwordsDoNotMatch => 'הסיסמאות אינן תואמות';
 
   @override
-  String get update => 'Update';
+  String get update => 'עדכון';
 
   @override
-  String get invalidResetToken => 'Invalid reset token';
+  String get invalidResetToken => 'קישור איפוס הסיסמה אינו תקין או שפג תוקפו';
 
   @override
-  String get resetPassword => 'Reset Password';
+  String get resetPassword => 'איפוס סיסמה';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => 'אישור';
 
   @override
-  String get resend => 'Resend';
+  String get resend => 'שליחה מחדש';
 
   @override
-  String get pleaseEnterAValidCode => 'Please enter a valid code';
+  String get pleaseEnterAValidCode => 'אנא הזינו קוד תקין';
 
   @override
-  String get verificationLinkSent => 'We\'ve sent a verification link to ';
+  String get verificationLinkSent => 'שלחנו קישור אימות אל ';
 
   @override
   String get verifyEmailDescription =>
-      'Click the link in the email to verify your account and start growing with PlantCare AI.';
+      'לחצו על הקישור שנשלח אליכם באימייל כדי לאמת את החשבון ולהתחיל להשתמש ב-PlantCare AI.';
 
   @override
-  String get emailVerified => 'Email Verified';
+  String get emailVerified => 'האימייל אומת בהצלחה';
 
   @override
-  String get didntReceiveEmail => 'Didn\'t receive the email?';
+  String get didntReceiveEmail => 'לא קיבלתם את האימייל?';
 
   @override
-  String get resendEmail => 'Resend email';
+  String get resendEmail => 'שלחו שוב';
 
   @override
   String secondsRemaining(int seconds) {
-    return '$seconds seconds';
+    return '$seconds שניות';
   }
 
   @override
-  String get goodMorning => 'Good Morning';
+  String get goodMorning => 'בוקר טוב';
 
   @override
-  String get goodAfternoon => 'Good Afternoon';
+  String get goodAfternoon => 'צהריים טובים';
 
   @override
-  String get goodEvening => 'Good Evening';
+  String get goodEvening => 'ערב טוב';
 
   @override
-  String get scan => 'Scan';
+  String get scan => 'סריקת צמח';
 
   @override
-  String get doctorAI => 'Doctor AI';
+  String get doctorAI => 'רופא הצמחים';
 
   @override
-  String get community => 'Community';
+  String get community => 'קהילה';
 
   @override
-  String get careTips => 'Care Tips';
+  String get careTips => 'טיפים לטיפול';
 
   @override
-  String get gardenHealth => 'Garden\nHealth';
+  String get gardenHealth => 'בריאות\nהגינה';
 
   @override
-  String get aiPlantDoctor => 'AI Plant Doctor';
+  String get aiPlantDoctor => 'רופא הצמחים החכם';
 
   @override
   String get aiPlantDoctorDescription =>
-      'Your plant may need more attention. Tap to learn more →';
+      'נראה שהצמח שלכם זקוק לקצת יותר תשומת לב. לחצו כדי לבדוק ←';
 
   @override
-  String get quickActions => 'Quick Actions';
+  String get quickActions => 'פעולות מהירות';
 
   @override
-  String get myPlants => 'My Plants';
+  String get myPlants => 'הצמחים שלי';
 
   @override
-  String get seeAll => 'See all';
+  String get seeAll => 'הצג הכל';
 
   @override
-  String get noPlantsFound => 'No Plants Found';
+  String get noPlantsFound => 'עדיין אין צמחים';
 
   @override
-  String get addPlant => 'Add Plant';
+  String get addPlant => 'הוספת צמח';
 
   @override
-  String get todaysTasks => 'Today\'s Tasks';
+  String get todaysTasks => 'המשימות להיום';
 
   @override
   String tasksCount(int count) {
-    return '$count Tasks';
+    return '$count משימות';
   }
 
   @override
-  String get wateringProgress => 'Watering Progress';
+  String get wateringProgress => 'התקדמות ההשקיה';
 
   @override
-  String get dailyTips => 'Daily Tips';
+  String get dailyTips => 'טיפ יומי';
 
   @override
-  String get loading => 'Loading...';
+  String get loading => 'טוען...';
 
   @override
-  String get loadingLocation => 'Loading location';
+  String get loadingLocation => 'מאתר מיקום...';
 
   @override
-  String get unableToLoadDailyTip => 'Unable to load daily tip';
+  String get unableToLoadDailyTip => 'לא הצלחנו לטעון את הטיפ היומי';
 
   @override
-  String get rotateFiddleLeafFig => 'Rotate Fiddle Leaf Fig';
+  String get rotateFiddleLeafFig => 'סובבו את צמח הפיקוס';
 
   @override
-  String get today8AM => 'Today, 8 AM';
+  String get today8AM => 'היום, 08:00';
 
   @override
   String plantError(String message) {
-    return 'Plant Error: $message';
+    return 'שגיאה בטעינת הצמחים: $message';
   }
 
   @override
-  String get whatsOnYourMind => 'What\'s on your mind?';
+  String get whatsOnYourMind => 'מה בא לכם לשתף?';
 
   @override
-  String get deploy => 'Post';
+  String get deploy => 'פרסום';
 
   @override
-  String get addNewPost => 'Add a new post';
+  String get addNewPost => 'פוסט חדש';
 
   @override
-  String get noPostsFound => 'No Posts Found';
+  String get noPostsFound => 'עדיין אין פוסטים';
 
   @override
-  String get fullName => 'FULL NAME';
+  String get fullName => 'שם מלא';
 
   @override
-  String get pleaseEnterYourName => 'Please enter your name';
+  String get pleaseEnterYourName => 'אנא הזינו את שמכם';
 
   @override
-  String get enterYourName => 'Enter your name';
+  String get enterYourName => 'הזינו שם מלא';
 
   @override
-  String get emailAddress => 'EMAIL ADDRESS';
+  String get emailAddress => 'כתובת אימייל';
 
   @override
   String get emailExample => 'example@alaasohail.com';
 
   @override
-  String get phoneNumber => 'PHONE NUMBER';
+  String get phoneNumber => 'מספר טלפון';
 
   @override
-  String get enterPhoneNumber => 'Enter phone number';
+  String get enterPhoneNumber => 'הזינו מספר טלפון';
 
   @override
-  String get saveChanges => 'Save Changes';
+  String get saveChanges => 'שמירת שינויים';
 
   @override
-  String get home => 'Home';
+  String get home => 'בית';
 
   @override
-  String get plants => 'Plants';
+  String get plants => 'צמחים';
 
   @override
-  String get profile => 'Profile';
+  String get profile => 'פרופיל';
 
   @override
-  String get pushNotifications => 'Push Notifications';
+  String get pushNotifications => 'התראות';
 
   @override
-  String get currentPassword => 'CURRENT PASSWORD';
+  String get currentPassword => 'סיסמה נוכחית';
 
   @override
-  String get newPassword => 'NEW PASSWORD';
+  String get newPassword => 'סיסמה חדשה';
 
   @override
-  String get newPasswordHint => 'New password';
+  String get newPasswordHint => 'הזינו סיסמה חדשה';
 
   @override
-  String get addComment => 'Add a comment';
+  String get addComment => 'הוספת תגובה';
 
   @override
-  String get proMember => 'Pro Member';
+  String get proMember => 'מנוי Pro';
 
   @override
   String get plantoPro => 'Planto Pro';
 
   @override
   String get unlimitedAIScansAdvancedAnalytics =>
-      'Unlimited AI scans · Advanced analytics';
+      'סריקות AI ללא הגבלה · ניתוחים מתקדמים';
 
   @override
-  String get account => 'ACCOUNT';
+  String get account => 'חשבון';
 
   @override
-  String get notifications => 'Notifications';
+  String get notifications => 'התראות';
 
   @override
-  String get language => 'Language';
+  String get language => 'שפה';
 
   @override
-  String get app => 'APP';
+  String get app => 'אפליקציה';
 
   @override
-  String get premiumPlan => 'Premium Plan';
+  String get premiumPlan => 'מסלול פרימיום';
 
   @override
-  String get preferences => 'Preferences';
+  String get preferences => 'העדפות';
 
   @override
-  String get signOut => 'Sign Out';
+  String get signOut => 'התנתקות';
 
   @override
-  String get save => 'Save';
+  String get save => 'שמירה';
 
   @override
-  String get upgradePlan => 'Upgrade Plan';
+  String get upgradePlan => 'שדרוג המסלול';
 
   @override
-  String get unlockYourFull => 'Unlock Your Full ';
+  String get unlockYourFull => 'פתחו את מלוא ';
 
   @override
-  String get gardenPotential => 'Garden Potential';
+  String get gardenPotential => 'הפוטנציאל של הגינה שלכם';
 
   @override
   String get joinPlantLoversPro =>
-      'Join 50,000+ plant lovers who upgraded to Pro';
+      'הצטרפו ליותר מ-50,000 חובבי צמחים שכבר שדרגו ל-Pro';
 
   @override
-  String get free => 'Free';
+  String get free => 'חינם';
 
   @override
-  String get currentPlan => 'Current Plan';
+  String get currentPlan => 'המסלול הנוכחי';
 
   @override
-  String get forever => 'Forever';
+  String get forever => 'לתמיד';
 
   @override
-  String get fivePlantIdentificationsPerMonth =>
-      '5 plant identifications/month';
+  String get fivePlantIdentificationsPerMonth => '5 זיהויי צמחים בחודש';
 
   @override
-  String get basicCareReminders => 'Basic care reminders';
+  String get basicCareReminders => 'תזכורות טיפול בסיסיות';
 
   @override
-  String get plantLibraryAccess => 'Plant library access';
+  String get plantLibraryAccess => 'גישה לספריית הצמחים';
 
   @override
-  String get communityAccess => 'Community access';
+  String get communityAccess => 'גישה לקהילה';
 
   @override
-  String get premium => 'Premium';
+  String get premium => 'פרימיום';
 
   @override
-  String get startFreeTrial => 'Start Free Trial';
+  String get startFreeTrial => 'התחלת ניסיון חינם';
 
   @override
-  String get perMonth => 'Per month';
+  String get perMonth => 'לחודש';
 
   @override
-  String get unlimitedAIIdentifications => 'Unlimited AI identifications';
+  String get unlimitedAIIdentifications => 'זיהוי צמחים ללא הגבלה באמצעות AI';
 
   @override
-  String get aiPlantDoctorUnlimited => 'AI Plant Doctor unlimited';
+  String get aiPlantDoctorUnlimited => 'רופא צמחים מבוסס AI ללא הגבלה';
 
   @override
-  String get smartCareSchedules => 'Smart care schedules';
+  String get smartCareSchedules => 'לוחות טיפול חכמים';
 
   @override
-  String get advancedPlantAnalytics => 'Advanced plant analytics';
+  String get advancedPlantAnalytics => 'ניתוחי צמחים מתקדמים';
 
   @override
-  String get prioritySupport => 'Priority support';
+  String get prioritySupport => 'תמיכה בעדיפות';
 
   @override
-  String get noAds => 'No Ads';
+  String get noAds => 'ללא פרסומות';
 
   @override
-  String get plantName => 'Plant Name';
+  String get plantName => 'שם הצמח';
 
   @override
-  String get enterPlantName => 'Enter plant name';
+  String get enterPlantName => 'הזינו את שם הצמח';
 
   @override
-  String get pleaseEnterPlantName => 'Please enter plant name';
+  String get pleaseEnterPlantName => 'אנא הזינו את שם הצמח';
 
   @override
-  String get species => 'Species';
+  String get species => 'מין';
 
   @override
-  String get enterPlantSpecies => 'Enter plant species';
+  String get enterPlantSpecies => 'הזינו את מין הצמח';
 
   @override
-  String get pleaseEnterPlantSpecies => 'Please enter plant species';
+  String get pleaseEnterPlantSpecies => 'אנא הזינו את מין הצמח';
 
   @override
-  String get description => 'Description';
+  String get description => 'תיאור';
 
   @override
-  String get enterPlantDescription => 'Enter plant description';
+  String get enterPlantDescription => 'הזינו תיאור לצמח';
 
   @override
-  String get pleaseFillAllFields => 'Please fill all fields';
+  String get pleaseFillAllFields => 'אנא מלאו את כל השדות';
 
   @override
-  String get yourCollection => 'Your Collection';
+  String get yourCollection => 'האוסף שלכם';
 
   @override
-  String get searchPlants => 'Search plants...';
+  String get searchPlants => 'חיפוש צמחים...';
 
   @override
-  String get noPlantsMatchSearch => 'No plants match your search';
+  String get noPlantsMatchSearch => 'לא נמצאו צמחים שתואמים לחיפוש';
 
   @override
-  String get total => 'Total';
+  String get total => 'הכל';
 
   @override
-  String get healthy => 'Healthy';
+  String get healthy => 'בריאים';
 
   @override
-  String get notAnalyzed => 'Not Analyzed';
+  String get notAnalyzed => 'לא נותחו';
 
   @override
-  String get diseased => 'Diseased';
+  String get diseased => 'חולים';
 
   @override
-  String get areYouSureDeletePlant =>
-      'Are you sure you want to delete this plant?';
+  String get areYouSureDeletePlant => 'בטוחים שברצונכם למחוק את הצמח הזה?';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'מחיקה';
 
   @override
-  String get deletePlant => 'Delete Plant';
+  String get deletePlant => 'מחיקת צמח';
 
   @override
-  String get unknownPlant => 'Unknown plant';
+  String get unknownPlant => 'צמח לא מזוהה';
 
   @override
-  String get unknownSpecies => 'Unknown species';
+  String get unknownSpecies => 'מין לא ידוע';
 
   @override
   String confidencePercent(String percent) {
-    return '$percent% Confidence';
+    return 'רמת ביטחון: $percent%';
   }
 
   @override
-  String get healthScore => 'Health Score';
+  String get healthScore => 'ציון בריאות';
 
   @override
-  String get notAvailable => 'N/A';
+  String get notAvailable => 'לא זמין';
 
   @override
-  String get noRecommendationAvailable => 'No recommendation available';
+  String get noRecommendationAvailable => 'אין המלצות זמינות';
 
   @override
-  String get disease => 'Disease';
+  String get disease => 'מחלה';
 
   @override
-  String get noDiseaseAnalysisAvailable => 'No disease analysis available';
+  String get noDiseaseAnalysisAvailable => 'אין מידע על מחלות';
 
   @override
-  String get fertilize => 'Fertilize';
+  String get fertilize => 'דישון';
 
   @override
-  String get noFertilizerAdviceAvailable => 'No fertilizer advice available';
+  String get noFertilizerAdviceAvailable => 'אין כרגע המלצות דישון';
 
   @override
-  String get water => 'Water';
+  String get water => 'השקיה';
 
   @override
-  String get wateringInstructions => 'Watering Instructions';
+  String get wateringInstructions => 'הוראות השקיה';
 
   @override
-  String get noWateringAdviceAvailable => 'No watering advice available';
+  String get noWateringAdviceAvailable => 'אין כרגע המלצות השקיה';
 
   @override
-  String get sunlight => 'Sunlight';
+  String get sunlight => 'אור שמש';
 
   @override
-  String get sunlightInstructions => 'Sunlight Instructions';
+  String get sunlightInstructions => 'המלצות תאורה';
 
   @override
-  String get noSunlightAdviceAvailable => 'No sunlight advice available';
+  String get noSunlightAdviceAvailable => 'אין כרגע המלצות תאורה';
 
   @override
-  String get analyzePlant => 'Analyze Plant';
+  String get analyzePlant => 'ניתוח הצמח';
 
   @override
-  String get analyzingPlantWithAI => 'Analyzing Your Plant with AI...';
+  String get analyzingPlantWithAI => 'ה-AI מנתח את הצמח שלכם...';
 
   @override
-  String get savePlant => 'Save Plant';
+  String get savePlant => 'שמירת הצמח';
+
+  @override
+  String get weatherClearSky => 'שמיים בהירים';
+
+  @override
+  String get weatherMainlyClear => 'בהיר בעיקר';
+
+  @override
+  String get weatherMostlyClear => 'בהיר ברובו';
+
+  @override
+  String get weatherOvercast => 'מעונן';
+
+  @override
+  String get weatherFog => 'ערפל';
+
+  @override
+  String get weatherRimeFog => 'ערפל קפוא';
+
+  @override
+  String get weatherLightDrizzle => 'טפטוף קל';
+
+  @override
+  String get weatherModerateDrizzle => 'טפטוף בינוני';
+
+  @override
+  String get weatherDenseDrizzle => 'טפטוף כבד';
+
+  @override
+  String get weatherSlightRain => 'גשם קל';
+
+  @override
+  String get weatherModerateRain => 'גשם בינוני';
+
+  @override
+  String get weatherHeavyRain => 'גשם כבד';
+
+  @override
+  String get weatherLightSnow => 'שלג קל';
+
+  @override
+  String get weatherModerateSnow => 'שלג בינוני';
+
+  @override
+  String get weatherHeavySnow => 'שלג כבד';
+
+  @override
+  String get weatherSnowGrains => 'גרגירי שלג';
+
+  @override
+  String get weatherSlightShowers => 'ממטרים קלים';
+
+  @override
+  String get weatherModerateShowers => 'ממטרים בינוניים';
+
+  @override
+  String get weatherViolentShowers => 'ממטרים חזקים';
+
+  @override
+  String get weatherThunderstorm => 'סופת רעמים';
+
+  @override
+  String get weatherHail => 'ברד';
+
+  @override
+  String get weatherUnknown => 'לא ידוע';
+
+  @override
+  String get humidity => 'לחות';
+
+  @override
+  String get wind => 'רוח';
+
+  @override
+  String get km => 'כמה';
+
+  @override
+  String get hour => 'ס';
+
+  @override
+  String get aiChatOnlineExpert => 'מחובר · מומחה בוטני מבוסס AI';
+
+  @override
+  String get aiChatHint => 'שאל אותי כל דבר...';
 }

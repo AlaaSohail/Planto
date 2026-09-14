@@ -643,4 +643,88 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get savePlant => 'حفظ النبات';
+
+  @override
+  String get weatherClearSky => 'سماء صافية';
+
+  @override
+  String get weatherMainlyClear => 'صافي غالبًا';
+
+  @override
+  String get weatherMostlyClear => 'صافي جزئيًا';
+
+  @override
+  String get weatherOvercast => 'غائم';
+
+  @override
+  String get weatherFog => 'ضباب';
+
+  @override
+  String get weatherRimeFog => 'ضباب كثيف';
+
+  @override
+  String get weatherLightDrizzle => 'رذاذ خفيف';
+
+  @override
+  String get weatherModerateDrizzle => 'رذاذ متوسط';
+
+  @override
+  String get weatherDenseDrizzle => 'رذاذ كثيف';
+
+  @override
+  String get weatherSlightRain => 'أمطار خفيفة';
+
+  @override
+  String get weatherModerateRain => 'أمطار متوسطة';
+
+  @override
+  String get weatherHeavyRain => 'أمطار غزيرة';
+
+  @override
+  String get weatherLightSnow => 'ثلوج خفيفة';
+
+  @override
+  String get weatherModerateSnow => 'ثلوج متوسطة';
+
+  @override
+  String get weatherHeavySnow => 'ثلوج كثيفة';
+
+  @override
+  String get weatherSnowGrains => 'حبيبات ثلج';
+
+  @override
+  String get weatherSlightShowers => 'زخات خفيفة';
+
+  @override
+  String get weatherModerateShowers => 'زخات متوسطة';
+
+  @override
+  String get weatherViolentShowers => 'زخات غزيرة';
+
+  @override
+  String get weatherThunderstorm => 'عاصفة رعدية';
+
+  @override
+  String get weatherHail => 'بَرَد';
+
+  @override
+  String get weatherUnknown => 'غير معروف';
+
+  @override
+  String get humidity => 'الرطوبة';
+
+  @override
+  String get wind => 'الرياح';
+
+  @override
+  String get km => 'كم';
+
+  @override
+  String get hour => 'س';
+
+  @override
+  String get aiChatOnlineExpert => 'متصل · خبير نباتات بالذكاء الاصطناعي';
+
+  @override
+  String get aiChatHint => 'اسألني عن أي شيء...';
 }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:plant_care/presentations/themes/app_colors.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class WeatherCard extends StatelessWidget {
   const WeatherCard({
     super.key,
@@ -28,6 +30,7 @@ class WeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return Card(
       elevation: 0,
       shadowColor: Colors.green.withOpacity(0.3),
@@ -109,7 +112,7 @@ class WeatherCard extends StatelessWidget {
                               ),
                         ),
                         TextSpan(
-                          text: 'Humidity',
+                          text: localization.humidity,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(color: Theme.of(context).primaryColor),
                         ),
@@ -135,7 +138,8 @@ class WeatherCard extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "${(windSpeed! * 4).toStringAsFixed(0)} km/h\n",
+                          text:
+                              "${(windSpeed! * 4).toStringAsFixed(0)} ${localization.km}/${localization.hour}\n",
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
                                 color: Theme.of(context).primaryColor,
@@ -144,7 +148,7 @@ class WeatherCard extends StatelessWidget {
                               ),
                         ),
                         TextSpan(
-                          text: 'Wind',
+                          text: localization.wind,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(color: Theme.of(context).primaryColor),
                         ),
