@@ -745,4 +745,288 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get darkModeDescription => 'Comfortable for low-light environments';
+
+  @override
+  String get noTasksForToday => 'No Tasks For Today';
+
+  @override
+  String get contactUs => 'Contact Us';
+
+  @override
+  String get helpCenter => 'Help Center';
+
+  @override
+  String get aboutApp => 'About App';
+
+  @override
+  String get support => 'Support';
+
+  @override
+  String get personalInfo => 'Personal Information';
+
+  @override
+  String get changePassword => 'Update Password';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get privacyLastUpdate => 'Last updated: September 17, 2026';
+
+  @override
+  String get infoWeCollect => '1. Information We Collect';
+
+  @override
+  String get howToUseTheInformation => '2. How We Use Information';
+
+  @override
+  String get picturesAndPlantAnalysis => '3. Images and Plant Analysis';
+
+  @override
+  String get geographicLocation => '4. Geographic Location';
+
+  @override
+  String get thirdPartyServices => '5. Third-Party Services';
+
+  @override
+  String get ads => '6. Advertising';
+
+  @override
+  String get subscriptionsAndPayments => '7. Subscriptions and Payments';
+
+  @override
+  String get dataProtection => '8. Data Protection';
+
+  @override
+  String get dataRetention => '9. Data Retention';
+
+  @override
+  String get deleteAccountAndData => '10. Account and Data Deletion';
+
+  @override
+  String get appPermissions => '11. App Permissions';
+
+  @override
+  String get privacyPolicyChanges => '12. Changes to the Privacy Policy';
+
+  @override
+  String get contactUsPrivacy => '13. Contact Us';
+
+  @override
+  String get contactUsPrivacyContent =>
+      'If you have any questions or requests regarding this Privacy Policy or your data, you can contact us at:\nEmail:\n3laa.sohail@gmail.com\nApp: Planto';
+
+  @override
+  String get privacyPolicyChangesContent =>
+      'We may update this Privacy Policy from time to time to reflect changes in the application or legal requirements.\nThe updated version will be published within the application or on the official Privacy Policy page, along with an updated last revision date.';
+
+  @override
+  String get appPermissionsContent =>
+      'The application may request certain permissions, such as:\nCamera and Photos: To capture or select plant images.\nLocation: To obtain weather information and provide location-based services.\nNotifications: To send reminders and alerts related to plant care.\nYou can manage or revoke these permissions at any time through your device settings.';
+
+  @override
+  String get deleteAccountAndDataContent =>
+      'Users may request the deletion of their account and associated data.\nWhen an account is deleted, the personal data associated with it will be deleted or removed in accordance with applicable legal and technical requirements. Some information may be retained when legally required.';
+
+  @override
+  String get dataRetentionContent =>
+      'We may retain information for as long as your account remains active or as long as the information is necessary to provide the application\'s services and comply with legal and regulatory requirements.\nSome data may be removed when the account is deleted, except for information that must be retained for a specific period due to legal requirements or legitimate security interests.';
+
+  @override
+  String get dataProtectionContent =>
+      'We take appropriate technical and organizational measures to help protect user information against unauthorized access, use, modification, or unlawful disclosure.\nHowever, no method of electronic transmission or storage can be guaranteed to be 100% secure.';
+
+  @override
+  String get subscriptionsAndPaymentsContent =>
+      'The application may offer paid subscriptions, such as weekly, monthly, or yearly plans.\nPayments are processed through the applicable app store, such as Google Play or Apple App Store. Plant Care does not store your credit card numbers or banking payment information.';
+
+  @override
+  String get adsContent =>
+      'Planto may display advertisements provided by third-party advertising networks. These services may use technical information, such as device information and advertising identifiers, to display advertisements and measure their performance in accordance with the user\'s privacy settings and consent.';
+
+  @override
+  String get thirdPartyServicesContent =>
+      'The application may rely on third-party services to provide certain features, such as:\nGoogle Sign-In services.\nNotification services.\nImage storage and processing services.\nData analysis or artificial intelligence services.\nAdvertising services.\nApp stores and subscription management services.\nThese third parties may process certain data according to their own privacy policies.';
+
+  @override
+  String get geographicLocationContent =>
+      'Planto may request access to your device\'s location to provide weather information and location-based services.\nYour location will only be used after you grant the required permission through your device settings, and you can disable location access at any time through your phone settings.';
+
+  @override
+  String get picturesAndPlantAnalysisContent =>
+      'When using the plant analysis feature, the image you select may be sent to our servers or to third-party technology providers for processing and analysis.\nImages are used to provide plant identification, diagnose their condition, and provide appropriate recommendations.\nWe recommend that you do not upload images containing personal information or people unless necessary for using the service.';
+
+  @override
+  String get howToUseTheInformationContent =>
+      'We use the information we collect to:\nCreate and manage user accounts.\nIdentify plants and analyze their condition using artificial intelligence technologies.\nProvide advice on watering, lighting, fertilizing, and plant care.\nProvide weather information related to the user\'s location.\nSend notifications and alerts related to plants and the application.\nImprove application performance and user experience.\nManage subscriptions and premium features.\nDetect errors and technical issues and prevent misuse of the service.';
+
+  @override
+  String get infoWeCollectContent =>
+      'We may collect certain information necessary to provide the application\'s services, such as:\n\nAccount Information: Such as your name, email address, and login information.\nImages: Images that you upload or capture to analyze plants, identify them, or diagnose their condition.\nLocation Data: When you grant permission, we may use your approximate location to display weather information relevant to your area and improve plant care recommendations.\nDevice and App Information: Such as device type, operating system, and certain technical data related to your use of the application.\nSubscription Information: Information about your subscription status and selected plan. The application does not directly store your payment card information.';
+
+  @override
+  String get privacyLastUpdateContent =>
+      'At Planto, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and protect information when you use the Planto application.';
+
+  @override
+  String get helpCenterTitle => 'Help Center';
+
+  @override
+  String get helpCenterIntro =>
+      'Welcome to the Planto Help Center.\nHere you can find answers to frequently asked questions and get help if you experience any issues while using the application.';
+
+  @override
+  String get accountAndLogin => '1. Account and Login';
+
+  @override
+  String get accountAndLoginContent =>
+      'You can create an account using your email address or sign in with Google.\nIf you forget your password, use the \"Forgot Password?\" option and follow the instructions to reset it.\nIf you experience problems signing in, make sure your email address and password are correct and that you have an active internet connection.';
+
+  @override
+  String get addPlantHelp => '2. Adding a Plant';
+
+  @override
+  String get addPlantHelpContent =>
+      'You can manually add a new plant by entering its name, species, description, and adding a photo.\nYou can edit the plant information or update its photo later from the plant details page.';
+
+  @override
+  String get aiPlantAnalysisHelp => '3. AI Plant Analysis';
+
+  @override
+  String get aiPlantAnalysisHelpContent =>
+      'To capture or select an image of your plant, use the Plant Analysis feature.\nPlanto will analyze the image and provide information such as:\nPlant condition.\nPlant health score.\nPotential problems or diseases.\nWatering advice.\nLighting advice.\nFertilizing advice.\nCare recommendations.\nFor the best results, use a clear image of the plant with good lighting.';
+
+  @override
+  String get weatherAndLocationHelp => '4. Weather and Location';
+
+  @override
+  String get weatherAndLocationHelpContent =>
+      'Planto uses your location to provide weather information relevant to your area.\nIf weather information does not appear, make sure that:\nLocation services are enabled on your phone.\nPlant Care has permission to access your location.\nYour device is connected to the internet.';
+
+  @override
+  String get notificationsHelp => '5. Notifications';
+
+  @override
+  String get notificationsHelpContent =>
+      'Planto may send notifications and reminders related to Planto.\nYou can enable or disable notifications through the app settings or your device settings.';
+
+  @override
+  String get subscriptionHelp => '6. Subscription';
+
+  @override
+  String get subscriptionHelpContent =>
+      'Some features may be available through a paid weekly, monthly, or yearly subscription.\nPayments and subscriptions are managed through Google Play or the Apple App Store, depending on your device.\nYou can manage or cancel your subscription through the subscription settings in your device\'s app store.';
+
+  @override
+  String get imageAnalysisProblem => '7. Image Analysis Problems';
+
+  @override
+  String get imageAnalysisProblemContent =>
+      'If the image is not analyzed correctly:\nMake sure the plant is clearly visible.\nAvoid dark or blurry images.\nTry taking a closer photo of the leaves or affected area.\nMake sure your device is connected to the internet.\nTry again using a different image.';
+
+  @override
+  String get deleteAccountHelp => '8. Delete Account';
+
+  @override
+  String get deleteAccountHelpContent =>
+      'You can request deletion of your account and associated data through the account settings.\nPlease note that deleting your account may also delete your saved plants and other information associated with your account.';
+
+  @override
+  String get frequentlyAskedQuestions => '9. Frequently Asked Questions';
+
+  @override
+  String get offlineQuestion =>
+      'Can I use the app without an internet connection?';
+
+  @override
+  String get offlineAnswer =>
+      'Some saved information may be available offline, but features such as plant analysis and weather information require an internet connection.';
+
+  @override
+  String get analysisAccuracyQuestion => 'Is plant analysis always accurate?';
+
+  @override
+  String get analysisAccuracyAnswer =>
+      'Planto uses artificial intelligence technologies to provide the best possible analysis, but results may not always be 100% accurate.';
+
+  @override
+  String get existingPlantAnalysisQuestion =>
+      'Can I analyze a plant that I added previously?';
+
+  @override
+  String get existingPlantAnalysisAnswer =>
+      'Yes. You can open the plant and perform a new analysis to update its condition and care information.';
+
+  @override
+  String get plantImagesQuestion => 'Does the app store plant images?';
+
+  @override
+  String get plantImagesAnswer =>
+      'Plant images associated with your account may be stored to provide application features and display the plants you have added.';
+
+  @override
+  String get contactSupport => '10. Contact Us';
+
+  @override
+  String get contactSupportContent =>
+      'If you cannot find a solution to your problem, you can contact us at:\nEmail:\n3laa.sohail@gmail.com\nApp: Planto\nWe will use the information you send us only to help resolve your issue and improve the service.';
+
+  @override
+  String get aboutAppIntro =>
+      'Planto is a smart application that helps you identify your plants, monitor their condition, and care for them easily using artificial intelligence technologies.';
+
+  @override
+  String get aboutAppWhatIs => 'What is Planto?';
+
+  @override
+  String get aboutAppWhatIsContent =>
+      'Planto is designed to help plant lovers manage their plants and access useful information and recommendations to care for them and keep them healthy.';
+
+  @override
+  String get aboutAppFeatures => 'App Features';
+
+  @override
+  String get aboutAppFeaturesContent =>
+      'Identify plants using images.\nAnalyze plant health using artificial intelligence.\nDetect potential problems and diseases.\nGet watering, lighting, and fertilizing advice.\nSave and manage your plants in one place.\nView weather information based on your location.\nReceive plant care reminders and notifications.';
+
+  @override
+  String get aboutAppAI => 'Artificial Intelligence';
+
+  @override
+  String get aboutAppAIContent =>
+      'Planto uses artificial intelligence technologies to analyze plant images and provide information and care recommendations. Results may vary depending on image quality and the condition of the plant, so the information should be considered guidance and not a substitute for professional advice.';
+
+  @override
+  String get aboutAppMission => 'Our Mission';
+
+  @override
+  String get aboutAppMissionContent =>
+      'Our goal is to make Planto simpler and easier and help users better understand their plants\' needs and make better care decisions.';
+
+  @override
+  String get aboutAppVersion => 'App Version';
+
+  @override
+  String get aboutAppVersionContent =>
+      'You can find the current Planto version number in the application information or your device settings.';
+
+  @override
+  String get aboutAppContact => 'Contact Us';
+
+  @override
+  String get aboutAppContactContent =>
+      'If you have a suggestion, feedback, or experience a problem while using Planto, you can contact us at:\nEmail:\n3laa.sohail@gmail.com';
+
+  @override
+  String get aboutAppCopyright => '© 2026 Planto. All rights reserved.';
+
+  @override
+  String get deleteAccount => 'Delete Account';
+
+  @override
+  String get deleteAccountMessage =>
+      'Are you sure you want to delete your account? Your associated data will be deleted, and this action cannot be undone.';
+
+  @override
+  String get cancel => 'Cancel';
 }

@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../themes/app_colors.dart';
 
 class QuickActionsCard extends StatelessWidget {
-  QuickActionsCard({
+  const QuickActionsCard({
     super.key,
     this.icon,
     this.title,
@@ -16,14 +15,15 @@ class QuickActionsCard extends StatelessWidget {
     this.iconHeight,
   });
 
-  String? icon;
-  String? title;
-  String? count;
-  double? iconWidth;
-  double? iconHeight;
+  final String? icon;
+  final String? title;
+  final String? count;
 
-  Color? color;
-  GestureTapCallback? onTap;
+  final double? iconWidth;
+  final double? iconHeight;
+
+  final Color? color;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -33,49 +33,50 @@ class QuickActionsCard extends StatelessWidget {
       highlightColor: Colors.transparent,
       hoverColor: Colors.transparent,
       focusColor: Colors.transparent,
+      borderRadius: BorderRadius.circular(12.r),
       child: SizedBox(
-        width: 90.w,
-        height: 90.h,
+        width: 92.w,
+        height: 92.h,
         child: Card(
           elevation: 0,
+          margin: EdgeInsets.all(6.r),
+          color: color ?? AppColors.secondary.withOpacity(0.3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.r),
             side: BorderSide(color: AppColors.primary, width: 0.3.w),
           ),
-          margin: EdgeInsets.all(6.r),
-          color: AppColors.secondary.withOpacity(0.3),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsetsGeometry.all(8.r),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  count != null
-                      ? Text(
-                          count!,
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        )
-                      : icon != null
-                      ? Image.asset(
-                          icon!,
-                          width: iconWidth?.w ?? 32.w,
-                          height: iconHeight?.h ?? 32.h,
-                        )
-                      : const SizedBox(),
-                  SizedBox(height: 4.h),
-                  Expanded(
-                    child: Text(
-                      title ?? '',
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+          child: Padding(
+            padding: EdgeInsets.all(8.r),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (count != null)
+                  Text(
+                    count!,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )
+                else if (icon != null)
+                  Image.asset(
+                    icon!,
+                    width: iconWidth?.w ?? 32.w,
+                    height: iconHeight?.h ?? 32.h,
+                    fit: BoxFit.contain,
                   ),
-                ],
-              ),
+
+                SizedBox(height: 4.h),
+
+                Flexible(
+                  child: Text(
+                    title ?? '',
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

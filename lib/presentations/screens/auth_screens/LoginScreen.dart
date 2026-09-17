@@ -51,9 +51,12 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
           if (state is LoginSuccess) {
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
               context,
-              CupertinoPageRoute(builder: (_) => const NavBarScreen()),
+              CupertinoPageRoute(
+                builder: (_) => const NavBarScreen(),
+              ),
+                  (route) => false,
             );
           } else if (state is LoginError) {
             ScaffoldMessenger.of(

@@ -174,3 +174,13 @@ class UpdatePasswordError extends UserState {
 
   UpdatePasswordError(this.message);
 }
+class DeleteAccountLoading extends UserState {}
+
+class DeleteAccountSuccess extends UserState {
+  final String message;
+  DeleteAccountSuccess(this.message);
+}
+class DeleteAccountError extends UserState {
+  final String message;
+  DeleteAccountError(this.message);
+}

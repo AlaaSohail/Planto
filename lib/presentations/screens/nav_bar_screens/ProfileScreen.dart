@@ -58,8 +58,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               elevation: 0,
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.transparent,
-              centerTitle: true,
-              title: AppTheme.plantCareAILogo(context),
+              title: Text(
+                localization.profile,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
               actions: [
                 Padding(
                   padding: EdgeInsets.only(right: 16.w, left: 16.w),
@@ -71,18 +73,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        CupertinoPageRoute(
-                          builder: (_) => const EditProfileDetailsScreen(),
-                        ),
+                        CupertinoPageRoute(builder: (_) => SettingScreen()),
                       );
                     },
-                    child: ContainerIcons(icon: 'assets/images/edit.png'),
+                    child: ContainerIcons(icon: 'assets/images/settings.png'),
                   ),
                 ),
               ],
             ),
 
-            body: state is UserLoading
+            body: state is UserInitial || state is UserLoading
                 ? Center(
                     child: SpinKitSpinningLines(
                       color: Theme.of(context).textTheme.headlineSmall!.color!,
@@ -178,118 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
 
-                            SizedBox(height: 16.h),
-
-                            Align(
-                              alignment: AlignmentDirectional.centerStart,
-                              child: Text(
-                                localization.account,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ),
-
-                            SizedBox(height: 16.h),
-
-                            Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffA7E39A).withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(16.r),
-                                border: Border.all(
-                                  color: Colors.grey.shade300,
-                                  width: 0.5.w,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  ProfileCard(
-                                    icon: 'assets/images/notification.png',
-                                    title: localization.notifications,
-                                    page: const NotificationScreen(),
-                                  ),
-
-                                  Divider(
-                                    height: 0.5.h,
-                                    thickness: 0.5,
-                                    color: Colors.grey.shade300,
-                                  ),
-
-                                  ProfileCard(
-                                    icon: 'assets/images/dark.png',
-                                    title: localization.darkMode,
-                                    page: ThemeModeScreen(),
-                                  ),
-
-                                  Divider(
-                                    height: 0.5.h,
-                                    thickness: 0.5,
-                                    color: Colors.grey.shade300,
-                                  ),
-
-                                  ProfileCard(
-                                    icon: 'assets/images/internet.png',
-                                    title: localization.language,
-                                    page: const LanguageScreen(),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(height: 16.h),
-
-                            Align(
-                              alignment: AlignmentDirectional.centerStart,
-                              child: Text(
-                                localization.app,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ),
-
-                            SizedBox(height: 16.h),
-
-                            Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffA7E39A).withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(16.r),
-                                border: Border.all(
-                                  color: Colors.grey.shade300,
-                                  width: 0.5.w,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  ProfileCard(
-                                    icon: 'assets/images/premium.png',
-                                    title: localization.premiumPlan,
-                                    page: const UpgradePlanScreen(),
-                                  ),
-
-                                  Divider(
-                                    height: 0.5.h,
-                                    thickness: 0.5,
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  ProfileCard(
-                                    icon: 'assets/images/privacy-policy.png',
-                                    title: localization.password,
-                                    page: const PasswordChangeScreen(),
-                                  ),
-                                  Divider(
-                                    height: 0.5.h,
-                                    thickness: 0.5,
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  ProfileCard(
-                                    icon: 'assets/images/settings.png',
-                                    title: localization.preferences,
-                                    page: const SettingScreen(),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(height: 16.h),
+                            SizedBox(height: 12.h),
 
                             MainButton(
                               mainAxisSize: MainAxisSize.max,
@@ -306,10 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   (route) => false,
                                 );
                               },
-                              icon: const Icon(
-                                Icons.logout,
-                                color: Colors.redAccent,
-                              ),
+
                               content: localization.signOut,
                               buttonStyle: AppButtonTheme.themeTertiary.style,
                               textStyle: Theme.of(context).textTheme.bodyLarge
@@ -324,7 +210,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   )
-                : Container(),
+                : Text("No data"),
           );
         },
       ),

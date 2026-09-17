@@ -17,12 +17,12 @@ class ThemeModeScreen extends StatefulWidget {
 class _ThemeModeScreenState extends State<ThemeModeScreen> {
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final localization = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.transparent,
-        title: AppTheme.plantCareAILogo(context),
+        title:Text(localization.appearance,style: Theme.of(context).textTheme.headlineSmall,),
         backgroundColor: Colors.transparent,
         elevation: 0,
         titleSpacing: 0,
@@ -41,14 +41,14 @@ class _ThemeModeScreenState extends State<ThemeModeScreen> {
 
               children: [
                 Text(
-                  l10n.appearance,
+                  localization.appearance,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
 
                 SizedBox(height: 8.h),
 
                 Text(
-                  l10n.chooseThemeDescription,
+                  localization.chooseThemeDescription,
                   style: Theme.of(
                     context,
                   ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
@@ -58,8 +58,8 @@ class _ThemeModeScreenState extends State<ThemeModeScreen> {
 
                 _themeCard(
                   context: context,
-                  title: l10n.lightMode,
-                  subtitle: l10n.lightModeDescription,
+                  title: localization.lightMode,
+                  subtitle: localization.lightModeDescription,
                   icon: Icons.light_mode_rounded,
                   selected: !isDarkMode,
                   onTap: () {
@@ -73,8 +73,8 @@ class _ThemeModeScreenState extends State<ThemeModeScreen> {
 
                 _themeCard(
                   context: context,
-                  title: l10n.darkMode,
-                  subtitle: l10n.darkModeDescription,
+                  title: localization.darkMode,
+                  subtitle: localization.darkModeDescription,
                   icon: Icons.dark_mode_rounded,
                   selected: isDarkMode,
                   onTap: () {

@@ -26,7 +26,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.transparent,
-        title: AppTheme.plantCareAILogo(context),
+        title:Text(localization.notifications,style: Theme.of(context).textTheme.headlineSmall,),
         backgroundColor: Colors.transparent,
         elevation: 0,        titleSpacing: 0,
 

@@ -1533,6 +1533,498 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comfortable for low-light environments'**
   String get darkModeDescription;
+
+  /// No description provided for @noTasksForToday.
+  ///
+  /// In en, this message translates to:
+  /// **'No Tasks For Today'**
+  String get noTasksForToday;
+
+  /// No description provided for @contactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get contactUs;
+
+  /// No description provided for @helpCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Help Center'**
+  String get helpCenter;
+
+  /// No description provided for @aboutApp.
+  ///
+  /// In en, this message translates to:
+  /// **'About App'**
+  String get aboutApp;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
+
+  /// No description provided for @personalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get personalInfo;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Password'**
+  String get changePassword;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyLastUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated: September 17, 2026'**
+  String get privacyLastUpdate;
+
+  /// No description provided for @infoWeCollect.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Information We Collect'**
+  String get infoWeCollect;
+
+  /// No description provided for @howToUseTheInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'2. How We Use Information'**
+  String get howToUseTheInformation;
+
+  /// No description provided for @picturesAndPlantAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Images and Plant Analysis'**
+  String get picturesAndPlantAnalysis;
+
+  /// No description provided for @geographicLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Geographic Location'**
+  String get geographicLocation;
+
+  /// No description provided for @thirdPartyServices.
+  ///
+  /// In en, this message translates to:
+  /// **'5. Third-Party Services'**
+  String get thirdPartyServices;
+
+  /// No description provided for @ads.
+  ///
+  /// In en, this message translates to:
+  /// **'6. Advertising'**
+  String get ads;
+
+  /// No description provided for @subscriptionsAndPayments.
+  ///
+  /// In en, this message translates to:
+  /// **'7. Subscriptions and Payments'**
+  String get subscriptionsAndPayments;
+
+  /// No description provided for @dataProtection.
+  ///
+  /// In en, this message translates to:
+  /// **'8. Data Protection'**
+  String get dataProtection;
+
+  /// No description provided for @dataRetention.
+  ///
+  /// In en, this message translates to:
+  /// **'9. Data Retention'**
+  String get dataRetention;
+
+  /// No description provided for @deleteAccountAndData.
+  ///
+  /// In en, this message translates to:
+  /// **'10. Account and Data Deletion'**
+  String get deleteAccountAndData;
+
+  /// No description provided for @appPermissions.
+  ///
+  /// In en, this message translates to:
+  /// **'11. App Permissions'**
+  String get appPermissions;
+
+  /// No description provided for @privacyPolicyChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'12. Changes to the Privacy Policy'**
+  String get privacyPolicyChanges;
+
+  /// No description provided for @contactUsPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'13. Contact Us'**
+  String get contactUsPrivacy;
+
+  /// No description provided for @contactUsPrivacyContent.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have any questions or requests regarding this Privacy Policy or your data, you can contact us at:\nEmail:\n3laa.sohail@gmail.com\nApp: Planto'**
+  String get contactUsPrivacyContent;
+
+  /// No description provided for @privacyPolicyChangesContent.
+  ///
+  /// In en, this message translates to:
+  /// **'We may update this Privacy Policy from time to time to reflect changes in the application or legal requirements.\nThe updated version will be published within the application or on the official Privacy Policy page, along with an updated last revision date.'**
+  String get privacyPolicyChangesContent;
+
+  /// No description provided for @appPermissionsContent.
+  ///
+  /// In en, this message translates to:
+  /// **'The application may request certain permissions, such as:\nCamera and Photos: To capture or select plant images.\nLocation: To obtain weather information and provide location-based services.\nNotifications: To send reminders and alerts related to plant care.\nYou can manage or revoke these permissions at any time through your device settings.'**
+  String get appPermissionsContent;
+
+  /// No description provided for @deleteAccountAndDataContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Users may request the deletion of their account and associated data.\nWhen an account is deleted, the personal data associated with it will be deleted or removed in accordance with applicable legal and technical requirements. Some information may be retained when legally required.'**
+  String get deleteAccountAndDataContent;
+
+  /// No description provided for @dataRetentionContent.
+  ///
+  /// In en, this message translates to:
+  /// **'We may retain information for as long as your account remains active or as long as the information is necessary to provide the application\'s services and comply with legal and regulatory requirements.\nSome data may be removed when the account is deleted, except for information that must be retained for a specific period due to legal requirements or legitimate security interests.'**
+  String get dataRetentionContent;
+
+  /// No description provided for @dataProtectionContent.
+  ///
+  /// In en, this message translates to:
+  /// **'We take appropriate technical and organizational measures to help protect user information against unauthorized access, use, modification, or unlawful disclosure.\nHowever, no method of electronic transmission or storage can be guaranteed to be 100% secure.'**
+  String get dataProtectionContent;
+
+  /// No description provided for @subscriptionsAndPaymentsContent.
+  ///
+  /// In en, this message translates to:
+  /// **'The application may offer paid subscriptions, such as weekly, monthly, or yearly plans.\nPayments are processed through the applicable app store, such as Google Play or Apple App Store. Plant Care does not store your credit card numbers or banking payment information.'**
+  String get subscriptionsAndPaymentsContent;
+
+  /// No description provided for @adsContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Planto may display advertisements provided by third-party advertising networks. These services may use technical information, such as device information and advertising identifiers, to display advertisements and measure their performance in accordance with the user\'s privacy settings and consent.'**
+  String get adsContent;
+
+  /// No description provided for @thirdPartyServicesContent.
+  ///
+  /// In en, this message translates to:
+  /// **'The application may rely on third-party services to provide certain features, such as:\nGoogle Sign-In services.\nNotification services.\nImage storage and processing services.\nData analysis or artificial intelligence services.\nAdvertising services.\nApp stores and subscription management services.\nThese third parties may process certain data according to their own privacy policies.'**
+  String get thirdPartyServicesContent;
+
+  /// No description provided for @geographicLocationContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Planto may request access to your device\'s location to provide weather information and location-based services.\nYour location will only be used after you grant the required permission through your device settings, and you can disable location access at any time through your phone settings.'**
+  String get geographicLocationContent;
+
+  /// No description provided for @picturesAndPlantAnalysisContent.
+  ///
+  /// In en, this message translates to:
+  /// **'When using the plant analysis feature, the image you select may be sent to our servers or to third-party technology providers for processing and analysis.\nImages are used to provide plant identification, diagnose their condition, and provide appropriate recommendations.\nWe recommend that you do not upload images containing personal information or people unless necessary for using the service.'**
+  String get picturesAndPlantAnalysisContent;
+
+  /// No description provided for @howToUseTheInformationContent.
+  ///
+  /// In en, this message translates to:
+  /// **'We use the information we collect to:\nCreate and manage user accounts.\nIdentify plants and analyze their condition using artificial intelligence technologies.\nProvide advice on watering, lighting, fertilizing, and plant care.\nProvide weather information related to the user\'s location.\nSend notifications and alerts related to plants and the application.\nImprove application performance and user experience.\nManage subscriptions and premium features.\nDetect errors and technical issues and prevent misuse of the service.'**
+  String get howToUseTheInformationContent;
+
+  /// No description provided for @infoWeCollectContent.
+  ///
+  /// In en, this message translates to:
+  /// **'We may collect certain information necessary to provide the application\'s services, such as:\n\nAccount Information: Such as your name, email address, and login information.\nImages: Images that you upload or capture to analyze plants, identify them, or diagnose their condition.\nLocation Data: When you grant permission, we may use your approximate location to display weather information relevant to your area and improve plant care recommendations.\nDevice and App Information: Such as device type, operating system, and certain technical data related to your use of the application.\nSubscription Information: Information about your subscription status and selected plan. The application does not directly store your payment card information.'**
+  String get infoWeCollectContent;
+
+  /// No description provided for @privacyLastUpdateContent.
+  ///
+  /// In en, this message translates to:
+  /// **'At Planto, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and protect information when you use the Planto application.'**
+  String get privacyLastUpdateContent;
+
+  /// No description provided for @helpCenterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help Center'**
+  String get helpCenterTitle;
+
+  /// No description provided for @helpCenterIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to the Planto Help Center.\nHere you can find answers to frequently asked questions and get help if you experience any issues while using the application.'**
+  String get helpCenterIntro;
+
+  /// No description provided for @accountAndLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Account and Login'**
+  String get accountAndLogin;
+
+  /// No description provided for @accountAndLoginContent.
+  ///
+  /// In en, this message translates to:
+  /// **'You can create an account using your email address or sign in with Google.\nIf you forget your password, use the \"Forgot Password?\" option and follow the instructions to reset it.\nIf you experience problems signing in, make sure your email address and password are correct and that you have an active internet connection.'**
+  String get accountAndLoginContent;
+
+  /// No description provided for @addPlantHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Adding a Plant'**
+  String get addPlantHelp;
+
+  /// No description provided for @addPlantHelpContent.
+  ///
+  /// In en, this message translates to:
+  /// **'You can manually add a new plant by entering its name, species, description, and adding a photo.\nYou can edit the plant information or update its photo later from the plant details page.'**
+  String get addPlantHelpContent;
+
+  /// No description provided for @aiPlantAnalysisHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'3. AI Plant Analysis'**
+  String get aiPlantAnalysisHelp;
+
+  /// No description provided for @aiPlantAnalysisHelpContent.
+  ///
+  /// In en, this message translates to:
+  /// **'To capture or select an image of your plant, use the Plant Analysis feature.\nPlanto will analyze the image and provide information such as:\nPlant condition.\nPlant health score.\nPotential problems or diseases.\nWatering advice.\nLighting advice.\nFertilizing advice.\nCare recommendations.\nFor the best results, use a clear image of the plant with good lighting.'**
+  String get aiPlantAnalysisHelpContent;
+
+  /// No description provided for @weatherAndLocationHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Weather and Location'**
+  String get weatherAndLocationHelp;
+
+  /// No description provided for @weatherAndLocationHelpContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Planto uses your location to provide weather information relevant to your area.\nIf weather information does not appear, make sure that:\nLocation services are enabled on your phone.\nPlant Care has permission to access your location.\nYour device is connected to the internet.'**
+  String get weatherAndLocationHelpContent;
+
+  /// No description provided for @notificationsHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'5. Notifications'**
+  String get notificationsHelp;
+
+  /// No description provided for @notificationsHelpContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Planto may send notifications and reminders related to Planto.\nYou can enable or disable notifications through the app settings or your device settings.'**
+  String get notificationsHelpContent;
+
+  /// No description provided for @subscriptionHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'6. Subscription'**
+  String get subscriptionHelp;
+
+  /// No description provided for @subscriptionHelpContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Some features may be available through a paid weekly, monthly, or yearly subscription.\nPayments and subscriptions are managed through Google Play or the Apple App Store, depending on your device.\nYou can manage or cancel your subscription through the subscription settings in your device\'s app store.'**
+  String get subscriptionHelpContent;
+
+  /// No description provided for @imageAnalysisProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'7. Image Analysis Problems'**
+  String get imageAnalysisProblem;
+
+  /// No description provided for @imageAnalysisProblemContent.
+  ///
+  /// In en, this message translates to:
+  /// **'If the image is not analyzed correctly:\nMake sure the plant is clearly visible.\nAvoid dark or blurry images.\nTry taking a closer photo of the leaves or affected area.\nMake sure your device is connected to the internet.\nTry again using a different image.'**
+  String get imageAnalysisProblemContent;
+
+  /// No description provided for @deleteAccountHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'8. Delete Account'**
+  String get deleteAccountHelp;
+
+  /// No description provided for @deleteAccountHelpContent.
+  ///
+  /// In en, this message translates to:
+  /// **'You can request deletion of your account and associated data through the account settings.\nPlease note that deleting your account may also delete your saved plants and other information associated with your account.'**
+  String get deleteAccountHelpContent;
+
+  /// No description provided for @frequentlyAskedQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'9. Frequently Asked Questions'**
+  String get frequentlyAskedQuestions;
+
+  /// No description provided for @offlineQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I use the app without an internet connection?'**
+  String get offlineQuestion;
+
+  /// No description provided for @offlineAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Some saved information may be available offline, but features such as plant analysis and weather information require an internet connection.'**
+  String get offlineAnswer;
+
+  /// No description provided for @analysisAccuracyQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Is plant analysis always accurate?'**
+  String get analysisAccuracyQuestion;
+
+  /// No description provided for @analysisAccuracyAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Planto uses artificial intelligence technologies to provide the best possible analysis, but results may not always be 100% accurate.'**
+  String get analysisAccuracyAnswer;
+
+  /// No description provided for @existingPlantAnalysisQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I analyze a plant that I added previously?'**
+  String get existingPlantAnalysisQuestion;
+
+  /// No description provided for @existingPlantAnalysisAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes. You can open the plant and perform a new analysis to update its condition and care information.'**
+  String get existingPlantAnalysisAnswer;
+
+  /// No description provided for @plantImagesQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Does the app store plant images?'**
+  String get plantImagesQuestion;
+
+  /// No description provided for @plantImagesAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Plant images associated with your account may be stored to provide application features and display the plants you have added.'**
+  String get plantImagesAnswer;
+
+  /// No description provided for @contactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'10. Contact Us'**
+  String get contactSupport;
+
+  /// No description provided for @contactSupportContent.
+  ///
+  /// In en, this message translates to:
+  /// **'If you cannot find a solution to your problem, you can contact us at:\nEmail:\n3laa.sohail@gmail.com\nApp: Planto\nWe will use the information you send us only to help resolve your issue and improve the service.'**
+  String get contactSupportContent;
+
+  /// No description provided for @aboutAppIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Planto is a smart application that helps you identify your plants, monitor their condition, and care for them easily using artificial intelligence technologies.'**
+  String get aboutAppIntro;
+
+  /// No description provided for @aboutAppWhatIs.
+  ///
+  /// In en, this message translates to:
+  /// **'What is Planto?'**
+  String get aboutAppWhatIs;
+
+  /// No description provided for @aboutAppWhatIsContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Planto is designed to help plant lovers manage their plants and access useful information and recommendations to care for them and keep them healthy.'**
+  String get aboutAppWhatIsContent;
+
+  /// No description provided for @aboutAppFeatures.
+  ///
+  /// In en, this message translates to:
+  /// **'App Features'**
+  String get aboutAppFeatures;
+
+  /// No description provided for @aboutAppFeaturesContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Identify plants using images.\nAnalyze plant health using artificial intelligence.\nDetect potential problems and diseases.\nGet watering, lighting, and fertilizing advice.\nSave and manage your plants in one place.\nView weather information based on your location.\nReceive plant care reminders and notifications.'**
+  String get aboutAppFeaturesContent;
+
+  /// No description provided for @aboutAppAI.
+  ///
+  /// In en, this message translates to:
+  /// **'Artificial Intelligence'**
+  String get aboutAppAI;
+
+  /// No description provided for @aboutAppAIContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Planto uses artificial intelligence technologies to analyze plant images and provide information and care recommendations. Results may vary depending on image quality and the condition of the plant, so the information should be considered guidance and not a substitute for professional advice.'**
+  String get aboutAppAIContent;
+
+  /// No description provided for @aboutAppMission.
+  ///
+  /// In en, this message translates to:
+  /// **'Our Mission'**
+  String get aboutAppMission;
+
+  /// No description provided for @aboutAppMissionContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Our goal is to make Planto simpler and easier and help users better understand their plants\' needs and make better care decisions.'**
+  String get aboutAppMissionContent;
+
+  /// No description provided for @aboutAppVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get aboutAppVersion;
+
+  /// No description provided for @aboutAppVersionContent.
+  ///
+  /// In en, this message translates to:
+  /// **'You can find the current Planto version number in the application information or your device settings.'**
+  String get aboutAppVersionContent;
+
+  /// No description provided for @aboutAppContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get aboutAppContact;
+
+  /// No description provided for @aboutAppContactContent.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have a suggestion, feedback, or experience a problem while using Planto, you can contact us at:\nEmail:\n3laa.sohail@gmail.com'**
+  String get aboutAppContactContent;
+
+  /// No description provided for @aboutAppCopyright.
+  ///
+  /// In en, this message translates to:
+  /// **'© 2026 Planto. All rights reserved.'**
+  String get aboutAppCopyright;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete your account? Your associated data will be deleted, and this action cannot be undone.'**
+  String get deleteAccountMessage;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate

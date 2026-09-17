@@ -299,16 +299,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get goodEvening => 'مساء الخير';
 
   @override
-  String get scan => 'فحص النبات';
+  String get scan => 'فحص';
 
   @override
-  String get doctorAI => 'طبيب النباتات';
+  String get doctorAI => 'طبيب';
 
   @override
   String get community => 'المجتمع';
 
   @override
-  String get careTips => 'نصائح العناية';
+  String get careTips => 'نصائح';
 
   @override
   String get gardenHealth => 'صحة\nالحديقة';
@@ -748,4 +748,287 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get darkModeDescription => 'مريح للاستخدام في الإضاءة المنخفضة';
+
+  @override
+  String get noTasksForToday => 'لا توجد مهام اليوم';
+
+  @override
+  String get contactUs => 'تواصل معنا';
+
+  @override
+  String get helpCenter => 'مركز المساعدة';
+
+  @override
+  String get aboutApp => 'عن التطبيق';
+
+  @override
+  String get support => 'الدعم';
+
+  @override
+  String get personalInfo => 'المعلومات الشخصية';
+
+  @override
+  String get changePassword => 'تحديث كلمة المرور';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get privacyLastUpdate => 'آخر تحديث: 17 سبتمبر 2026';
+
+  @override
+  String get infoWeCollect => '1. المعلومات اللي نجمعها';
+
+  @override
+  String get howToUseTheInformation => '2. كيفية استخدام المعلومات';
+
+  @override
+  String get picturesAndPlantAnalysis => '3. الصور وتحليل النباتات';
+
+  @override
+  String get geographicLocation => '4. الموقع الجغرافي';
+
+  @override
+  String get thirdPartyServices => '5. خدمات الطرف الثالث';
+
+  @override
+  String get ads => '6. الإعلانات';
+
+  @override
+  String get subscriptionsAndPayments => '7. الاشتراكات والمدفوعات';
+
+  @override
+  String get dataProtection => '8. حماية البيانات';
+
+  @override
+  String get dataRetention => '9. الاحتفاظ بالبيانات';
+
+  @override
+  String get deleteAccountAndData => '10. حذف الحساب والبيانات';
+
+  @override
+  String get appPermissions => '11. صلاحيات التطبيق';
+
+  @override
+  String get privacyPolicyChanges => '12. تغييرات سياسة الخصوصية';
+
+  @override
+  String get contactUsPrivacy => '13. التواصل معنا';
+
+  @override
+  String get contactUsPrivacyContent =>
+      'إذا كان لديك أي سؤال أو طلب متعلق بسياسة الخصوصية أو بياناتك، يمكنك التواصل معنا عبر:\nالبريد الإلكتروني:\n3laa.sohail@gmail.com\nالتطبيق: Planto';
+
+  @override
+  String get privacyPolicyChangesContent =>
+      'قد نقوم بتحديث سياسة الخصوصية من وقت لآخر لتتماشى مع التغييرات في التطبيق أو المتطلبات القانونية.\nسيتم نشر النسخة المحدثة داخل التطبيق أو من خلال الصفحة الرسمية لسياسة الخصوصية مع تعديل تاريخ آخر تحديث.';
+
+  @override
+  String get appPermissionsContent =>
+      'قد يطلب التطبيق بعض الصلاحيات مثل:\nالكاميرا والصور: لالتقاط أو اختيار صور النباتات.\nالموقع: للحصول على بيانات الطقس والخدمات المتعلقة بالموقع.\nالإشعارات: لإرسال التذكيرات والتنبيهات المتعلقة بالعناية بالنباتات.\nيمكنك إدارة أو إلغاء هذه الصلاحيات في أي وقت من إعدادات جهازك.';
+
+  @override
+  String get deleteAccountAndDataContent =>
+      'يمكن للمستخدم طلب حذف حسابه والبيانات المرتبطة به.\nعند حذف الحساب، سيتم حذف أو إزالة البيانات الشخصية المرتبطة بالحساب وفقًا للمتطلبات القانونية والتقنية المطبقة، مع إمكانية الاحتفاظ ببعض المعلومات عندما يكون ذلك مطلوبًا قانونيًا.';
+
+  @override
+  String get dataRetentionContent =>
+      'قد نحتفظ بالمعلومات طالما كان حسابك فعالًا أو طالما كانت المعلومات مطلوبة لتوفير خدمات التطبيق والوفاء بالمتطلبات القانونية والتنظيمية.\nقد تتم إزالة بعض البيانات عند حذف الحساب، باستثناء المعلومات التي يتطلب القانون أو المصالح الأمنية المشروعة الاحتفاظ بها لفترة محددة.';
+
+  @override
+  String get dataProtectionContent =>
+      'نتخذ إجراءات تقنية وتنظيمية مناسبة للمساعدة في حماية معلومات المستخدمين من الوصول غير المصرح به أو الاستخدام أو التعديل أو الإفصاح غير المشروع.\nومع ذلك، لا توجد وسيلة نقل أو تخزين إلكترونية يمكن ضمان أمانها بنسبة 100%.';
+
+  @override
+  String get subscriptionsAndPaymentsContent =>
+      'قد يوفر التطبيق اشتراكات مدفوعة مثل الاشتراكات الأسبوعية أو الشهرية أو السنوية.\nتتم معالجة عمليات الدفع من خلال متجر التطبيقات المستخدم، مثل Google Play أو Apple App Store، ولا يقوم Planto بتخزين أرقام بطاقات الائتمان أو بيانات الدفع البنكية الخاصة بك.';
+
+  @override
+  String get adsContent =>
+      'قد يعرض Planto إعلانات مقدمة من شبكات إعلانية خارجية. وقد تستخدم هذه الخدمات معلومات تقنية مثل معلومات الجهاز ومعرّفات الإعلانات لعرض الإعلانات وقياس أدائها وفقًا لإعدادات الخصوصية والموافقة الخاصة بالمستخدم.';
+
+  @override
+  String get thirdPartyServicesContent =>
+      'قد يعتمد التطبيق على خدمات تابعة لجهات خارجية لتوفير بعض الوظائف، مثل:\nخدمات تسجيل الدخول باستخدام Google.\nخدمات الإشعارات.\nخدمات تخزين ومعالجة الصور.\nخدمات تحليل البيانات أو الذكاء الاصطناعي.\nخدمات الإعلانات.\nمتاجر التطبيقات وخدمات إدارة الاشتراكات.\nقد تقوم هذه الجهات بمعالجة بعض البيانات وفقًا لسياسات الخصوصية الخاصة بها.';
+
+  @override
+  String get geographicLocationContent =>
+      'قد يطلب Planto الوصول إلى موقع جهازك بهدف توفير معلومات الطقس والخدمات المعتمدة على الموقع.\nلن يتم استخدام موقعك إلا بعد منح التطبيق الإذن المطلوب من إعدادات جهازك، ويمكنك إيقاف الوصول إلى الموقع في أي وقت من إعدادات الهاتف.';
+
+  @override
+  String get picturesAndPlantAnalysisContent =>
+      'عند استخدام ميزة تحليل النباتات، قد يتم إرسال الصورة التي تختارها إلى خوادمنا أو إلى مزودي خدمات تقنيين لمعالجتها وتحليلها.\nيتم استخدام الصور لغرض تقديم خدمة التعرف على النباتات وتشخيص حالتها وتقديم التوصيات المناسبة.\nننصح بعدم رفع صور تحتوي على معلومات شخصية أو أشخاص إذا لم تكن ضرورية لاستخدام الخدمة.';
+
+  @override
+  String get howToUseTheInformationContent =>
+      'نستخدم المعلومات التي يتم جمعها من أجل:\nإنشاء وإدارة حساب المستخدم.\nالتعرف على النباتات وتحليل حالتها باستخدام تقنيات الذكاء الاصطناعي.\nتقديم نصائح حول الري والإضاءة والتسميد والعناية بالنباتات.\nتوفير معلومات الطقس المتعلقة بموقع المستخدم.\nإرسال الإشعارات والتنبيهات المتعلقة بالنباتات والتطبيق.\nتحسين أداء التطبيق وتجربة المستخدم.\nإدارة الاشتراكات والمزايا المدفوعة.\nاكتشاف الأخطاء والمشكلات التقنية ومنع إساءة استخدام الخدمة.';
+
+  @override
+  String get infoWeCollectContent =>
+      'قد نقوم بجمع بعض المعلومات اللازمة لتقديم خدمات التطبيق، مثل:\n\nمعلومات الحساب: مثل الاسم، البريد الإلكتروني ومعلومات تسجيل الدخول.\nالصور: الصور التي تقوم برفعها أو التقاطها لتحليل النباتات والتعرف عليها أو تشخيص حالتها.\nبيانات الموقع: عند منح التطبيق الإذن، قد نستخدم موقعك التقريبي لعرض معلومات الطقس المناسبة لمنطقتك وتحسين إرشادات العناية بالنباتات.\nمعلومات الجهاز والتطبيق: مثل نوع الجهاز، نظام التشغيل وبعض البيانات التقنية المتعلقة باستخدام التطبيق.\nبيانات الاشتراك: معلومات حالة الاشتراك والخطة المستخدمة. لا يقوم التطبيق بتخزين معلومات بطاقات الدفع الخاصة بك مباشرة.';
+
+  @override
+  String get privacyLastUpdateContent =>
+      'نحن في Planto نحترم خصوصيتك ونلتزم بحماية معلوماتك الشخصية. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية المعلومات عند استخدامك لتطبيق Planto.';
+
+  @override
+  String get helpCenterTitle => 'مركز المساعدة';
+
+  @override
+  String get helpCenterIntro =>
+      'مرحبًا بك في مركز مساعدة Planto.\nهنا يمكنك العثور على إجابات للأسئلة الشائعة والحصول على المساعدة عند مواجهة أي مشكلة أثناء استخدام التطبيق.';
+
+  @override
+  String get accountAndLogin => '1. الحساب وتسجيل الدخول';
+
+  @override
+  String get accountAndLoginContent =>
+      'يمكنك إنشاء حساب باستخدام بريدك الإلكتروني أو تسجيل الدخول باستخدام Google.\nإذا نسيت كلمة المرور، استخدم خيار \"نسيت كلمة المرور؟\" واتبع التعليمات لإعادة تعيينها.\nإذا واجهت مشكلة في تسجيل الدخول، تأكد من صحة البريد الإلكتروني وكلمة المرور ومن وجود اتصال بالإنترنت.';
+
+  @override
+  String get addPlantHelp => '2. إضافة نبات';
+
+  @override
+  String get addPlantHelpContent =>
+      'يمكنك إضافة نبات جديد يدويًا من خلال إدخال اسم النبات ونوعه ووصفه وإضافة صورة له.\nيمكنك تعديل معلومات النبات أو تحديث صورته لاحقًا من صفحة تفاصيل النبات.';
+
+  @override
+  String get aiPlantAnalysisHelp => '3. تحليل النبات بالذكاء الاصطناعي';
+
+  @override
+  String get aiPlantAnalysisHelpContent =>
+      'لالتقاط أو اختيار صورة لنباتك، استخدم ميزة تحليل النبات.\nسيقوم Planto بتحليل الصورة وتقديم معلومات مثل:\nحالة النبات.\nنسبة صحة النبات.\nالمشاكل أو الأمراض المحتملة.\nنصائح الري.\nنصائح الإضاءة.\nنصائح التسميد.\nتوصيات العناية.\nللحصول على أفضل نتيجة، استخدم صورة واضحة للنبات مع إضاءة جيدة.';
+
+  @override
+  String get weatherAndLocationHelp => '4. الطقس والموقع';
+
+  @override
+  String get weatherAndLocationHelpContent =>
+      'يستخدم Planto موقعك لتوفير معلومات الطقس المناسبة لمنطقتك.\nإذا لم تظهر معلومات الطقس، تأكد من:\nتفعيل خدمة الموقع في الهاتف.\nمنح Planto صلاحية الوصول إلى الموقع.\nوجود اتصال بالإنترنت.';
+
+  @override
+  String get notificationsHelp => '5. الإشعارات';
+
+  @override
+  String get notificationsHelpContent =>
+      'يمكن لـ Planto إرسال إشعارات وتذكيرات متعلقة بالعناية بالنباتات.\nيمكنك تشغيل أو إيقاف الإشعارات من إعدادات التطبيق أو إعدادات جهازك.';
+
+  @override
+  String get subscriptionHelp => '6. الاشتراك';
+
+  @override
+  String get subscriptionHelpContent =>
+      'قد تتوفر بعض الميزات ضمن اشتراك مدفوع أسبوعي أو شهري أو سنوي.\nتتم إدارة عمليات الدفع والاشتراكات من خلال Google Play أو Apple App Store حسب جهازك.\nيمكنك إدارة أو إلغاء اشتراكك من إعدادات الاشتراكات في متجر التطبيقات الخاص بجهازك.';
+
+  @override
+  String get imageAnalysisProblem => '7. مشكلة في تحليل الصورة';
+
+  @override
+  String get imageAnalysisProblemContent =>
+      'إذا لم يتم تحليل الصورة بشكل صحيح:\nتأكد من أن النبات ظاهر بوضوح.\nتجنب الصور المظلمة أو المشوشة.\nحاول تصوير الأوراق أو الجزء المصاب بشكل أقرب.\nتأكد من اتصال الجهاز بالإنترنت.\nحاول مرة أخرى باستخدام صورة مختلفة.';
+
+  @override
+  String get deleteAccountHelp => '8. حذف الحساب';
+
+  @override
+  String get deleteAccountHelpContent =>
+      'يمكنك طلب حذف حسابك والبيانات المرتبطة به من خلال إعدادات الحساب.\nيرجى ملاحظة أن حذف الحساب قد يؤدي إلى حذف النباتات والمعلومات المحفوظة المرتبطة بالحساب.';
+
+  @override
+  String get frequentlyAskedQuestions => '9. الأسئلة الشائعة';
+
+  @override
+  String get offlineQuestion => 'هل يمكنني استخدام التطبيق بدون إنترنت؟';
+
+  @override
+  String get offlineAnswer =>
+      'قد تتوفر بعض المعلومات المحفوظة دون اتصال، ولكن ميزات مثل تحليل النباتات والطقس تحتاج إلى اتصال بالإنترنت.';
+
+  @override
+  String get analysisAccuracyQuestion => 'هل تحليل النبات دقيق دائمًا؟';
+
+  @override
+  String get analysisAccuracyAnswer =>
+      'يستخدم Planto تقنيات الذكاء الاصطناعي لتقديم أفضل تحليل ممكن، ولكن النتائج قد لا تكون دقيقة بنسبة 100%.';
+
+  @override
+  String get existingPlantAnalysisQuestion =>
+      'هل يمكنني تحليل نبات أضفته سابقًا؟';
+
+  @override
+  String get existingPlantAnalysisAnswer =>
+      'نعم، يمكنك فتح النبات وإجراء تحليل جديد لتحديث حالته ومعلومات العناية الخاصة به.';
+
+  @override
+  String get plantImagesQuestion => 'هل يحتفظ التطبيق بصور النباتات؟';
+
+  @override
+  String get plantImagesAnswer =>
+      'قد يتم حفظ صور النباتات المرتبطة بحسابك لتوفير ميزات التطبيق وعرض النباتات التي أضفتها.';
+
+  @override
+  String get contactSupport => '10. تواصل معنا';
+
+  @override
+  String get contactSupportContent =>
+      'إذا لم تجد حلًا لمشكلتك، يمكنك التواصل معنا عبر:\nالبريد الإلكتروني:\n3laa.sohail@gmail.com\nالتطبيق: Planto\nسنستخدم المعلومات التي ترسلها إلينا فقط للمساعدة في حل المشكلة وتحسين الخدمة.';
+
+  @override
+  String get aboutAppIntro =>
+      'Planto هو تطبيق ذكي يساعدك على التعرف على نباتاتك ومتابعة حالتها والعناية بها بسهولة باستخدام تقنيات الذكاء الاصطناعي.';
+
+  @override
+  String get aboutAppWhatIs => 'ما هو Planto؟';
+
+  @override
+  String get aboutAppWhatIsContent =>
+      'تم تصميم Planto لمساعدة محبي النباتات على إدارة نباتاتهم والحصول على معلومات ونصائح تساعدهم في العناية بها والحفاظ على صحتها.';
+
+  @override
+  String get aboutAppFeatures => 'مميزات التطبيق';
+
+  @override
+  String get aboutAppFeaturesContent =>
+      'التعرف على النباتات باستخدام الصور.\nتحليل صحة النبات باستخدام الذكاء الاصطناعي.\nاكتشاف المشاكل والأمراض المحتملة.\nنصائح للري والإضاءة والتسميد.\nحفظ وإدارة نباتاتك في مكان واحد.\nعرض معلومات الطقس المناسبة لموقعك.\nإرسال تذكيرات وإشعارات للعناية بالنباتات.';
+
+  @override
+  String get aboutAppAI => 'الذكاء الاصطناعي';
+
+  @override
+  String get aboutAppAIContent =>
+      'يستخدم Planto تقنيات الذكاء الاصطناعي لتحليل صور النباتات وتقديم معلومات وتوصيات للعناية بها. قد تختلف دقة النتائج حسب جودة الصورة وحالة النبات، لذلك يجب اعتبار النتائج إرشادية وليست بديلاً عن استشارة مختص.';
+
+  @override
+  String get aboutAppMission => 'هدفنا';
+
+  @override
+  String get aboutAppMissionContent =>
+      'هدفنا هو جعل العناية بالنباتات أبسط وأسهل، ومساعدة المستخدمين على فهم احتياجات نباتاتهم واتخاذ قرارات أفضل للعناية بها.';
+
+  @override
+  String get aboutAppVersion => 'إصدار التطبيق';
+
+  @override
+  String get aboutAppVersionContent =>
+      'يمكنك العثور على رقم إصدار Planto الحالي من معلومات التطبيق أو إعدادات الجهاز.';
+
+  @override
+  String get aboutAppContact => 'تواصل معنا';
+
+  @override
+  String get aboutAppContactContent =>
+      'إذا كان لديك اقتراح أو ملاحظة أو واجهت مشكلة أثناء استخدام Planto، يمكنك التواصل معنا عبر:\nالبريد الإلكتروني:\n3laa.sohail@gmail.com';
+
+  @override
+  String get aboutAppCopyright => '© 2026 Planto. جميع الحقوق محفوظة.';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
+
+  @override
+  String get deleteAccountMessage =>
+      'هل أنت متأكد أنك تريد حذف حسابك؟ سيتم حذف بياناتك المرتبطة بالحساب ولا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get cancel => 'إلغاء';
 }

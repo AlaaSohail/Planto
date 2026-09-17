@@ -459,4 +459,34 @@ class UserCubit extends Cubit<UserState> {
       emit(UpdatePasswordError(e.toString()));
     }
   }
-}
+
+  Future<void> deleteAccount() async {
+    emit(DeleteAccountLoading());
+
+    try {
+      final response = await api.delete(
+        ApiEndpoints.deleteAccount,
+      );
+
+      await getIt<CacheHelper>().removeData(key: ApiKeys.token);
+      await getIt<CacheHelper>().removeData(key: ApiKeys.id);
+
+      emit(
+        DeleteAccountSuccess(
+          response["message"] ?? "Account deleted successfully",
+        ),
+      );
+    } on ServerException catch (e) {
+      emit(
+        DeleteAccountError(
+          e.errorModel.errorMessage,
+        ),
+      );
+    } catch (e) {
+      emit(
+        DeleteAccountError(
+          e.toString(),
+        ),
+      );
+    }
+  }}

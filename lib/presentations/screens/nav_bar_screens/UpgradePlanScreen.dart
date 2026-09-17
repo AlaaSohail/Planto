@@ -29,7 +29,7 @@ class _UpgradePlanScreenState extends State<UpgradePlanScreen> {
 
         title: Text(
           localization.upgradePlan,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
         leading: AppTheme.backButton(context),
       ),

@@ -5,10 +5,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../controllers/cubit/community_cubit/community_cubit.dart';
 import '../../controllers/cubit/plant_cubit/plant_cubit.dart';
+import '../../l10n/app_localizations.dart';
 import '../themes/app_colors.dart';
 import 'AuthTextField.dart';
 
@@ -37,6 +39,8 @@ class ModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.all(24.0).r,
       child: Column(
@@ -54,7 +58,7 @@ class ModalBottomSheet extends StatelessWidget {
           Text(
             title!,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: actionText == "Delete"
+              color: actionText == localization.delete
                   ? AppColors.error
                   : Theme.of(context).textTheme.headlineSmall?.color,
             ),
@@ -68,7 +72,12 @@ class ModalBottomSheet extends StatelessWidget {
                 return const SizedBox.shrink();
               }
               if (state is UploadPostImageLoading) {
-                CircularProgressIndicator.adaptive();
+                Center(
+                  child: SpinKitSpinningLines(
+                    color: Theme.of(context).textTheme.headlineSmall!.color!,
+                    size: 30.sp,
+                  ),
+                );
               }
 
               return Container(
@@ -106,7 +115,7 @@ class ModalBottomSheet extends StatelessWidget {
 
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Please enter a post';
+                        return localization.addNewPost;
                       }
                       return null;
                     },
@@ -146,7 +155,7 @@ class ModalBottomSheet extends StatelessWidget {
                     context.read<CommunityCubit>().postImage = null;
                   },
                   child: Text(
-                    "Cancel",
+                    localization.cancel,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
@@ -155,7 +164,7 @@ class ModalBottomSheet extends StatelessWidget {
                   child: Text(
                     actionText!,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: actionText == "Deploy"
+                      color: actionText == localization.deploy
                           ? Theme.of(context).textTheme.headlineSmall?.color
                           : AppColors.error,
                     ),

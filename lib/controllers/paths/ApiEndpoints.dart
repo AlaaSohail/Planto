@@ -3,7 +3,7 @@ class ApiEndpoints {
 
   static const String weatherUrl = "https://api.open-meteo.com/v1/forecast";
 
-  static const String paymentUrl="https://api.stripe.com/v1/payment_intents";
+  static const String paymentUrl = "https://api.stripe.com/v1/payment_intents";
 
   static const String login = "/auth/login";
 
@@ -25,6 +25,7 @@ class ApiEndpoints {
   static const String plants = "/plants";
 
   static const String chat = "/ai/chat";
+  static const String deleteAccount = "/users/account";
 
   static const String posts = "/posts";
   static const String analyze = '/plants/analyze';
@@ -63,6 +64,11 @@ class ApiEndpoints {
   static const String updateLocation = "/users/location";
   static const String verifyEmail = "/auth/verify-email";
   static const String resendVerification = "/auth/resend-verification";
+
+  static const String todayTasks = '/tasks/today';
+  static const String taskSchedules = '/tasks/schedules';
+
+  static String completeTask(String id) => '/tasks/$id/complete';
 }
 
 class ApiKeys {

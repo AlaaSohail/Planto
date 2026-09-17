@@ -50,7 +50,12 @@ class _AiChatScreenState extends State<AiChatScreen> {
           builder: (context, state) {
             if (state is AiLoading) {
               return Center(
-                child: CircularProgressIndicator(color: AppColors.primary),
+                child: SpinKitSpinningLines(
+                  color: Theme.of(
+                    context,
+                  ).textTheme.headlineSmall!.color!,
+                  size: 30.sp,
+                ),
               );
             }
 

@@ -17,6 +17,7 @@ import 'controllers/cubit/ai_cubit/ai_cubit.dart';
 import 'controllers/cubit/community_cubit/community_cubit.dart';
 import 'controllers/cubit/local_cubit/locale_cubit.dart';
 import 'controllers/cubit/plant_cubit/plant_cubit.dart';
+import 'controllers/cubit/task_cubit/task_cubit.dart';
 import 'controllers/cubit/theme_cubit/theme_cubit.dart';
 import 'controllers/cubit/user_cubit/user_cubit.dart';
 import 'controllers/cubit/weather_cubit/weather_cubit.dart';
@@ -34,7 +35,7 @@ void main() async {
 
     await googleSignIn.initialize(
       serverClientId:
-      '141453372151-4lj4i23rl7m1m2fpa3mtle5t3qqckjuq.apps.googleusercontent.com',
+          '141453372151-4lj4i23rl7m1m2fpa3mtle5t3qqckjuq.apps.googleusercontent.com',
     );
   }
 
@@ -45,43 +46,20 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => PlantCubit(
-            DioConsumer(dio: Dio()),
-          ),
-        ),
+        BlocProvider(create: (_) => PlantCubit(DioConsumer(dio: Dio()))),
 
-        BlocProvider(
-          create: (_) => UserCubit(
-            DioConsumer(dio: Dio()),
-          ),
-        ),
+        BlocProvider(create: (_) => UserCubit(DioConsumer(dio: Dio()))),
 
-        BlocProvider(
-          create: (_) => WeatherCubit(
-            DioConsumer(dio: Dio()),
-          ),
-        ),
+        BlocProvider(create: (_) => WeatherCubit(DioConsumer(dio: Dio()))),
 
-        BlocProvider(
-          create: (_) => AiCubit(
-            DioConsumer(dio: Dio()),
-          ),
-        ),
+        BlocProvider(create: (_) => AiCubit(DioConsumer(dio: Dio()))),
 
-        BlocProvider(
-          create: (_) => CommunityCubit(
-            DioConsumer(dio: Dio()),
-          ),
-        ),
+        BlocProvider(create: (_) => CommunityCubit(DioConsumer(dio: Dio()))),
 
-        BlocProvider(
-          create: (_) => LocaleCubit()..loadLanguage(),
-        ),
+        BlocProvider(create: (_) => LocaleCubit()..loadLanguage()),
 
-        BlocProvider(
-          create: (_) => ThemeCubit()..loadTheme(),
-        ),
+        BlocProvider(create: (_) => ThemeCubit()..loadTheme()),
+        BlocProvider(create: (_) => TaskCubit(DioConsumer(dio: Dio()))),
       ],
 
       child: const MyApp(),

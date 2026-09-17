@@ -21,6 +21,7 @@ import '../../../controllers/cache/ad_helper.dart';
 import '../../../controllers/cache/cache_helper.dart';
 import '../../../controllers/core/functions/IsArabic.dart';
 import '../../../controllers/cubit/plant_cubit/plant_cubit.dart';
+import '../../../controllers/cubit/task_cubit/task_cubit.dart';
 import '../../../controllers/cubit/user_cubit/user_cubit.dart';
 import '../../../controllers/paths/ApiEndpoints.dart';
 import '../../../controllers/services/location_service.dart';
@@ -49,32 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   BannerAd? _bannerAd;
 
-  @override
-  // void initState() {
-  //   super.initState();
-  //  BannerAd(
-  //    adUnitId: AdHelper.bannerAdUnitId,
-  //    request: AdRequest(),
-  //    size: AdSize.banner,
-  //    listener: BannerAdListener(
-  //      onAdLoaded: (ad) {
-  //        setState(() {
-  //          _bannerAd = ad as BannerAd;
-  //        });
-  //      },
-  //      onAdFailedToLoad: (ad, error) {
-  //        ad.dispose();
-  //      },
-  //
-  //    ),
-  //
-  //  ).load();
-  //   context.read<PlantCubit>().getPlant();
-  //   context.read<UserCubit>().getUserProfile();
-  //   context.read<AiCubit>().getDailyTip();
-  //
-  //   _loadLocationData();
-  // }
   @override
   void initState() {
     super.initState();
@@ -106,9 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     banner.load();
 
-    context.read<PlantCubit>().getPlant();
-    context.read<UserCubit>().getUserProfile();
-    context.read<AiCubit>().getDailyTip();
+    // context.read<PlantCubit>().getPlant();
+    // context.read<UserCubit>().getUserProfile();
+    // context.read<AiCubit>().getDailyTip();
 
     _loadLocationData();
   }
@@ -335,171 +310,161 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        BlocBuilder<WeatherCubit, WeatherState>(
-                          builder: (context, state) {
-                            final isLoading = state is WeatherLoading;
-                            final city = getIt<CacheHelper>().getDataString(
-                              key: 'city',
-                            );
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    BlocBuilder<WeatherCubit, WeatherState>(
+                      builder: (context, state) {
+                        final isLoading = state is WeatherLoading;
+                        final city = getIt<CacheHelper>().getDataString(
+                          key: 'city',
+                        );
 
-                            if (state is WeatherError) {
-                              return Text(state.message);
-                            }
+                        if (state is WeatherError) {
+                          return Text(state.message);
+                        }
 
-                            final weather = state is WeatherSuccess
-                                ? state.weather
-                                : null;
+                        final weather = state is WeatherSuccess
+                            ? state.weather
+                            : null;
 
-                            return Skeletonizer(
-                              enabled: isLoading,
+                        return Skeletonizer(
+                          enabled: isLoading,
 
-                              child: WeatherCard(
-                                icon:
-                                    weather?.icon ??
-                                    "assets/images/weather.png",
-                                location: weather != null
-                                    ? city
-                                    : localization.loadingLocation,
+                          child: WeatherCard(
+                            icon: weather?.icon ?? "assets/images/weather.png",
+                            location: weather != null
+                                ? city
+                                : localization.loadingLocation,
 
-                                description:
-                                    weather?.description(context) ??
-                                    localization.loading,
-                                cTemperature:
-                                    weather?.temperature.toStringAsFixed(0) ??
-                                    "00",
-                                fTemperature: weather?.rain.toString() ?? "0",
-                                humidity: weather != null
-                                    ? '${weather.humidity.toStringAsFixed(0)}%'
-                                    : "00%",
-                                windSpeed: weather != null
-                                    ? weather.windSpeed
-                                    : 0,
-                                rain: weather != null
-                                    ? '${weather.rain.toStringAsFixed(0)} mm'
-                                    : "0 mm",
-                              ),
-                            );
-                          },
+                            description:
+                                weather?.description(context) ??
+                                localization.loading,
+                            cTemperature:
+                                weather?.temperature.toStringAsFixed(0) ?? "00",
+                            fTemperature: weather?.rain.toString() ?? "0",
+                            humidity: weather != null
+                                ? '${weather.humidity.toStringAsFixed(0)}%'
+                                : "00%",
+                            windSpeed: weather != null ? weather.windSpeed : 0,
+                            rain: weather != null
+                                ? '${weather.rain.toStringAsFixed(0)} mm'
+                                : "0 mm",
+                          ),
+                        );
+                      },
+                    ),
+
+                    Expanded(
+                      child: Card(
+                        elevation: 0,
+                        shadowColor: Colors.green.withOpacity(0.3),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          side: BorderSide(
+                            color: Colors.green.withOpacity(0.1),
+                          ),
                         ),
+                        clipBehavior: Clip.antiAlias,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: isDark(context)
+                                ? LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
 
-                        Expanded(
-                          child: Card(
-                            elevation: 0,
-                            shadowColor: Colors.green.withOpacity(0.3),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.r),
-                              side: BorderSide(
-                                color: Colors.green.withOpacity(0.1),
-                              ),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: isDark(context)
-                                    ? LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.bottomLeft,
+                                    colors: [
+                                      Color(0xFF254A2A),
+                                      Color(0xff254a2a),
+                                      Color(0xff387d3a),
+                                    ],
+                                  )
+                                : LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
 
-                                        colors: [
-                                          Color(0xFF254A2A),
-                                          Color(0xff254a2a),
-                                          Color(0xff387d3a),
-                                        ],
-                                      )
-                                    : LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.bottomLeft,
+                                    colors: [
+                                      Color(0xFFF1F1C9),
+                                      Color(0xFFe7f2e7),
+                                      Color(0xFFe7f2e7),
+                                    ],
+                                  ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0.r),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
 
-                                        colors: [
-                                          Color(0xFFF1F1C9),
-                                          Color(0xFFe7f2e7),
-                                          Color(0xFFe7f2e7),
-                                        ],
+                              children: [
+                                BlocBuilder<PlantCubit, PlantState>(
+                                  builder: (context, state) {
+                                    final isLoading = state is PlantLoading;
+
+                                    if (state is PlantError) {
+                                      return Text(state.message);
+                                    }
+
+                                    double health = 00;
+
+                                    if (state is GetALLPlantSuccess &&
+                                        state.plants.isNotEmpty) {
+                                      final totalHealth = state.plants
+                                          .fold<double>(
+                                            0,
+                                            (sum, plant) =>
+                                                sum + (plant.healthScore ?? 0),
+                                          );
+
+                                      health =
+                                          totalHealth / state.plants.length;
+                                    }
+
+                                    final healthPercent = (health / 100).clamp(
+                                      0.0,
+                                      1.0,
+                                    );
+
+                                    return Skeletonizer(
+                                      enabled: isLoading,
+                                      child: CircularPercentIndicator(
+                                        radius: 40.r,
+                                        lineWidth: 8.0.w,
+                                        backgroundColor: AppColors.primary
+                                            .withOpacity(0.1),
+
+                                        // صحة جميع النباتات
+                                        percent: healthPercent,
+
+                                        circularStrokeCap:
+                                            CircularStrokeCap.round,
+
+                                        center: Text(
+                                          '${health.toStringAsFixed(0)}%',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge,
+                                        ),
+
+                                        progressColor: AppColors.primary,
+
+                                        animation: true,
+                                        animationDuration: 1000,
                                       ),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0.r),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-
-                                  children: [
-                                    BlocBuilder<PlantCubit, PlantState>(
-                                      builder: (context, state) {
-                                        final isLoading = state is PlantLoading;
-
-                                        if (state is PlantError) {
-                                          return Text(state.message);
-                                        }
-
-                                        double health = 00;
-
-                                        if (state is GetALLPlantSuccess &&
-                                            state.plants.isNotEmpty) {
-                                          final totalHealth = state.plants
-                                              .fold<double>(
-                                                0,
-                                                (sum, plant) =>
-                                                    sum +
-                                                    (plant.healthScore ?? 0),
-                                              );
-
-                                          health =
-                                              totalHealth / state.plants.length;
-                                        }
-
-                                        final healthPercent = (health / 100)
-                                            .clamp(0.0, 1.0);
-
-                                        return Skeletonizer(
-                                          enabled: isLoading,
-                                          child: CircularPercentIndicator(
-                                            radius: 40.r,
-                                            lineWidth: 8.0.w,
-                                            backgroundColor: AppColors.primary
-                                                .withOpacity(0.1),
-
-                                            // صحة جميع النباتات
-                                            percent: healthPercent,
-
-                                            circularStrokeCap:
-                                                CircularStrokeCap.round,
-
-                                            center: Text(
-                                              '${health.toStringAsFixed(0)}%',
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.bodyLarge,
-                                            ),
-
-                                            progressColor: AppColors.primary,
-
-                                            animation: true,
-                                            animationDuration: 1000,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    SizedBox(height: 8.h),
-                                    Text(
-                                      localization.gardenHealth,
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyMedium,
-                                    ),
-                                  ],
+                                    );
+                                  },
                                 ),
-                              ),
+                                SizedBox(height: 8.h),
+                                Text(
+                                  localization.gardenHealth,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    )
-                    .animate()
-                    .fadeIn(delay: 100.ms)
-                    .slideY(begin: 0.5, end: 0, duration: 100.ms),
-
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 8.h),
                 InkWell(
                   splashColor: Colors.transparent,
@@ -513,266 +478,251 @@ class _HomeScreenState extends State<HomeScreen> {
                       CupertinoPageRoute(builder: (context) => AiChatScreen()),
                     );
                   },
-                  child:
-                      TipCard(
-                            color: AppColors.secondary,
-                            sub: localization.aiPlantDoctorDescription,
-                            title: localization.aiPlantDoctor,
-                            image: Image.asset(
-                              'assets/images/aibot.png',
-                              width: 64.w,
-                              height: 64.h,
-                            ),
-                          )
-                          .animate()
-                          .fadeIn(delay: 150.ms)
-                          .slideY(begin: 0.5, end: 0, duration: 150.ms),
+                  child: TipCard(
+                    color: AppColors.secondary,
+                    sub: localization.aiPlantDoctorDescription,
+                    title: localization.aiPlantDoctor,
+                    image: Image.asset(
+                      'assets/images/aibot.png',
+                      width: 64.w,
+                      height: 64.h,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12.h),
+
+                Text(
+                  localization.quickActions,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 SizedBox(height: 4.h),
 
-                Text(
-                      localization.quickActions,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    )
-                    .animate()
-                    .fadeIn(delay: 120.ms)
-                    .slideY(begin: 0.5, end: 0, duration: 120.ms),
-                SizedBox(height: 4.h),
-
                 SizedBox(
-                      height: 90.h,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: quickActions.length,
-                        itemBuilder: (context, index) {
-                          final action = quickActions[index];
+                  height: 100.h,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: quickActions.length,
+                    itemBuilder: (context, index) {
+                      final action = quickActions[index];
 
-                          return QuickActionsCard(
-                            title: action.title,
-                            icon: action.icon,
-                            color: Colors.white,
-                            onTap: action.onTap,
-                            iconWidth: 40.w,
-                            iconHeight: 40.h,
-                          );
-                        },
-                      ),
-                    )
-                    .animate()
-                    .fadeIn(delay: 150.ms)
-                    .slideY(begin: 0.5, end: 0, duration: 150.ms),
-                SizedBox(height: 8.h),
+                      return QuickActionsCard(
+                        title: action.title,
+                        icon: action.icon,
+
+                        onTap: action.onTap,
+                        iconWidth: 40.w,
+                        iconHeight: 40.h,
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 12.h),
 
                 Row(
-                      children: [
-                        Text(
-                          localization.myPlants,
-                          style: Theme.of(context).textTheme.headlineSmall,
+                  children: [
+                    Text(
+                      localization.myPlants,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+
+                    Spacer(),
+                    InkWell(
+                      onTap: widget.onOpenPlants,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+
+                      child: Text(
+                        localization.seeAll,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 14.sp,
                         ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8.h),
 
-                        Spacer(),
-                        InkWell(
-                          onTap: widget.onOpenPlants,
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
+                BlocConsumer<PlantCubit, PlantState>(
+                  listener: (context, state) {
+                    if (state is PlantError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(localization.plantError(state.message)),
+                        ),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is PlantLoading || state is PlantInitial) {
+                      return Center(
+                        child: SpinKitSpinningLines(
+                          color: Theme.of(
+                            context,
+                          ).textTheme.headlineSmall!.color!,
+                          size: 30.sp,
+                        ),
+                      );
+                    } else if (state is GetALLPlantSuccess) {
+                      final plants = state.plants;
+                      if (plants.isEmpty) {
+                        return SizedBox(
+                          height: 80.h,
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(localization.noPlantsFound),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) =>
+                                          AddPlantManualScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Text(localization.addPlant),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      return SizedBox(
+                        height: 200.h,
+                        child: ListView.builder(
+                          padding: EdgeInsets.all(0),
+                          shrinkWrap: true,
 
-                          child: Text(
-                            localization.seeAll,
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 14.sp,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: plants.length,
+                          itemBuilder: (context, index) {
+                            final plant = plants[index];
+
+                            return SizedBox(
+                              width: 130.w,
+                              child: InkWell(
+                                focusColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) =>
+                                          PlantDetailsScreen(plant: plant),
+                                    ),
+                                  );
+                                },
+                                child: PlantCard(
+                                  name: plant.name ?? '',
+                                  species: plant.species ?? '',
+                                  description: '',
+                                  imageUrl: plant.imageUrl ?? '',
+                                  percent: plant.healthScore,
                                 ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
+                    return SizedBox();
+                  },
+                ),
+                SizedBox(height: 12.h),
+                Row(
+                  children: [
+                    Text(
+                      localization.todaysTasks,
+
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    Spacer(),
+                    BadgeContainer(
+                      color: AppColors.primary.withOpacity(0.5),
+                      content: localization.tasksCount(
+                        context.read<TaskCubit>().tasks.length,
+                      ),
+                      textStyle: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 4.h),
+                BlocConsumer<TaskCubit, TaskState>(
+                  listener: (context, state) {
+                    if (state is TaskError) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.message)));
+                    }
+
+                    if (state is CompleteTaskSuccess) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Task completed')),
+                      );
+                    }
+                  },
+
+                  builder: (context, state) {
+                    final tasks = context.read<TaskCubit>().tasks;
+
+                    if (state is TaskLoading && tasks.isEmpty) {
+                      return Center(
+                        child: SpinKitSpinningLines(
+                          color: Theme.of(
+                            context,
+                          ).textTheme.headlineSmall!.color!,
+                          size: 30.sp,
+                        ),
+                      );
+                    }
+
+                    if (tasks.isEmpty) {
+                      return Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(16.0).r,
+                          child: Text(
+                            localization.noTasksForToday,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ),
+                      );
+                    }
+
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 200.h,
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: tasks.length,
+                            itemBuilder: (context, index) {
+                              final task = tasks[index];
+
+                              return TaskCard(
+                                isChecked: false,
+                                title: task.title,
+                                time: task.reminderTime ?? '',
+                                onChanged: (value) {
+                                  if (value == true) {
+                                    context.read<TaskCubit>().completeTask(
+                                      task.id,
+                                    );
+                                  }
+                                },
+                              );
+                            },
                           ),
                         ),
                       ],
-                    )
-                    .animate()
-                    .fadeIn(delay: 180.ms)
-                    .slideY(begin: 0.5, end: 0, duration: 180.ms),
-
-                BlocConsumer<PlantCubit, PlantState>(
-                      listener: (context, state) {
-                        if (state is PlantError) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                localization.plantError(state.message),
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is PlantLoading) {
-                          return Center(
-                            child: SpinKitSpinningLines(
-                              color: Theme.of(
-                                context,
-                              ).textTheme.headlineSmall!.color!,
-                              size: 30.sp,
-                            ),
-                          );
-                        } else if (state is GetALLPlantSuccess) {
-                          final plants = state.plants;
-                          if (plants.isEmpty) {
-                            return SizedBox(
-                              height: 100.h,
-                              width: double.infinity,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(localization.noPlantsFound),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                          builder: (context) =>
-                                              AddPlantManualScreen(),
-                                        ),
-                                      );
-                                    },
-                                    child: Text(localization.addPlant),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                          return SizedBox(
-                            height: 200.h,
-                            child: ListView.builder(
-                              padding: EdgeInsets.all(0),
-                              shrinkWrap: true,
-
-                              scrollDirection: Axis.horizontal,
-                              itemCount: plants.length,
-                              itemBuilder: (context, index) {
-                                final plant = plants[index];
-
-                                return SizedBox(
-                                  width: 130.w,
-                                  child: InkWell(
-                                    focusColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    splashColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                          builder: (context) =>
-                                              PlantDetailsScreen(plant: plant),
-                                        ),
-                                      );
-                                    },
-                                    child: PlantCard(
-                                      name: plant.name ?? '',
-                                      species: plant.species ?? '',
-                                      description: '',
-                                      imageUrl: plant.imageUrl ?? '',
-                                      percent: plant.healthScore,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }
-                        return SizedBox();
-                      },
-                    )
-                    .animate()
-                    .fadeIn(delay: 200.ms)
-                    .slideY(begin: 0.5, end: 0.2, duration: 200.ms),
-                SizedBox(height: 40.h),
-
-                Row(
-                      children: [
-                        Text(
-                          localization.todaysTasks,
-
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        Spacer(),
-                        BadgeContainer(
-                          color: AppColors.primary.withOpacity(0.5),
-                          content: localization.tasksCount(4),
-                          textStyle: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    )
-                    .animate()
-                    .fadeIn(delay: 220.ms)
-                    .slideY(begin: 0.5, end: 0, duration: 220.ms),
-                SizedBox(height: 4.h),
-
-                Column(
-                      children: [
-                        TaskCard(
-                          isChecked: false,
-                          title: "Rotate Fiddle Leaf Fig",
-                          time: "Today, 8 AM",
-                          icon: Icons.water_drop_outlined,
-                        ),
-                        TaskCard(
-                          isChecked: false,
-                          title: "Rotate Fiddle Leaf Fig",
-                          time: "Today, 8 AM",
-                          icon: Icons.sunny,
-                        ),
-                        TaskCard(
-                          isChecked: false,
-                          title: "Rotate Fiddle Leaf Fig",
-                          time: "Today, 8 AM",
-                          icon: Icons.place_outlined,
-                        ),
-                        TaskCard(
-                          isChecked: false,
-                          title: "Rotate Fiddle Leaf Fig",
-                          time: "Today, 8 AM",
-                          icon: Icons.bolt,
-                        ),
-                      ],
-                    )
-                    .animate()
-                    .fadeIn(delay: 250.ms)
-                    .slideY(begin: 0.5, end: 0, duration: 250.ms),
-                SizedBox(height: 8.h),
-
-                Text(
-                      'Watering Progress',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    )
-                    .animate()
-                    .fadeIn(delay: 270.ms)
-                    .slideY(begin: 0.5, end: 0, duration: 270.ms),
-                SizedBox(height: 4.h),
-
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  color: Colors.white,
-                  child: SizedBox(
-                    height: 100.h,
-                    width: double.infinity,
-
-                    child: LinearPercentIndicator(
-                      percent: 0.6,
-                      animation: true,
-                      backgroundColor: Colors.blueAccent.withOpacity(0.2),
-
-                      animationDuration: 1000,
-                      barRadius: Radius.circular(8).r,
-                      lineHeight: 8.h,
-
-                      progressColor: Colors.blueAccent,
-                    ),
-                  ),
+                    );
+                  },
                 ),
                 SizedBox(height: 8.h),
 
@@ -790,18 +740,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       tip = localization.unableToLoadDailyTip;
                     }
                     return TipCard(
-                          title: localization.dailyTips,
-                          image: Image.asset(
-                            'assets/images/lamp.png',
-                            width: 48.w,
-                            height: 48.h,
-                          ),
-                          color: Colors.yellow,
-                          sub: tip,
-                        )
-                        .animate()
-                        .fadeIn(delay: 300.ms)
-                        .slideY(begin: 0.5, end: 0, duration: 300.ms);
+                      title: localization.dailyTips,
+                      image: Image.asset(
+                        'assets/images/lamp.png',
+                        width: 48.w,
+                        height: 48.h,
+                      ),
+                      color: Colors.yellow,
+                      sub: tip,
+                    );
                   },
                 ),
               ],

@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:plant_care/presentations/screens/nav_bar_screens/SettingScreen.dart';
-import 'package:simple_icons/simple_icons.dart';
 
 import '../../../controllers/cubit/user_cubit/user_cubit.dart';
 import '../../../controllers/services/location_service.dart';
@@ -19,8 +18,6 @@ import '../../widgets/AuthTextField.dart';
 import '../../widgets/ContainerIcons.dart';
 import '../../widgets/LoginSocialMedia.dart';
 import '../../widgets/MainButton.dart';
-import '../../widgets/dropDownMenu.dart';
-import '../nav_bar_screens/HomeScreen.dart';
 import 'LoginScreen.dart';
 import 'VerifyEmailScreen.dart';
 
@@ -332,6 +329,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       Padding(
                                         padding: EdgeInsets.only(
                                           right: 8,
+                                          left: 8,
                                           top: 2,
                                         ).r,
                                         child: MSHCheckbox(
@@ -340,8 +338,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           colorConfig:
                                               MSHColorConfig.fromCheckedUncheckedDisabled(
                                                 uncheckedColor: Colors.grey,
-                                                checkedColor:
-                                                    AppColors.textPrimary,
+                                                checkedColor: Theme.of(context)
+                                                    .textTheme
+                                                    .headlineSmall
+                                                    ?.color!,
                                               ),
                                           style: MSHCheckboxStyle.stroke,
                                           onChanged: (selected) {

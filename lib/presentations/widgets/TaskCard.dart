@@ -5,100 +5,125 @@ import 'package:plant_care/controllers/core/functions/IsArabic.dart';
 
 import '../themes/app_colors.dart';
 
-class TaskCard extends StatefulWidget {
-  TaskCard({
+class TaskCard extends StatelessWidget {
+  const TaskCard({
     super.key,
     required this.isChecked,
     required this.title,
     required this.time,
+    required this.onChanged,
     this.icon,
   });
 
-  bool? isChecked;
-  String? title;
-  String? time;
-  IconData? icon;
+  final bool isChecked;
+  final String title;
+  final String time;
+  final IconData? icon;
 
-  @override
-  State<TaskCard> createState() => _TaskCardState();
-}
+  final ValueChanged<bool> onChanged;
 
-class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
       shadowColor: Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+
       color: isDark(context)
-          ? widget.isChecked!
-                ? Color(0xffA7E39A).withOpacity(0.7)
-                : Color(0xffA7E39A).withOpacity(0.2)
-          : widget.isChecked!
+          ? isChecked
+          ? const Color(0xffA7E39A).withOpacity(0.7)
+          : const Color(0xffA7E39A).withOpacity(0.2)
+          : isChecked
           ? Colors.grey.shade300
-          : Color(0xffA7E39A).withOpacity(0.1),
+          : const Color(0xffA7E39A).withOpacity(0.1),
+
       child: Padding(
-        padding: EdgeInsets.all(12.0.r),
+        padding: EdgeInsets.all(12.r),
+
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
+
           children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
+            if (icon != null) ...[
+              Icon(
+                icon,
+                size: 24.sp,
                 color: AppColors.primary,
-                borderRadius: BorderRadius.circular(10.r),
               ),
-              child: Icon(widget.icon, color: Colors.white),
-            ),
-            SizedBox(width: 16.w),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  widget.title!,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    decoration: widget.isChecked!
-                        ? TextDecoration.lineThrough
-                        : null,
-                    decorationThickness: 2,
-                    fontWeight: widget.isChecked!
-                        ? FontWeight.w500
-                        : FontWeight.w700,
+
+              SizedBox(width: 10.w),
+            ],
+
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: [
+                  Text(
+                    title,
+
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(
+                      decoration: isChecked
+                          ? TextDecoration.lineThrough
+                          : null,
+
+                      decorationThickness: 2,
+
+                      fontWeight: isChecked
+                          ? FontWeight.w500
+                          : FontWeight.w700,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  widget.time!,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    decoration: widget.isChecked!
-                        ? TextDecoration.lineThrough
-                        : null,
-                    decorationThickness: 2,
-                    fontWeight: widget.isChecked!
-                        ? FontWeight.w500
-                        : FontWeight.w700,
+
+                  SizedBox(height: 4.h),
+
+                  Text(
+                    time,
+
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(
+                      decoration: isChecked
+                          ? TextDecoration.lineThrough
+                          : null,
+
+                      decorationThickness: 2,
+
+                      fontWeight: isChecked
+                          ? FontWeight.w500
+                          : FontWeight.w700,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Spacer(),
+
+            SizedBox(width: 10.w),
+
             MSHCheckbox(
               size: 20.sp,
-              value: widget.isChecked!,
-              colorConfig: MSHColorConfig.fromCheckedUncheckedDisabled(
+
+              value: isChecked,
+
+              colorConfig:
+              MSHColorConfig.fromCheckedUncheckedDisabled(
                 uncheckedColor: Colors.grey,
-                checkedColor: AppColors.textPrimary,
+                checkedColor:  Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.color!,
               ),
+
               style: MSHCheckboxStyle.stroke,
-              onChanged: (selected) {
-                setState(() {
-                  widget.isChecked = selected;
-                });
-              },
+
+              onChanged: onChanged,
             ),
           ],
         ),

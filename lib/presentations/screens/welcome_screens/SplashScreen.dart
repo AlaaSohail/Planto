@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:plant_care/controllers/core/functions/IsArabic.dart';
+import 'package:plant_care/controllers/cubit/task_cubit/task_cubit.dart';
 import 'package:plant_care/presentations/screens/welcome_screens/BoardingScreen.dart';
 
 import '../../../controllers/cache/cache_helper.dart';
@@ -87,10 +88,12 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         CupertinoPageRoute(builder: (_) => const NavBarScreen()),
       );
-      context.read<PlantCubit>().getPlant();
       context.read<UserCubit>().getUserProfile();
 
+      context.read<PlantCubit>().getPlant();
+
       _loadLocationData();
+      context.read<TaskCubit>().getTodayTasks();
 
       context.read<AiCubit>().getDailyTip();
     } else if (isOnBoarding != true) {
@@ -111,42 +114,45 @@ class _SplashScreenState extends State<SplashScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // المحتوى الرئيسي
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/back_ground_image.png"),
-                  fit: BoxFit.cover,
+      body: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Stack(
+          children: [
+            // المحتوى الرئيسي
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/back_ground_image.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildSplashImage(size),
+                    SizedBox(height: 24.h),
+
+                    _buildSubtitle(context),
+                  ],
                 ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildSplashImage(size),
-                  SizedBox(height: 24.h),
+            ),
 
-                  _buildSubtitle(context),
-                ],
+            // اللودينج في الأسفل
+            Positioned(
+              bottom: 50,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: SpinKitSpinningLines(
+                  color: Colors.white,
+                  size: 30.sp,
+                ).animate().fadeIn(delay: 1200.ms).scale(),
               ),
             ),
-          ),
-
-          // اللودينج في الأسفل
-          Positioned(
-            bottom: 50,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: SpinKitSpinningLines(
-                color: Colors.white,
-                size: 30.sp,
-              ).animate().fadeIn(delay: 1200.ms).scale(),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -182,8 +188,8 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             )
             .animate()
-            .fadeIn(delay: 1800.ms)
-            .slideY(begin: 0.9, end: 0, duration: 700.ms),
+            .fadeIn(delay: 2000.ms)
+            .slideY(begin: 0.7, end: 0, duration: 900.ms),
       ],
     );
   }

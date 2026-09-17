@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +17,7 @@ import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/ContainerIcons.dart';
 import '../../widgets/ModalBottomSheet.dart';
+import '../auth_screens/LoginScreen.dart';
 
 class EditProfileDetailsScreen extends StatefulWidget {
   const EditProfileDetailsScreen({super.key});
@@ -46,7 +48,10 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
       appBar: AppBar(
         titleSpacing: 0,
         foregroundColor: Colors.transparent,
-        title: AppTheme.plantCareAILogo(context),
+        title: Text(
+          localization.personalInfo,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: AppTheme.backButton(context),
@@ -63,6 +68,30 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
               }
 
               if (state is UpdateProfileDetailsSuccess) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
+              }
+              if (state is DeleteAccountLoading) {
+                Center(
+                  child: SpinKitSpinningLines(
+                    color: Theme.of(context).textTheme.headlineSmall!.color!,
+                    size: 30.sp,
+                  ),
+                );
+              }
+              if (state is DeleteAccountSuccess) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
+                if (!context.mounted) return;
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  CupertinoPageRoute(builder: (_) => const LoginScreen()),
+                  (route) => false,
+                );
+              }
+              if (state is DeleteAccountError) {
                 ScaffoldMessenger.of(
                   context,
                 ).showSnackBar(SnackBar(content: Text(state.message)));
@@ -188,9 +217,11 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
                                   return Container(
                                     color: AppColors.primary.withOpacity(0.1),
                                     child: Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: AppColors.primary,
+                                      child: SpinKitSpinningLines(
+                                        color: Theme.of(
+                                          context,
+                                        ).textTheme.headlineSmall!.color!,
+                                        size: 30.sp,
                                       ),
                                     ),
                                   );
@@ -315,6 +346,132 @@ class _EditProfileDetailsScreenState extends State<EditProfileDetailsScreen> {
                           );
                         }
                       },
+                    ),
+                    SizedBox(height: 24.h),
+                    TextButton(
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              titlePadding: EdgeInsets.fromLTRB(
+                                24.w,
+                                24.h,
+                                24.w,
+                                10.h,
+                              ),
+                              contentPadding: EdgeInsets.fromLTRB(
+                                24.w,
+                                0,
+                                24.w,
+                                20.h,
+                              ),
+                              actionsPadding: EdgeInsets.fromLTRB(
+                                16.w,
+                                0,
+                                16.w,
+                                16.h,
+                              ),
+
+                              title: Row(
+                                children: [
+                                  Container(
+                                    width: 42.w,
+                                    height: 42.w,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.error.withOpacity(0.1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.delete_outline_rounded,
+                                      color: AppColors.error,
+                                      size: 23.sp,
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 12.w),
+
+                                  Expanded(
+                                    child: Text(
+                                      localization.deleteAccount,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              content: Text(
+                                localization.deleteAccountMessage,
+                                style: Theme.of(context).textTheme.bodyLarge
+                                    ?.copyWith(
+                                      height: 1.5,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                              ),
+
+                              actions: [
+                                // TextButton(
+                                //   onPressed: () => Navigator.pop(context),
+                                //   child: Text(
+                                //     localization.cancel,
+                                //     style: Theme.of(context).textTheme.bodyLarge
+                                //         ?.copyWith(fontWeight: FontWeight.w600),
+                                //   ),
+                                // ),
+
+                                ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.error,
+                                    foregroundColor: Colors.white,
+                                    elevation: 0,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w,
+                                      vertical: 11.h,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+
+                                    await context
+                                        .read<UserCubit>()
+                                        .deleteAccount();
+                                  },
+                                  icon: Icon(
+                                    Icons.delete_outline_rounded,
+                                    size: 18.sp,
+                                  ),
+                                  label: Text(
+                                    localization.delete,
+                                    style: Theme.of(context).textTheme.bodyLarge
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Text(
+                        localization.deleteAccount,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.error,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 );

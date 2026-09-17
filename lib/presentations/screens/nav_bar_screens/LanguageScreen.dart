@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../controllers/cubit/local_cubit/locale_cubit.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../themes/app_colors.dart';
 import '../../themes/app_theme.dart';
 
@@ -23,11 +24,15 @@ class _LanguageScreenState extends State<LanguageScreen> {
   @override
   Widget build(BuildContext context) {
     final currentLanguage = context.watch<LocaleCubit>().state.languageCode;
+    final localization = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.transparent,
-        title: AppTheme.plantCareAILogo(context),
+        title: Text(
+          localization.language,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         titleSpacing: 0,

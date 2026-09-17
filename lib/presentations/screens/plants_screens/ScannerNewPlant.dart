@@ -235,7 +235,6 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                       );
                                     },
                                     icon: 'assets/images/virus.png',
-                                    color: Colors.white,
                                   ),
 
                                   QuickActionsCard(
@@ -255,7 +254,6 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                       );
                                     },
                                     icon: 'assets/images/fertilizer.png',
-                                    color: Colors.white,
                                   ),
 
                                   QuickActionsCard(
@@ -276,7 +274,6 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                       );
                                     },
                                     icon: 'assets/images/watering.png',
-                                    color: Colors.white,
                                   ),
 
                                   QuickActionsCard(
@@ -297,7 +294,6 @@ class _ScannerNewPlantState extends State<ScannerNewPlant> {
                                       );
                                     },
                                     icon: 'assets/images/sunlight.png',
-                                    color: Colors.white,
                                   ),
                                 ],
                               ),
