@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../controllers/cache/cache_helper.dart';
-import '../../../controllers/services/service_locator.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/ProfileCard.dart';
@@ -182,7 +180,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   child: Column(
                     children: [
                       ProfileCard(
-                        icon: 'assets/images/notification.png',
+                        icon: 'assets/images/privacy_policy.png',
                         title: localization.registerPrivacyPolicy,
                         page: SupportScreen(
                           title: localization.privacyPolicy,
@@ -258,7 +256,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         color: Colors.grey.shade300,
                       ),
                       ProfileCard(
-                        icon: 'assets/images/dark.png',
+                        icon: 'assets/images/headset.png',
                         title: localization.helpCenter,
                         page: SupportScreen(
                           title: localization.helpCenter,
@@ -329,10 +327,10 @@ class _SettingScreenState extends State<SettingScreen> {
                         color: Colors.grey.shade300,
                       ),
                       ProfileCard(
-                        icon: 'assets/images/internet.png',
-                        title: localization.contactUs,
+                        icon: 'assets/images/info.png',
+                        title: localization.aboutApp,
                         page: SupportScreen(
-                          title: localization.contactUs,
+                          title: localization.aboutApp,
                           privacy: [
                             {
                               'title': localization.aboutAppWhatIs,

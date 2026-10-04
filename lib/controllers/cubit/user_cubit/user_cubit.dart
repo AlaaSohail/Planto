@@ -16,6 +16,7 @@ import 'package:plant_care/controllers/services/service_locator.dart';
 import '../../cache/cache_helper.dart';
 import '../../core/functions/upload_image.dart';
 import '../../models/user_model.dart';
+import '../../services/notification_service.dart';
 
 part 'user_state.dart';
 
@@ -63,6 +64,7 @@ class UserCubit extends Cubit<UserState> {
         key: ApiKeys.id,
         value: decodedToken[ApiKeys.id],
       );
+      await updateFcmToken();
 
       emit(LoginSuccess());
     } on ServerException catch (e) {
@@ -269,19 +271,44 @@ class UserCubit extends Cubit<UserState> {
     required double latitude,
     required double longitude,
   }) async {
-    emit(UserLoading());
+    final currentUser = user;
 
     try {
-      final response = await api.put(
+      await api.put(
         ApiEndpoints.updateLocation,
-        data: {ApiKeys.latitude: latitude, ApiKeys.longitude: longitude},
+        data: {
+          ApiKeys.latitude: latitude,
+          ApiKeys.longitude: longitude,
+        },
       );
 
-      emit(UserLocationUpdated());
+      if (currentUser != null) {
+        user = currentUser.copyWith(
+          latitude: latitude,
+          longitude: longitude,
+        );
+
+        await getIt<CacheHelper>().saveData(
+          key: ApiKeys.cachedUser,
+          value: jsonEncode(user!.toJson()),
+        );
+
+        emit(UserSuccess(user: user!));
+      } else {
+        emit(UserLocationUpdated());
+      }
     } on ServerException catch (e) {
-      emit(UserError(e.errorModel.errorMessage));
+      if (currentUser != null) {
+        emit(UserSuccess(user: currentUser));
+      } else {
+        emit(UserError(e.errorModel.errorMessage));
+      }
     } catch (e) {
-      emit(UserError(e.toString()));
+      if (currentUser != null) {
+        emit(UserSuccess(user: currentUser));
+      } else {
+        emit(UserError(e.toString()));
+      }
     }
   }
 
@@ -361,11 +388,21 @@ class UserCubit extends Cubit<UserState> {
   // GOOGLE LOGIN
   // =====================================================
 
+  bool _isGoogleLoggingIn = false;
+
   Future<void> googleLogin() async {
+    if (_isGoogleLoggingIn) return;
+
+    _isGoogleLoggingIn = true;
     emit(LoginLoading());
 
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+
+      if (!googleSignIn.supportsAuthenticate()) {
+        emit(LoginError('Google Sign-In is not supported on this platform'));
+        return;
+      }
 
       final GoogleSignInAccount account = await googleSignIn.authenticate();
 
@@ -396,15 +433,20 @@ class UserCubit extends Cubit<UserState> {
         key: ApiKeys.id,
         value: decodedToken[ApiKeys.id],
       );
+      await getIt<CacheHelper>().saveData(
+        key: ApiKeys.token,
+        value: loginUser!.token,
+      );
+
+      await updateFcmToken();
 
       emit(LoginSuccess());
-    } on ServerException catch (e) {
-      emit(LoginError(e.errorModel.errorMessage));
     } on GoogleSignInException catch (e) {
-      print('Google Error Code: ${e.code}');
-      print('Google Error Description: ${e.description}');
-
       emit(LoginError('Google: ${e.code} - ${e.description}'));
+    } catch (e) {
+      emit(LoginError('Google login failed'));
+    } finally {
+      _isGoogleLoggingIn = false;
     }
   }
 
@@ -464,9 +506,7 @@ class UserCubit extends Cubit<UserState> {
     emit(DeleteAccountLoading());
 
     try {
-      final response = await api.delete(
-        ApiEndpoints.deleteAccount,
-      );
+      final response = await api.delete(ApiEndpoints.deleteAccount);
 
       await getIt<CacheHelper>().removeData(key: ApiKeys.token);
       await getIt<CacheHelper>().removeData(key: ApiKeys.id);
@@ -477,16 +517,26 @@ class UserCubit extends Cubit<UserState> {
         ),
       );
     } on ServerException catch (e) {
-      emit(
-        DeleteAccountError(
-          e.errorModel.errorMessage,
-        ),
+      emit(DeleteAccountError(e.errorModel.errorMessage));
+    } catch (e) {
+      emit(DeleteAccountError(e.toString()));
+    }
+  }
+
+  Future<void> updateFcmToken() async {
+    try {
+      final fcmToken = await NotificationService.getToken();
+
+      if (fcmToken == null || fcmToken.isEmpty) {
+        return;
+      }
+
+      final response = await api.put(
+        '/users/fcm-token',
+        data: {'fcmToken': fcmToken},
       );
     } catch (e) {
-      emit(
-        DeleteAccountError(
-          e.toString(),
-        ),
-      );
+      print('Error updating FCM token: $e');
     }
-  }}
+  }
+}

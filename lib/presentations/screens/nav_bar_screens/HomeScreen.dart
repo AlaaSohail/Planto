@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -36,9 +38,10 @@ import '../plants_screens/AddPlantManualScreen.dart';
 import '../plants_screens/PlantDetailsScreen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.onOpenPlants});
+  const HomeScreen({super.key, required this.onOpenPlants, required this.onOpenCommunity});
 
   final VoidCallback onOpenPlants;
+  final VoidCallback onOpenCommunity;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -68,7 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
             });
           }
         },
-
         onAdFailedToLoad: (ad, error) {
           debugPrint('❌ Banner Ad Failed: $error');
           debugPrint('Code: ${error.code}');
@@ -81,20 +83,35 @@ class _HomeScreenState extends State<HomeScreen> {
 
     banner.load();
 
-    // context.read<PlantCubit>().getPlant();
-    // context.read<UserCubit>().getUserProfile();
-    // context.read<AiCubit>().getDailyTip();
+    context.read<UserCubit>().getUserProfile();
+    context.read<PlantCubit>().getPlant();
+    context.read<TaskCubit>().getTodayTasks();
+    context.read<AiCubit>().getDailyTip();
 
     _loadLocationData();
   }
 
   Future<void> _loadLocationData() async {
     try {
+      debugPrint('🌍 Starting location loading...');
+
       final position = await LocationService.getCurrentLocation();
 
-      if (!mounted || position == null) return;
+      if (!mounted) return;
+
+      if (position == null) {
+        debugPrint('❌ Position is NULL');
+        return;
+      }
+
+      debugPrint(
+        '✅ Position received: '
+        '${position.latitude}, ${position.longitude}',
+      );
 
       // Weather
+      debugPrint('🌤 Loading weather...');
+
       await context.read<WeatherCubit>().getWeather(
         latitude: position.latitude,
         longitude: position.longitude,
@@ -102,9 +119,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (!mounted) return;
 
+      debugPrint('✅ Weather request finished');
+
+      // City name
+      context.read<WeatherCubit>().getLocation(
+        position.latitude,
+        position.longitude,
+      );
+
+      // Backend location update
       final shouldUpdate = await LocationService.shouldUpdateLocation();
 
       if (!mounted) return;
+
+      debugPrint('📍 Should update backend location: $shouldUpdate');
 
       if (shouldUpdate) {
         await context.read<UserCubit>().updateLocation(
@@ -113,14 +141,9 @@ class _HomeScreenState extends State<HomeScreen> {
         );
 
         await LocationService.saveLocationUpdateTime();
+
+        debugPrint('✅ Backend location updated');
       }
-
-      if (!mounted) return;
-
-      context.read<WeatherCubit>().getLocation(
-        position.latitude,
-        position.longitude,
-      );
     } catch (e, stackTrace) {
       debugPrint('❌ Location/Weather error: $e');
       debugPrint('📍 StackTrace:\n$stackTrace');
@@ -171,7 +194,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         Navigator.push(
                           context,
-                          CupertinoPageRoute(builder: (_) => ScannerNewPlant()),
+                          CupertinoPageRoute(
+                            builder: (_) =>
+                                ScannerNewPlant(image: File(value.path)),
+                          ),
                         );
                       },
                       icon: Image.asset(
@@ -193,7 +219,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         Navigator.push(
                           context,
-                          CupertinoPageRoute(builder: (_) => ScannerNewPlant()),
+                          CupertinoPageRoute(
+                            builder: (_) =>
+                                ScannerNewPlant(image: File(value.path)),
+                          ),
                         );
                       },
                       icon: Image.asset(
@@ -223,13 +252,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
       QuickAction(
         title: localization.community,
-        icon: 'assets/images/plant_community.png',
-        onTap: () {},
+        icon: 'assets/images/community.png',
+        onTap: widget.onOpenCommunity,
       ),
 
       QuickAction(
         title: localization.careTips,
-        icon: 'assets/images/plant_tips.png',
+        icon: 'assets/images/careTips.png',
         onTap: () {},
       ),
     ];
@@ -246,14 +275,16 @@ class _HomeScreenState extends State<HomeScreen> {
         title: BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
             final isLoading = state is UserLoading;
-            if (state is UserSuccess) {
-              // final city = getIt<CacheHelper>().getDataString(
-              //   key: ApiKeys.city,
-              // );
-              // final country = getIt<CacheHelper>().getDataString(
-              //   key: ApiKeys.country,
-              // );
-            }
+
+            final greeting = isLoading
+                ? "Good Morning 🌞"
+                : getGreeting(context);
+
+            final userName = isLoading
+                ? "User Name"
+                : state is UserSuccess
+                ? state.user.name
+                : "User";
 
             return Skeletonizer(
               enabled: isLoading,
@@ -261,17 +292,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: isLoading
-                          ? "Good Morning 🌞\n"
-                          : "${getGreeting(context)}\n",
+                      text: "$greeting\n",
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     TextSpan(
-                      text: isLoading
-                          ? "User Name"
-                          : state is UserSuccess
-                          ? state.user.name
-                          : "",
+                      text: userName,
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   ],
@@ -510,8 +535,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: action.icon,
 
                         onTap: action.onTap,
-                        iconWidth: 40.w,
-                        iconHeight: 40.h,
+                        iconWidth: 42.w,
+                        iconHeight: 42.h,
                       );
                     },
                   ),
@@ -575,7 +600,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(localization.noPlantsFound),
+                              Text(
+                                localization.noPlantsFound,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                               TextButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -586,7 +614,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
                                 },
-                                child: Text(localization.addPlant),
+                                child: Text(
+                                  localization.addPlant,
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        color: AppColors.secondary,
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 14.sp,
+                                      ),
+                                ),
                               ),
                             ],
                           ),

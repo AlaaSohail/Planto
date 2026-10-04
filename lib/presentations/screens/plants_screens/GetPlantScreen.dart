@@ -142,18 +142,26 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                               .isNotEmpty;
 
                           return SizedBox(
-                            height: 190.h,
+                            height: 300.h,
                             width: double.infinity,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                SizedBox(height: 8.h),
+                                Image.asset(
+                                  "assets/images/pots.png",
+                                  width: 150.w,
+                                  height: 150.h,
+                                ),
+                                SizedBox(height: 16.h),
                                 Text(
                                   isSearching
                                       ? localization.noPlantsMatchSearch
                                       : localization.noPlantsFound,
                                   textAlign: TextAlign.center,
                                 ),
-
+                                SizedBox(height: 8.h),
                                 if (!isSearching)
                                   TextButton(
                                     onPressed: () {
@@ -165,7 +173,15 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                                         ),
                                       );
                                     },
-                                    child: Text(localization.addPlant),
+                                    child: Text(
+                                      localization.addPlant,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                            color: AppColors.secondary,
+                                          ),
+                                    ),
                                   ),
                               ],
                             ),
@@ -220,13 +236,10 @@ class _GetPlantScreenState extends State<GetPlantScreen> {
                             SizedBox(
                               height: 120.h,
                               child: Container(
-                               decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(14.r),
-                                 color: AppColors.secondary.withOpacity(0.2),
-
-
-
-                               ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14.r),
+                                  color: AppColors.secondary.withOpacity(0.2),
+                                ),
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 8.w,

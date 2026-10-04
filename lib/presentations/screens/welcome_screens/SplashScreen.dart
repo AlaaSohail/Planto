@@ -88,14 +88,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         CupertinoPageRoute(builder: (_) => const NavBarScreen()),
       );
-      context.read<UserCubit>().getUserProfile();
 
-      context.read<PlantCubit>().getPlant();
-
-      _loadLocationData();
-      context.read<TaskCubit>().getTodayTasks();
-
-      context.read<AiCubit>().getDailyTip();
     } else if (isOnBoarding != true) {
       Navigator.pushReplacement(
         context,
@@ -158,7 +151,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Widget _buildSplashImage(Size size) {
-    return Image.asset("assets/images/logo.png", width: size.width * 0.6)
+    return Image.asset("assets/images/logo.png", width: size.width * 0.5)
         .animate()
         .fadeIn(duration: 1500.ms)
         .slideY(begin: 0.2, end: 0, duration: 700.ms);

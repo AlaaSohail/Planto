@@ -720,7 +720,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hour => 'h';
 
   @override
-  String get aiChatOnlineExpert => 'Online · Expert botanist AI';
+  String get aiChatOnlineExpert => 'Online · Expert AI Chat';
 
   @override
   String get aiChatHint => 'Ask me anything...';
@@ -1029,4 +1029,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get aiChatAttachImage => 'Attach a photo';
+
+  @override
+  String get aiChatImagePrompt =>
+      'Please examine this plant photo and suggest how to care for it.';
+
+  @override
+  String get aiChatImagePickError =>
+      'Could not open the photo library. Please try again.';
+
+  @override
+  String get aiChatSendError =>
+      'Could not send your message. Please try again.';
+
+  @override
+  String get aiChatImageUnavailable => 'Photo unavailable';
 }

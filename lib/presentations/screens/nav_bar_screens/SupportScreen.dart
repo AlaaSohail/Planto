@@ -55,6 +55,7 @@ class _SupportScreenState extends State<SupportScreen> {
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount: widget.privacy!.length,
+                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 16.0.r),

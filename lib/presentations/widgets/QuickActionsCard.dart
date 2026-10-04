@@ -60,8 +60,8 @@ class QuickActionsCard extends StatelessWidget {
                 else if (icon != null)
                   Image.asset(
                     icon!,
-                    width: iconWidth?.w ?? 32.w,
-                    height: iconHeight?.h ?? 32.h,
+                    width: iconWidth?.w ?? 36.w,
+                    height: iconHeight?.h ?? 36.h,
                     fit: BoxFit.contain,
                   ),
 
@@ -73,7 +73,7 @@ class QuickActionsCard extends StatelessWidget {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ],

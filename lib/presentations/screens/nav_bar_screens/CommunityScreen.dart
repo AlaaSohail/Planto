@@ -124,7 +124,23 @@ class _CommunityScreenState extends State<CommunityScreen> {
           }
 
           if (posts.isEmpty) {
-            return Center(child: Text(localization.noPostsFound));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/noPost.png",
+                    height: 150.h,
+                    width: 150.w,
+                  ),
+                  Text(
+                    localization.noPostsFound,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+            );
           }
 
           final allPost = cubit.posts;

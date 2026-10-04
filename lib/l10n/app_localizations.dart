@@ -1483,7 +1483,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiChatOnlineExpert.
   ///
   /// In en, this message translates to:
-  /// **'Online · Expert botanist AI'**
+  /// **'Online · Expert AI Chat'**
   String get aiChatOnlineExpert;
 
   /// No description provided for @aiChatHint.
@@ -2025,6 +2025,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @aiChatAttachImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach a photo'**
+  String get aiChatAttachImage;
+
+  /// No description provided for @aiChatImagePrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Please examine this plant photo and suggest how to care for it.'**
+  String get aiChatImagePrompt;
+
+  /// No description provided for @aiChatImagePickError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the photo library. Please try again.'**
+  String get aiChatImagePickError;
+
+  /// No description provided for @aiChatSendError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send your message. Please try again.'**
+  String get aiChatSendError;
+
+  /// No description provided for @aiChatImageUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo unavailable'**
+  String get aiChatImageUnavailable;
 }
 
 class _AppLocalizationsDelegate

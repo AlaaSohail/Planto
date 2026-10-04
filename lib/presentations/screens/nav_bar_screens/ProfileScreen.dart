@@ -13,17 +13,10 @@ import 'package:plant_care/presentations/widgets/TipCard.dart';
 
 import '../../themes/app_button_theme.dart';
 import '../../themes/app_colors.dart';
-import '../../themes/app_theme.dart';
 import '../../widgets/BadgeContainer.dart';
 import '../../widgets/ContainerIcons.dart';
-import '../../widgets/ProfileCard.dart';
 import '../auth_screens/LoginScreen.dart';
-import 'EditProfileDetailsScreen.dart';
-import 'LanguageScreen.dart';
-import 'NotificationScreen.dart';
-import 'PasswordChangeScreen.dart';
 import 'SettingScreen.dart';
-import 'ThemeModeScreen.dart' show ThemeModeScreen;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -100,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: CachedNetworkImage(
                                 imageUrl:
                                     state.user.image ??
-                                    'https://res.cloudinary.com/n4qtd6co/image/upload/v1788421140/farmer_hw0ugv.png',
+                                    'https://res.cloudinary.com/n4qtd6co/image/upload/v1791109146/farmer_exuz2n.png',
                                 width: 100.r,
                                 height: 100.r,
                                 fit: BoxFit.cover,

@@ -1025,4 +1025,24 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get cancel => 'בטל';
+
+  @override
+  String get continueWithGoogle => 'המשך עם גוגל';
+
+  @override
+  String get aiChatAttachImage => 'צירף תמונה';
+
+  @override
+  String get aiChatImagePrompt =>
+      'אנא בדוק את תמונת הצמח הזו והצע איך לטפל בו.';
+
+  @override
+  String get aiChatImagePickError =>
+      'לא ניתן לפתוח את ספריית התמונות. אנא נסה שוב.';
+
+  @override
+  String get aiChatSendError => 'לא ניתן לשלוח את ההודעה שלך. אנא נסה שוב.';
+
+  @override
+  String get aiChatImageUnavailable => 'תמונה לא זמינה';
 }

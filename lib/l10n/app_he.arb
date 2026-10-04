@@ -33,6 +33,7 @@
   "loginPleaseEnterPassword": "אנא הקלידו סיסמה",
   "loginPasswordMinLength": "הסיסמה חייבת להכיל לפחות 8 תווים",
   "loginForgotPassword": "שכחתם סיסמה?",
+  "continueWithGoogle": "המשך עם גוגל",
   "loginSigningIn": "מתחברים...",
   "loginSignIn": "התחברות",
   "loginOrContinueWith": "או המשיכו עם",
@@ -347,6 +348,10 @@
   "aboutAppContactContent": "אם יש לך הצעה, הערה או שנתקלת בבעיה במהלך השימוש ב-Planto, ניתן ליצור איתנו קשר דרך:\nדואר אלקטרוני:\n3laa.sohail@gmail.com",
   "aboutAppCopyright": "© 2026 Planto. כל הזכויות שמורות.",
   "deleteAccountMessage": "האם אתה בטוח שברצונך למחוק את החשבון שלך? הנתונים המשויכים לחשבון יימחקו ולא ניתן יהיה לבטל פעולה זו.",
-  "cancel": "בטל"
-
+  "cancel": "בטל",
+  "aiChatAttachImage": "צירף תמונה",
+  "aiChatImagePrompt": "אנא בדוק את תמונת הצמח הזו והצע איך לטפל בו.",
+  "aiChatImagePickError": "לא ניתן לפתוח את ספריית התמונות. אנא נסה שוב.",
+  "aiChatSendError": "לא ניתן לשלוח את ההודעה שלך. אנא נסה שוב.",
+  "aiChatImageUnavailable": "תמונה לא זמינה"
 }

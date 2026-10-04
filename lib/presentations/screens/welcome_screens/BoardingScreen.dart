@@ -11,7 +11,7 @@ import '../../themes/app_button_theme.dart';
 import 'WelcomeScreen.dart';
 
 class OnBoardingContent {
-  LottieBuilder image;
+  String image;
   String title;
   String subtitle;
 
@@ -34,8 +34,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   int currentPage = 0;
 
-
-
   @override
   void dispose() {
     pageController.dispose();
@@ -48,17 +46,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
     final List<OnBoardingContent> contents = [
       OnBoardingContent(
-        image: Lottie.asset("assets/lottie/Plant_Scanning.json"),
+        image: "assets/images/boarding1.png",
         title: localization.onboardingIdentifyPlantsTitle,
         subtitle: localization.onboardingIdentifyPlantsSubtitle,
       ),
       OnBoardingContent(
-        image: Lottie.asset("assets/lottie/Animated_plant_loader.json"),
+        image: "assets/images/boarding2.png",
         title: localization.onboardingSmartCareTitle,
         subtitle: localization.onboardingSmartCareSubtitle,
       ),
       OnBoardingContent(
-        image: Lottie.asset("assets/lottie/ai.json"),
+        image: "assets/images/plantBot.png",
         title: localization.onboardingAiDoctorTitle,
         subtitle: localization.onboardingAiDoctorSubtitle,
       ),
@@ -116,7 +114,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         // LOTTIE
                         Expanded(
                           flex: 6.r.toInt(),
-                          child: Center(child: content.image),
+                          child: Center(child: Image.asset(content.image)),
                         ),
 
                         // TITLE

@@ -53,10 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginSuccess) {
             Navigator.pushAndRemoveUntil(
               context,
-              CupertinoPageRoute(
-                builder: (_) => const NavBarScreen(),
-              ),
-                  (route) => false,
+              CupertinoPageRoute(builder: (_) => const NavBarScreen()),
+              (route) => false,
             );
           } else if (state is LoginError) {
             ScaffoldMessenger.of(
@@ -307,6 +305,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 LoginSocialMedia(
+                                  title: localization.continueWithGoogle,
                                   onTap: () async {
                                     await context
                                         .read<UserCubit>()
@@ -315,22 +314,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   imageName: 'assets/images/google.png',
                                 ),
 
-                                LoginSocialMedia(
-                                  onTap: () async {
-                                    await context
-                                        .read<UserCubit>()
-                                        .facebookLogin();
-                                  },
-                                  imageName: 'assets/images/facebook.png',
-                                ),
-                                LoginSocialMedia(
-                                  onTap: () async {
-                                    await context
-                                        .read<UserCubit>()
-                                        .facebookLogin();
-                                  },
-                                  imageName: 'assets/images/apple.png',
-                                ),
+                                // LoginSocialMedia(
+                                //   onTap: () async {
+                                //     await context
+                                //         .read<UserCubit>()
+                                //         .facebookLogin();
+                                //   },
+                                //   imageName: 'assets/images/apple.png',
+                                // ),
                               ],
                             ),
                             Spacer(),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "422052267349",
+    "project_id": "plantcareai-a1718",
+    "storage_bucket": "plantcareai-a1718.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422052267349:android:734c2f9651ee7e8f99dbdc",
+        "android_client_info": {
+          "package_name": "com.alaasohail.plantcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9AYLoHCstTpvN-WEHIWvGNP8BeMpLSIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

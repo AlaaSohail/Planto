@@ -50,4 +50,26 @@ class UserModel {
       "city": city,
     };
   }
+
+  UserModel copyWith({
+    String? name,
+    String? email,
+    String? phoneNumber,
+    String? image,
+    double? latitude,
+    double? longitude,
+    String? country,
+    String? city,
+  }) {
+    return UserModel(
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      image: image ?? this.image,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      country: country ?? this.country,
+      city: city ?? this.city,
+    );
+  }
 }

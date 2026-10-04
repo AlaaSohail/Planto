@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plant_care/controllers/core/functions/IsArabic.dart';
 
 import 'app_colors.dart';
 
@@ -7,7 +8,9 @@ class AppInputTheme {
   // =========================
   // Light Theme
   // =========================
-
+  static String _bodyFont(Locale locale) {
+    return locale.languageCode == 'ar' ? 'Cairo' : 'Nunito';
+  }
   static InputDecorationTheme get theme => InputDecorationTheme(
     filled: true,
     fillColor: Colors.white,
@@ -40,13 +43,13 @@ class AppInputTheme {
     ),
 
     hintStyle: TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: Locale('ar').languageCode == 'ar' ? 'Cairo' : 'Nunito',
       fontSize: 14.sp,
       color: Colors.grey,
     ),
 
     labelStyle: TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: Locale('ar').languageCode == 'ar' ? 'Cairo' : 'Nunito',
       fontSize: 14.sp,
       color: Colors.grey,
     ),
@@ -91,13 +94,13 @@ class AppInputTheme {
     ),
 
     hintStyle: TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: Locale('ar').languageCode == 'ar' ? 'Cairo' : 'Nunito',
       fontSize: 14.sp,
       color: Colors.white60,
     ),
 
     labelStyle: TextStyle(
-      fontFamily: 'Nunito',
+      fontFamily: Locale('ar').languageCode == 'ar' ? 'Cairo' : 'Nunito',
       fontSize: 14.sp,
       color: Colors.white70,
     ),

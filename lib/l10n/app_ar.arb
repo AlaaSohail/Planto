@@ -348,5 +348,12 @@
   "aboutAppVersionContent": "يمكنك العثور على رقم إصدار Planto الحالي من معلومات التطبيق أو إعدادات الجهاز.",
   "aboutAppContact": "تواصل معنا",
   "aboutAppContactContent": "إذا كان لديك اقتراح أو ملاحظة أو واجهت مشكلة أثناء استخدام Planto، يمكنك التواصل معنا عبر:\nالبريد الإلكتروني:\n3laa.sohail@gmail.com",
-  "aboutAppCopyright": "© 2026 Planto. جميع الحقوق محفوظة."
+  "aboutAppCopyright": "© 2026 Planto. جميع الحقوق محفوظة.",
+  "continueWithGoogle": "المتابعة باستخدام جوجل",
+  "aiChatAttachImage": "إرفاق صورة",
+  "aiChatImagePrompt": "افحص صورة هذه النبتة وقدّم نصائح للعناية بها باللغة العربية.",
+  "aiChatImagePickError": "تعذّر فتح معرض الصور. حاول مرة أخرى.",
+  "aiChatSendError": "تعذّر إرسال الرسالة. حاول مرة أخرى.",
+  "aiChatImageUnavailable": "الصورة غير متاحة"
+
 }

@@ -5,88 +5,117 @@ import 'package:plant_care/presentations/widgets/MainButton.dart';
 import '../themes/app_button_theme.dart';
 
 class PlantProCard extends StatelessWidget {
-  PlantProCard({
+  const PlantProCard({
     super.key,
-    this.price,
-    this.title,
-    this.duration,
-    this.buttonContent,
-    this.feature,
-    this.image,
-    this.color,
+    required this.price,
+    required this.title,
+    required this.duration,
+    required this.buttonContent,
+    required this.feature,
+    required this.image,
+    required this.color,
+    this.onPressed,
+    this.showButton = true,
   });
 
-  double? price;
-  String? duration;
-  List<String>? feature;
-  String? buttonContent;
-  String? title;
-  String? image;
-  Color? color;
+  final String price;
+  final String duration;
+  final List<String> feature;
+  final String buttonContent;
+  final String title;
+  final String image;
+  final Color color;
+
+  final VoidCallback? onPressed;
+
+  final bool showButton;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: color!.withOpacity(0.2),
+      color: color.withOpacity(0.2),
       elevation: 0,
       shadowColor: Colors.transparent,
       child: Padding(
-        padding: EdgeInsets.all(12.0).r,
+        padding: EdgeInsets.all(12.r),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(image!, width: 36.w, height: 36.h),
+                Image.asset(
+                  image,
+                  width: 36.w,
+                  height: 36.h,
+                ),
+
                 SizedBox(width: 12.w),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "${title}\n",
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      TextSpan(
-                        text: "\$${price.toString()}",
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      TextSpan(
-                        text: ' /${duration}',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
+
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '$title\n',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall,
+                        ),
+                        TextSpan(
+                          text: price,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall,
+                        ),
+                        TextSpan(
+                          text: ' /$duration',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 16.h),
-            SizedBox(
-              height: 140.h,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: feature!.length,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final action = feature![index];
 
-                  return Text(
+            SizedBox(height: 16.h),
+
+            ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: feature.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final action = feature[index];
+
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 6.h),
+                  child: Text(
                     action,
                     style: Theme.of(context).textTheme.bodyLarge,
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
-            if (price != 0)
+
+            if (showButton) ...[
+              SizedBox(height: 16.h),
+
               MainButton(
-                buttonStyle: AppButtonTheme.themeSecondary.style!.copyWith(),
+                buttonStyle:
+                AppButtonTheme.themeSecondary.style!.copyWith(),
                 content: buttonContent,
-                textStyle: Theme.of(context).textTheme.headlineSmall,
-                onPressed: () async {
-                },
+                textStyle:
+                Theme.of(context).textTheme.headlineSmall,
+                onPressed: onPressed,
                 mainAxisSize: MainAxisSize.min,
               ),
+            ],
           ],
         ),
       ),

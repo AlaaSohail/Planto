@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -13,53 +15,136 @@ import 'package:plant_care/presentations/themes/app_theme.dart';
 
 import 'controllers/cache/cache_helper.dart';
 import 'controllers/core/api/dio_consumer.dart';
+
 import 'controllers/cubit/ai_cubit/ai_cubit.dart';
 import 'controllers/cubit/community_cubit/community_cubit.dart';
 import 'controllers/cubit/local_cubit/locale_cubit.dart';
 import 'controllers/cubit/plant_cubit/plant_cubit.dart';
+import 'controllers/cubit/subscription_cubit/subscription_cubit.dart';
 import 'controllers/cubit/task_cubit/task_cubit.dart';
 import 'controllers/cubit/theme_cubit/theme_cubit.dart';
 import 'controllers/cubit/user_cubit/user_cubit.dart';
 import 'controllers/cubit/weather_cubit/weather_cubit.dart';
+
+import 'controllers/services/notification_service.dart';
 import 'controllers/services/service_locator.dart';
 
+import 'firebase_options.dart';
+
 import 'l10n/app_localizations.dart';
+
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(
+    RemoteMessage message,
+    ) async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  print(
+    'Background notification: ${message.messageId}',
+  );
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FirebaseMessaging.onBackgroundMessage(
+    firebaseMessagingBackgroundHandler,
+  );
+
   await ScreenUtil.ensureScreenSize();
-
-  if (Platform.isAndroid || Platform.isIOS) {
-    final GoogleSignIn googleSignIn = GoogleSignIn.instance;
-
-    await googleSignIn.initialize(
-      serverClientId:
-          '141453372151-4lj4i23rl7m1m2fpa3mtle5t3qqckjuq.apps.googleusercontent.com',
-    );
-  }
 
   setupServiceLocator();
 
   await getIt<CacheHelper>().init();
 
+  await NotificationService.initialize();
+
+  if (Platform.isAndroid || Platform.isIOS) {
+    await GoogleSignIn.instance.initialize(
+      serverClientId:
+      '141453372151-4lj4i23rl7m1m2fpa3mtle5t3qqckjuq.apps.googleusercontent.com',
+    );
+  }
+
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => PlantCubit(DioConsumer(dio: Dio()))),
+        BlocProvider(
+          create: (_) =>
+              PlantCubit(
+                DioConsumer(
+                  dio: Dio(),
+                ),
+              ),
+        ),
 
-        BlocProvider(create: (_) => UserCubit(DioConsumer(dio: Dio()))),
+        BlocProvider(
+          create: (_) =>
+              UserCubit(
+                DioConsumer(
+                  dio: Dio(),
+                ),
+              ),
+        ),
 
-        BlocProvider(create: (_) => WeatherCubit(DioConsumer(dio: Dio()))),
+        BlocProvider(
+          create: (_) =>
+              WeatherCubit(
+                DioConsumer(
+                  dio: Dio(),
+                ),
+              ),
+        ),
 
-        BlocProvider(create: (_) => AiCubit(DioConsumer(dio: Dio()))),
+        BlocProvider(
+          create: (_) =>
+              AiCubit(
+                DioConsumer(
+                  dio: Dio(),
+                ),
+              ),
+        ),
 
-        BlocProvider(create: (_) => CommunityCubit(DioConsumer(dio: Dio()))),
+        BlocProvider(
+          create: (_) =>
+              CommunityCubit(
+                DioConsumer(
+                  dio: Dio(),
+                ),
+              ),
+        ),
 
-        BlocProvider(create: (_) => LocaleCubit()..loadLanguage()),
+        BlocProvider(
+          create: (_) =>
+          LocaleCubit()
+            ..loadLanguage(),
+        ),
 
-        BlocProvider(create: (_) => ThemeCubit()..loadTheme()),
-        BlocProvider(create: (_) => TaskCubit(DioConsumer(dio: Dio()))),
+        BlocProvider(
+          create: (_) =>
+          ThemeCubit()
+            ..loadTheme(),
+        ),
+
+        BlocProvider(
+          create: (_) =>
+              TaskCubit(
+                DioConsumer(
+                  dio: Dio(),
+                ),
+              ),
+        ),
+
+        BlocProvider(
+          create: (_) =>
+              SubscriptionCubit(),
+        ),
       ],
 
       child: const MyApp(),
@@ -68,43 +153,81 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext context,
+      ) {
     return ScreenUtilInit(
-      designSize: const Size(360, 690),
+      designSize:
+      const Size(
+        360,
+        690,
+      ),
+
       minTextAdapt: true,
       splitScreenMode: true,
 
       builder: (_, child) {
-        return BlocBuilder<LocaleCubit, Locale>(
-          builder: (context, locale) {
-            return BlocBuilder<ThemeCubit, ThemeState>(
-              builder: (context, themeState) {
+        return BlocBuilder<
+            LocaleCubit,
+            Locale>(
+          builder: (
+              context,
+              locale,
+              ) {
+            return BlocBuilder<
+                ThemeCubit,
+                ThemeState>(
+              builder: (
+                  context,
+                  themeState,
+                  ) {
                 return MaterialApp(
-                  debugShowCheckedModeBanner: false,
+                  debugShowCheckedModeBanner:
+                  false,
 
                   locale: locale,
 
-                  theme: AppTheme.light(locale),
+                  theme:
+                  AppTheme.light(
+                    locale,
+                  ),
 
-                  darkTheme: AppTheme.dark(locale),
+                  darkTheme:
+                  AppTheme.dark(
+                    locale,
+                  ),
 
-                  themeMode: themeState.isDarkMode
+                  themeMode:
+                  themeState
+                      .isDarkMode
                       ? ThemeMode.dark
                       : ThemeMode.light,
 
-                  supportedLocales: L10n.languages,
+                  supportedLocales:
+                  L10n.languages,
 
-                  localizationsDelegates: const [
-                    AppLocalizations.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
+                  localizationsDelegates:
+                  const [
+                    AppLocalizations
+                        .delegate,
+
+                    GlobalMaterialLocalizations
+                        .delegate,
+
+                    GlobalWidgetsLocalizations
+                        .delegate,
+
+                    GlobalCupertinoLocalizations
+                        .delegate,
                   ],
 
-                  home: const SplashScreen(),
+                  home:
+                  const SplashScreen(),
                 );
               },
             );

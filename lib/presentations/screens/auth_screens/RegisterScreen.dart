@@ -368,24 +368,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .bodyLarge
+                                                    .bodyMedium
                                                     ?.copyWith(
                                                       color:
                                                           AppColors.secondary,
                                                       decoration: TextDecoration
                                                           .underline,
                                                     ),
-                                                recognizer:
-                                                    TapGestureRecognizer()
-                                                      ..onTap = () {
-                                                        Navigator.push(
-                                                          context,
-                                                          CupertinoPageRoute(
-                                                            builder: (_) =>
-                                                                SettingScreen(),
-                                                          ),
-                                                        );
-                                                      },
+                                                recognizer: TapGestureRecognizer()
+                                                  ..onTap = () {
+                                                    // Navigator.push(
+                                                    //   context,
+                                                    //   CupertinoPageRoute(
+                                                    //     builder: (_) =>
+                                                    //         SettingScreen(),
+                                                    //   ),
+                                                    // );
+                                                  },
                                               ),
                                               TextSpan(
                                                 text:
@@ -396,7 +395,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                     .registerPrivacyPolicy,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .bodyLarge
+                                                    .bodyMedium
                                                     ?.copyWith(
                                                       color:
                                                           AppColors.secondary,
@@ -404,17 +403,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                           .underline,
                                                     ),
 
-                                                recognizer:
-                                                    TapGestureRecognizer()
-                                                      ..onTap = () {
-                                                        Navigator.push(
-                                                          context,
-                                                          CupertinoPageRoute(
-                                                            builder: (_) =>
-                                                                SettingScreen(),
-                                                          ),
-                                                        );
-                                                      },
+                                                recognizer: TapGestureRecognizer()
+                                                  ..onTap = () {
+                                                    // Navigator.push(
+                                                    //   context,
+                                                    //   CupertinoPageRoute(
+                                                    //     builder: (_) =>
+                                                    //         SettingScreen(),
+                                                    //   ),
+                                                    // );
+                                                  },
                                               ),
                                             ],
                                           ),
@@ -463,7 +461,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               name: nameController.text,
                                               phone: phoneNumberController.text,
                                               image:
-                                                  'https://res.cloudinary.com/n4qtd6co/image/upload/v1788421140/farmer_hw0ugv.png',
+                                                  'https://res.cloudinary.com/n4qtd6co/image/upload/v1791109146/farmer_exuz2n.png',
 
                                               latitude: position?.latitude,
                                               longitude: position?.longitude,
@@ -516,29 +514,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 LoginSocialMedia(
+                                  title: localization.continueWithGoogle,
+
                                   onTap: () async {
                                     await context
                                         .read<UserCubit>()
                                         .googleLogin();
                                   },
                                   imageName: 'assets/images/google.png',
-                                ),
-
-                                LoginSocialMedia(
-                                  onTap: () async {
-                                    await context
-                                        .read<UserCubit>()
-                                        .facebookLogin();
-                                  },
-                                  imageName: 'assets/images/facebook.png',
-                                ),
-                                LoginSocialMedia(
-                                  onTap: () async {
-                                    await context
-                                        .read<UserCubit>()
-                                        .facebookLogin();
-                                  },
-                                  imageName: 'assets/images/apple.png',
                                 ),
                               ],
                             ),

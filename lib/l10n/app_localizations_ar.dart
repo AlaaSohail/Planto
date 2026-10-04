@@ -1031,4 +1031,23 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cancel => 'إلغاء';
+
+  @override
+  String get continueWithGoogle => 'المتابعة باستخدام جوجل';
+
+  @override
+  String get aiChatAttachImage => 'إرفاق صورة';
+
+  @override
+  String get aiChatImagePrompt =>
+      'افحص صورة هذه النبتة وقدّم نصائح للعناية بها باللغة العربية.';
+
+  @override
+  String get aiChatImagePickError => 'تعذّر فتح معرض الصور. حاول مرة أخرى.';
+
+  @override
+  String get aiChatSendError => 'تعذّر إرسال الرسالة. حاول مرة أخرى.';
+
+  @override
+  String get aiChatImageUnavailable => 'الصورة غير متاحة';
 }

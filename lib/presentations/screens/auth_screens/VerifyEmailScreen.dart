@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,12 +10,10 @@ import '../../../l10n/app_localizations.dart';
 import '../../themes/app_button_theme.dart';
 import '../../themes/app_theme.dart';
 import '../../widgets/MainButton.dart';
+import 'LoginScreen.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
-  const VerifyEmailScreen({
-    super.key,
-    required this.email,
-  });
+  const VerifyEmailScreen({super.key, required this.email});
 
   final String email;
 
@@ -44,28 +43,25 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       });
     }
 
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-          (timer) {
-        if (!mounted) {
-          timer.cancel();
-          return;
-        }
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
 
-        if (_secondsRemaining > 1) {
-          setState(() {
-            _secondsRemaining--;
-          });
-        } else {
-          timer.cancel();
+      if (_secondsRemaining > 1) {
+        setState(() {
+          _secondsRemaining--;
+        });
+      } else {
+        timer.cancel();
 
-          setState(() {
-            _secondsRemaining = 0;
-            _canResend = true;
-          });
-        }
-      },
-    );
+        setState(() {
+          _secondsRemaining = 0;
+          _canResend = true;
+        });
+      }
+    });
   }
 
   @override
@@ -81,8 +77,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         shadowColor: Colors.transparent,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
-        elevation: 0,        titleSpacing: 0,
-
+        elevation: 0,
+        titleSpacing: 0,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.r),
@@ -128,9 +124,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
             MainButton(
               onPressed: () {
-                // يمكنك وضع التحقق من البريد هنا لاحقًا.
-                //
-                // context.read<UserCubit>().verifyEmail(widget.email);
+                Navigator.pushReplacement(
+                  context,
+                  CupertinoPageRoute(builder: (context) => LoginScreen()),
+                );
               },
               content: localization.emailVerified,
               textStyle: Theme.of(context).textTheme.headlineSmall,
@@ -145,14 +142,12 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 TextButton(
                   onPressed: _canResend
                       ? () {
-                    context
-                        .read<UserCubit>()
-                        .resendVerificationEmail(
-                      widget.email,
-                    );
+                          context.read<UserCubit>().resendVerificationEmail(
+                            widget.email,
+                          );
 
-                    _startResendTimer();
-                  }
+                          _startResendTimer();
+                        }
                       : null,
                   child: Text(
                     _canResend
@@ -164,9 +159,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 if (!_canResend) ...[
                   SizedBox(width: 8.w),
                   Text(
-                    localization.secondsRemaining(
-                      _secondsRemaining,
-                    ),
+                    localization.secondsRemaining(_secondsRemaining),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],

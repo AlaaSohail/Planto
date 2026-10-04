@@ -257,7 +257,7 @@
   "wind": "Wind",
   "km": "km",
   "hour": "h",
-  "aiChatOnlineExpert": "Online · Expert botanist AI",
+  "aiChatOnlineExpert": "Online · Expert AI Chat",
   "aiChatHint": "Ask me anything...",
   "planto": "Planto",
   "appearance": "Appearance",
@@ -347,5 +347,12 @@
   "aboutAppCopyright": "© 2026 Planto. All rights reserved.",
   "deleteAccount": "Delete Account",
   "deleteAccountMessage": "Are you sure you want to delete your account? Your associated data will be deleted, and this action cannot be undone.",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "continueWithGoogle": "Continue with Google",
+  "aiChatAttachImage": "Attach a photo",
+  "aiChatImagePrompt": "Please examine this plant photo and suggest how to care for it.",
+  "aiChatImagePickError": "Could not open the photo library. Please try again.",
+  "aiChatSendError": "Could not send your message. Please try again.",
+  "aiChatImageUnavailable": "Photo unavailable"
+
 }

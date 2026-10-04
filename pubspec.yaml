@@ -4,7 +4,7 @@ description: "Planto"
 publish_to: 'none'
 
 
-version: 1.0.0+1
+version: 1.0.0+5
 
 environment:
   sdk: ^3.10.0
@@ -46,6 +46,10 @@ dependencies:
   google_mobile_ads: ^9.1.0
   in_app_purchase: ^3.3.0
   intl: ^0.20.3
+  firebase_core: ^4.15.0
+  firebase_messaging: ^16.7.0
+  flutter_local_notifications: ^22.3.1
+  in_app_purchase_android: ^0.5.0
 
 
 dev_dependencies:
@@ -66,8 +70,9 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/logo.png"
-  adaptive_icon_foreground: "assets/images/logo.png"
+  adaptive_icon_foreground: "assets/images/icon_luncher.png"
   adaptive_icon_background: "assets/images/logo_background.png"
+
 
 
 
